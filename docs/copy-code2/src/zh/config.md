@@ -35,7 +35,7 @@ icon: config
 
 ## pure
 
-- 类型: `false`
+- 类型: `boolean`
 - 默认值: `false`
 
 是否生成样式纯净的小而简单的复制按钮。
