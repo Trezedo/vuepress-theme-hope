@@ -35,7 +35,7 @@ If the theme you are using has a switching animation, it is recommended to confi
 
 ## pure
 
-- Type: `false`
+- Type: `boolean`
 - Default: `false`
 
 Whether generate a small simple button with pure style.
