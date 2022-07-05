@@ -1,6 +1,6 @@
-import { capitalize } from "@mr-hope/vuepress-shared/lib/client";
 import { defineComponent, h } from "vue";
 import { RouterLink, useRoute } from "vue-router";
+import { generateIndexfromHash } from "vuepress-shared/lib/client";
 
 import { useCategoryMap } from "@theme-hope/module/blog/composables";
 
@@ -19,24 +19,24 @@ export default defineComponent({
       h(
         "ul",
         { class: "category-list-wrapper" },
-        Object.keys(categoryMap.value.map).map((category, index) => {
-          const { path, items } = categoryMap.value.map[category];
-
-          return h(
-            "li",
-            {
-              class: [
-                "category",
-                `category${index % 9}`,
-                { active: path === route.path },
-              ],
-            },
-            h(RouterLink, { to: path }, () => [
-              capitalize(category),
-              h("span", { class: "category-num" }, items.length),
-            ])
-          );
-        })
+        Object.entries(categoryMap.value.map).map(
+          ([category, { path, items }]) =>
+            h(
+              "li",
+              {
+                class: [
+                  "category",
+                  // TODO: magic number 9 is tricky here
+                  `category${generateIndexfromHash(category, 9)}`,
+                  { active: path === route.path },
+                ],
+              },
+              h(RouterLink, { to: path }, () => [
+                category,
+                h("span", { class: "category-num" }, items.length),
+              ])
+            )
+        )
       );
   },
 });

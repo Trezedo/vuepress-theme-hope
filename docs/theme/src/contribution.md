@@ -9,29 +9,34 @@ We always welcome everyone to contribute! Here is a guide for you.
 
 <!-- more -->
 
-## Clone and Install project
+## Clone and Install Project
 
-Use Git to clone the project to the local, and use `yarn` to install dependencies.
+Use Git to clone the project to the local, and use `pnpm` to install dependencies.
 
 ```sh
 git clone git@github.com:vuepress-theme-hope/vuepress-theme-hope.git
 
-yarn
+pnpm i
 ```
 
 ::: tip
 
-If you have not installed yarn, please install it using `npm i -g yarn`.
+If you have not installed pnpm, please install it using the following command.
+
+```sh
+corepack enable
+corepack prepare pnpm@7.2.1 --activate
+```
 
 :::
 
-## Project File structure
+## Project File Structure
 
-The project is a monorepo, managed by `lerna`.
+The project is a monorepo, managed by pnpm.
 
-- `docs`: place the documentation of each plugin and theme, each subfolder is a project
+- `docs`: place the documentation of each plugin and theme, each subdirectory is a project
 - `demo`: theme demo project
-- `packages`: place the code of each plugin and theme, each subfolder is a project
+- `packages`: place the code of each plugin and theme, each subdirectory is a project
 
 ```
 .
@@ -41,10 +46,9 @@ The project is a monorepo, managed by `lerna`.
 ├── demo → Theme demo project
 │
 ├── docs → document directory
-│ ├── add-this → add-this plugin document
 │ ├── blog → blog2 plugin document
 │ ├── comment → comment2 plugin document
-│ ├── components → @mr-hope/components plugin document
+│ ├── components → components plugin document
 │ ├── copy-code → copy-code2 plugin document
 │ ├── feed → feed2 plugin document
 │ ├── lightgallery → lightgallery plugin document
@@ -57,10 +61,9 @@ The project is a monorepo, managed by `lerna`.
 │ └── theme → theme document
 │
 ├── packages → project source code
-│ ├── add-this → add-this plugin
 │ ├── blog2 → blog2 plugin
 │ ├── comment2 → comment2 plugin
-│ ├── components → @mr-hope/components plugin
+│ ├── components → components plugin
 │ ├── copy-code2 → copy-code2 plugin
 │ ├── create → create-vuepress-theme-hope helper
 │ ├── feed2 → feed2 plugin
@@ -84,20 +87,24 @@ The project is a monorepo, managed by `lerna`.
 ├── README.md → project intro
 ├── SECURITY.md → Security Policy
 │
-├── tsconfig.* → TypeScript config file
-│
-└── yarn.lock → yarn version lock file
+└── tsconfig.* → TypeScript config file
 ```
 
-## Document modification
+## Document Modification
 
-You can find the corresponding project in the docs folder so you can modify the corresponding Markdown directly.
+You can find the corresponding project in the docs directory so you can modify the corresponding Markdown directly.
 
-After ensuring that the `yarn run lint` and `yarn run lint:md` commands emit no errors, you can commit to GitHub to open a PR.
+After ensuring that the `pnpm lint` and `pnpm lint:md` commands emit no errors, you can commit to GitHub to open a PR.
 
-To preview the project locally, since the docs are using local themes and plugins, you need to build the local project through `yarn run build`, and then start it with the corresponding command `yarn run docs/<project abbreviation>:serve` in the root directory to start devServer.
+::: tip Preview Docs
 
-## Project modification
+Since the docs are using local themes and plugins, you need to build the local project through `pnpm build` first.
+
+To start previewing, cd to the right project under `docs` directory, then run `pnpm docs:vite-dev` (using vite) or `pnpm docs:webpack-dev` (using webpack).
+
+:::
+
+## Project Modification
 
 The structure of each project is as follows:
 
@@ -118,15 +125,15 @@ The structure of each project is as follows:
   └── shared → Shared files between node and client
 ```
 
-Since the client-side uses ES Module (import/export) and the Node.js side uses commonjs (require/exports), the code in the node and client folders cannot be cross-referenced.
+Since the client-side uses ES Module (import/export) and the Node.js side uses commonjs (require/exports), the code in the node and client directories cannot be cross-referenced.
 
-- `client` folder stores the client code, compiled in esm format
-- `node` folder stores the Node.js code, compiled in cjs format
-- `shared` folder basically stores TypeScript types, and is compiled in cjs format. It can be referenced by the client and node folders.
+- `client` directory stores the client code, compiled in esm format
+- `node` directory stores the Node.js code, compiled in cjs format
+- `shared` directory basically stores TypeScript types, and is compiled in cjs format. It can be referenced by the client and node directories.
 
 For better performance, all plugins are packed and minified using rollup when they are published.
 
-## Project operation and development
+## Project Development
 
 ### How to build
 
@@ -135,37 +142,39 @@ For better performance, all plugins are packed and minified using rollup when th
 
 ### Command
 
-1. Build project: `yarn run build`
+1. Build project: `pnpm build`
 
-   It will execute the two commands `yarn run build:copy` and `yarn run build:ts`, corresponding to the two build steps.
+   - Use rollup to bundle source files and minify them, and output results to `lib` folder
+   - Use `rollup-plugin-copy` to copy other files to `lib` folder
 
-1. Develop project: `yarn run dev`
+1. Develop project: `pnpm dev`
 
-   It will execute the two commands `yarn run dev:copy` and `yarn run dev:ts`, and execute and watch the two build steps.
+   - Use `tsc` to compile ts file to `lib` folder
+   - Use `cpx` to copy other files to `lib` folder
 
-1. Format project: `yarn run lint`
+1. Format project: `pnpm lint`
 
-   It will execute the two commands `yarn run lint:eslint` and `yarn run lint:prettier`.
+   It will format the project using prettier, eslint and stylelint.
 
-   If you modify Markdown, you also need to run the `yarn run lint:md` command.
+   If you modify Markdown, you also need to run the `pnpm lint:md` command.
 
 ::: warning
 
 Please do not mix build and dev commands as they compile in completely different ways.
 
-You may need to execute the `yarn run clean` command to clear the last build results.
+You may need to execute the `pnpm clean` command to clear previous build results.
 
 :::
 
 ## Commit
 
-The project uses `husky` and `lint-staged` to add Git Hooks for verification:
+The project uses `husky` to add Git Hooks for verification:
 
-- In `precommit` stage: use `lint-staged` to check the changed code with the corresponding Linter
+- In `precommit` stage: we use `lint-staged` to check the changed code with the corresponding Linter
 
   This means that you need to ensure that your code is formatted by the project requirements and can pass Linter tests.
 
-- In `commit-msg` stage: use `commitlint` to verify the commit comment.
+- In `commit-msg` stage: we use `commitlint` to verify the commit comment.
 
   This means that you need to ensure that your commit comments comply with Semantic
 

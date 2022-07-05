@@ -1,19 +1,32 @@
-import { defineNavbarConfig } from "vuepress-theme-hope";
-import { version } from "../../../../lerna.json";
+import { navbar } from "docs-shared";
+import { version } from "vuepress-plugin-comment2/package.json";
 
-export const enNavbarConfig = defineNavbarConfig([
+export const enNavbarConfig = navbar([
   "/",
   {
     text: "Guide",
     icon: "creative",
-    children: ["/guide/", "/guide/waline"],
+    prefix: "/guide/",
+    children: [
+      {
+        text: "Guide",
+        icon: "creative",
+        activeMatch: "^/guide/$",
+        link: "",
+      },
+      "giscus",
+      "waline",
+      "twikoo",
+    ],
   },
   {
     text: "Config",
     icon: "config",
-    children: ["/config/", "/config/waline"],
+    prefix: "/config/",
+    children: ["", "giscus", "waline", "twikoo"],
   },
   "/migration",
+  "/demo",
   {
     text: version,
     icon: "note",
@@ -25,19 +38,32 @@ export const enNavbarConfig = defineNavbarConfig([
     ],
   },
 ]);
-export const zhNavbarConfig = defineNavbarConfig([
+export const zhNavbarConfig = navbar([
   "/zh/",
   {
     text: "指南",
     icon: "creative",
-    children: ["/zh/guide/", "/zh/guide/waline"],
+    prefix: "/zh/guide/",
+    children: [
+      {
+        text: "指南",
+        icon: "creative",
+        activeMatch: "^/zh/guide/$",
+        link: "",
+      },
+      "giscus",
+      "waline",
+      "twikoo",
+    ],
   },
   {
     text: "配置",
     icon: "config",
-    children: ["/zh/config/", "/zh/config/waline"],
+    prefix: "/zh/config/",
+    children: ["", "giscus", "waline", "twikoo"],
   },
-  "/migration",
+  "/zh/migration",
+  "/zh/demo",
   {
     text: version,
     icon: "note",

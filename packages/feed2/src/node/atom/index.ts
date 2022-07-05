@@ -1,6 +1,6 @@
-import { encodeCDATA, encodeXML } from "@mr-hope/vuepress-shared";
+import { encodeCDATA, encodeXML } from "vuepress-shared";
 import { js2xml } from "xml-js";
-import { generator } from "../utils";
+import { FEED_GENERATOR } from "../utils";
 
 import type { Feed } from "../feed";
 import type { FeedAuthor, FeedCategory } from "../../shared";
@@ -12,7 +12,7 @@ import type {
 } from "./typings";
 
 const genAuthororContributor = (author: FeedAuthor): AtomAuthor => {
-  const { name, email, url } = author;
+  const { name = "Unknown", email, url } = author;
 
   return {
     name,
@@ -22,7 +22,7 @@ const genAuthororContributor = (author: FeedAuthor): AtomAuthor => {
 };
 
 const genCategory = (category: FeedCategory): AtomCategory => {
-  const { name, scheme } = category;
+  const { name, scheme = "" } = category;
 
   return {
     _attributes: {
@@ -50,6 +50,7 @@ export const renderAtom = (feed: Feed): string => {
     feed: {
       _attributes: {
         xmlns: "http://www.w3.org/2005/Atom",
+        // eslint-disable-next-line @typescript-eslint/naming-convention
         ...(channel.language ? { "xml:lang": channel.language } : {}),
       },
       id: channel.link,
@@ -64,7 +65,7 @@ export const renderAtom = (feed: Feed): string => {
       updated: channel.lastUpdated
         ? channel.lastUpdated.toISOString()
         : new Date().toISOString(),
-      generator: generator,
+      generator: FEED_GENERATOR,
       link: [{ _attributes: { rel: "self", href: encodeXML(links.atom) } }],
     },
   };
@@ -106,11 +107,17 @@ export const renderAtom = (feed: Feed): string => {
     };
 
     // entry: recommended elements
-    if (item.description)
-      entry.summary = {
-        _attributes: { type: "html" },
-        _cdata: encodeCDATA(item.description),
-      };
+    if (item.description) {
+      entry.summary = item.description.startsWith("html:")
+        ? {
+            _attributes: { type: "html" },
+            _cdata: encodeCDATA(item.description.substring(5)),
+          }
+        : {
+            _attributes: { type: "html" },
+            _text: item.description,
+          };
+    }
 
     if (item.content)
       entry.content = {
@@ -119,20 +126,17 @@ export const renderAtom = (feed: Feed): string => {
       };
 
     // author(s)
-    if (Array.isArray(item.author))
+    if (item.author)
       entry.author = item.author
         .filter((author) => author.name)
         .map((author) => genAuthororContributor(author));
-    else if (item.author && item.author.name)
-      entry.author = [genAuthororContributor(item.author)];
 
-    if (Array.isArray(item.category))
+    if (item.category)
       // category
       entry.category = item.category.map((category) => genCategory(category));
-    else if (item.category) entry.category = [genCategory(item.category)];
 
     // contributor
-    if (Array.isArray(item.contributor))
+    if (item.contributor)
       entry.contributor = item.contributor.map((contributor) =>
         genAuthororContributor(contributor)
       );

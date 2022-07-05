@@ -1,6 +1,7 @@
 ---
 title: Install / Usage
 icon: install
+order: 2
 category:
   - Get Started
 tag:
@@ -13,17 +14,15 @@ tag:
 
 Create a vuepress-theme-hope project in `[dir]` folder under the current project:
 
-:::: code-group
+::: code-tabs#shell
 
-<!-- ::: code-group-item yarn
+@tab pnpm
 
 ```bash
-yarn create vuepress-theme-hope [dir]
+pnpm create vuepress-theme-hope@next [dir]
 ```
 
-::: -->
-
-::: code-group-item npm
+@tab npm
 
 ```bash
 npm init vuepress-theme-hope@next [dir]
@@ -31,39 +30,46 @@ npm init vuepress-theme-hope@next [dir]
 
 :::
 
-::::
+::: note
+
+`[dir]` is a parameter here, replace it with real folder names, such as `docs`, `src` or other name you like.
+
+:::
 
 ## Usage
 
-:::: code-group
+Please import and use `hopeTheme` to use `vuepress-theme-hope`.
 
-::: code-group-item TS
+::: code-tabs#language
 
-```ts {2,4,6}
+@tab TS
+
+```ts
 // .vuepress/config.ts
-import { defineHopeConfig } from "vuepress-theme-hope";
+import { defineUserConfig } from "vuepress";
+import { hopeTheme } from "vuepress-theme-hope";
 
-export default defineHopeConfig({
-  // your config here
+export default defineUserConfig({
+  theme: hopeTheme({
+    // your theme config here
+  }),
 });
 ```
 
-:::
+@tab JS
 
-::: code-group-item JS
-
-```js {2,4,6}
+```js
 // .vuepress/config.js
-const { defineHopeConfig } = require("vuepress-theme-hope");
+const { hopeTheme } = require("vuepress-theme-hope");
 
-module.exports = defineHopeConfig({
-  // your config here
-});
+module.exports = {
+  theme: hopeTheme({
+    // your theme config here
+  }),
+};
 ```
 
 :::
-
-::::
 
 You can view [Config of this site][docs-config] as an example.
 

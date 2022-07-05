@@ -1,8 +1,8 @@
 import { usePreferredDark, useStorage } from "@vueuse/core";
-import { computed, inject, onMounted, onUnmounted, provide, watch } from "vue";
+import { computed, inject, onMounted, watch } from "vue";
 import { useThemeData } from "@theme-hope/composables";
 
-import type { InjectionKey, Ref, WritableComputedRef } from "vue";
+import type { App, InjectionKey, Ref, WritableComputedRef } from "vue";
 
 export type DarkmodeStatus = "light" | "dark" | "auto";
 
@@ -30,21 +30,7 @@ export const useDarkMode = (): DarkMode => {
   return darkmode;
 };
 
-export const updateDarkModeAttr = (isDarkMode: DarkModeRef): void => {
-  const update = (isDark = isDarkMode.value): void => {
-    const html = window?.document.querySelector("html");
-
-    html?.setAttribute("data-theme", isDark ? "dark" : "light");
-  };
-
-  onMounted(() => {
-    watch(isDarkMode, update, { immediate: true });
-  });
-
-  onUnmounted(() => update());
-};
-
-export const setupDarkMode = (): void => {
+export const injectDarkMode = (app: App): void => {
   const themeData = useThemeData();
   const isDarkPreferred = usePreferredDark();
   const darkmodeStorage = useStorage<DarkmodeStatus>(
@@ -55,24 +41,47 @@ export const setupDarkMode = (): void => {
   const isDarkMode = computed<boolean>(() => {
     const { darkmode } = themeData.value;
 
-    // disable dark mode
+    // disable darkmode
     return darkmode === "disable"
       ? false
-      : // force dark
-      darkmode === "force-dark"
+      : // force darkmode
+      darkmode === "enable"
       ? true
       : // auto
       darkmode === "auto"
       ? isDarkPreferred.value
-      : // switch
-      darkmode === "switch"
+      : // toggle
+      darkmode === "toggle"
       ? darkmodeStorage.value === "dark"
-      : // auto-switch
+      : // switch
         darkmodeStorage.value === "dark" ||
         (darkmodeStorage.value === "auto" && isDarkPreferred.value);
   });
 
-  provide(darkModeSymbol, { isDarkMode, status: darkmodeStorage });
+  app.provide(darkModeSymbol, { isDarkMode, status: darkmodeStorage });
 
-  updateDarkModeAttr(isDarkMode);
+  // provide global helpers
+  Object.defineProperties(app.config.globalProperties, {
+    $isDarkMode: { get: () => isDarkMode.value },
+  });
 };
+
+export const setupDarkMode = (): void => {
+  const { isDarkMode } = useDarkMode();
+
+  const updateDOM = (isDark = isDarkMode.value): void => {
+    const html = window?.document.querySelector("html");
+
+    html?.setAttribute("data-theme", isDark ? "dark" : "light");
+  };
+
+  onMounted(() => {
+    watch(isDarkMode, updateDOM, { immediate: true });
+  });
+};
+
+declare module "vue" {
+  export interface ComponentCustomProperties {
+    $isDarkMode: boolean;
+  }
+}

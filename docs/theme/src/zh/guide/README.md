@@ -1,6 +1,7 @@
 ---
 title: 指南
 icon: creative
+index: false
 category:
   - 介绍
 tag:
@@ -21,20 +22,28 @@ tag:
 
 ### Markdown
 
-为 Markdown 添加了更多语法，丰富文档与博客写作
+为 Markdown 添加了更多语法，丰富文档与博客写作:
 
 - [自定义容器](markdown/container.md)
-- [代码组](markdown/code-group.md)
-- [Tex 支持](markdown/tex.md)
+- [选项卡](markdown/tabs.md)
+- [代码组](markdown/code-tabs.md)
+- [脚注](markdown/footnote.md)
+- [任务列表](markdown/tasklist.md)
+- [图片增强](markdown/image.md)
 - [自定义对齐](markdown/align.md)
+- [自定义属性](markdown/attrs.md)
+- [上下角标](markdown/sup-sub.md)
+- [标记](markdown/mark.md)
+- [图表](markdown/chart.md)
+- [Echarts](markdown/echarts.md)
 - [流程图](markdown/flowchart.md)
 - [Mermaid 图表](markdown/mermaid.md)
-- [标记](markdown/mark.md)
-- [任务列表](markdown/tasklist.md)
-- [上下角标](markdown/sup-sub.md)
+- [Tex 支持](markdown/tex.md)
+- [文件导入](markdown/include.md)
 - [代码演示](markdown/demo.md)
 - [幻灯片](markdown/presentation.md)
-- [徽章 `<Badge />`](markdown/components.md#badge) 在官方基础上增加了颜色支持
+- [样式化](markdown/stylize.md)
+- [开箱即用的组件](markdown/components.md)
 - [自定义主题](interface/code-theme.md)
 
 ### 布局
@@ -87,6 +96,8 @@ tag:
   - 自动生成的字数与预计阅读时间
   - 标签与分类
 
+- [版权信息](feature/copyright.md)
+
 - [文章加密](feature/encrypt.md)
 
 - [搜索支持](feature/search.md)
@@ -113,10 +124,6 @@ tag:
 
 - [Sitemap 生成](advanced/sitemap.md)
 
-- [自定义主题组件](advanced/customize.md)
-
-- [主题继承](advanced/extend.md)
-
 ## 内建插件 🧩
 
 本主题包含了以下内建插件，如果有需要，你也可以单独进行使用或搭配其他主题。
@@ -125,9 +132,11 @@ tag:
 
 - [vuepress-plugin-comment2][comment2]: 评论与浏览量功能
 
-- [@mr-hope/vuepress-plugin-components][components]: 提供一些开箱即用的插件
+- [vuepress-plugin-components][components]: 提供一些开箱即用的插件
 
 - [vuepress-plugin-copy-code2][copy-code2]: 提供一键复制代码块功能。
+
+- [vuepress-plugin-copyright2][copyright2]: 在用户复制时追加版权信息，或禁用站点的复制与选择。
 
 - [vuepress-plugin-feed2][feed2]: Feed 支持
 
@@ -139,30 +148,34 @@ tag:
 
 - [vuepress-plugin-reading-time2][reading-time2]: 阅读时间与字数统计
 
+- [vuepress-plugin-redirect][redirect]: 重定向插件
+
 - [vuepress-plugin-sass-palette][sass-palette]: 面向全部插件和主题的 Sass 配置插件
 
 - [vuepress-plugin-seo2][seo2]: SEO 增强插件
+
+- [vuepress-plugin-sitemap2][sitemap2]: Sitemap 插件
 
 ::: tip
 
 这里还有一些其他没有被主题默认启用的插件，你可以根据自己的需求自行启用。
 
-- [vuepress-plugin-add-this][add-this]: 基于 AddThis 的分享插件
-
 - [vuepress-plugin-lightgallery][lightgallery]: 基于 lightgallery 图片浏览插件
 
 :::
 
-[add-this]: https://vuepress-theme-hope.github.io/v2/add-this/zh/
 [blog2]: https://vuepress-theme-hope.github.io/v2/blog/zh/
 [comment2]: https://vuepress-theme-hope.github.io/v2/comment/zh/
 [components]: https://vuepress-theme-hope.github.io/v2/components/zh/
 [copy-code2]: https://vuepress-theme-hope.github.io/v2/copy-code/zh/
+[copyright2]: https://vuepress-theme-hope.github.io/v2/copyright/zh/
 [feed2]: https://vuepress-theme-hope.github.io/v2/feed/zh/
 [lightgallery]: https://vuepress-theme-hope.github.io/v2/lightgallery/zh/
 [md-enhance]: https://vuepress-theme-hope.github.io/v2/md-enhance/zh/
 [photo-swipe]: https://vuepress-theme-hope.github.io/v2/photo-swipe/zh/
 [pwa2]: https://vuepress-theme-hope.github.io/v2/pwa/zh/
 [reading-time2]: https://vuepress-theme-hope.github.io/v2/reading-time/zh/
+[redirect]: https://vuepress-theme-hope.github.io/v2/redirect/zh/
 [sass-palette]: https://vuepress-theme-hope.github.io/v2/sass-palette/zh/
 [seo2]: https://vuepress-theme-hope.github.io/v2/seo/zh/
+[sitemap2]: https://vuepress-theme-hope.github.io/v2/sitemap/zh/

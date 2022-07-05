@@ -1,4 +1,4 @@
-import { mergeViteConfig } from "@mr-hope/vuepress-shared";
+import { mergeViteConfig } from "vuepress-shared";
 
 import type { App } from "@vuepress/core";
 import type { ViteBundlerOptions } from "@vuepress/bundler-vite";
@@ -6,27 +6,33 @@ import type { WebpackBundlerOptions } from "@vuepress/bundler-webpack";
 import type { LoaderContext } from "@vuepress/bundler-webpack/lib/types.webpack";
 
 /**
- * Use 'addtionalData' to make `${id}-config` availe in scss
+ * Use 'additionalData' to make `${id}-config` availe in scss
  *
+ * @param config VuePress Bundler config
  * @param app VuePress Node App
  * @param path Path to be responsed
  * @param getResponse respond function
  * @param errMsg error msg
  */
-export const injectConfigModule = (app: App, id: string): void => {
-  const { bundler, bundlerConfig } = app.options;
+export const injectConfigModule = (
+  config: unknown,
+  app: App,
+  id: string
+): void => {
+  const { bundler } = app.options;
 
   // for vite
-  if (bundler.endsWith("vite")) {
-    const viteBundlerConfig: ViteBundlerOptions = bundlerConfig;
+  if (bundler.name.endsWith("vite")) {
+    const viteBundlerConfig = config as ViteBundlerOptions;
 
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    const originalAddtionalData:
+    const originalAdditionalData:
       | string
       | ((source: string, file: string) => string | Promise<string>)
       | undefined =
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-      viteBundlerConfig.viteOptions?.css?.preprocessorOptions?.scss
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+      viteBundlerConfig.viteOptions?.css?.preprocessorOptions?.["scss"]
         .additionalData;
 
     // eslint-disable-next-line
@@ -41,15 +47,18 @@ export const injectConfigModule = (app: App, id: string): void => {
                 source: string,
                 file: string
               ): Promise<string> => {
-                if (typeof originalAddtionalData === "string")
-                  return `@use "@sass-palette/${id}-config";\n${originalAddtionalData}${source}`;
-                if (typeof originalAddtionalData === "function")
-                  return `@use "@sass-palette/${id}-config";\n${await originalAddtionalData(
-                    source,
-                    file
-                  )}`;
+                const originalContent =
+                  typeof originalAdditionalData === "string"
+                    ? `${originalAdditionalData}${source}`
+                    : typeof originalAdditionalData === "function"
+                    ? await originalAdditionalData(source, file)
+                    : source;
 
-                return `@use "@sass-palette/${id}-config";\n${source}`;
+                return originalContent.match(
+                  new RegExp(`@use\\s+["']@sass-palette\\/${id}-config["'];`)
+                )
+                  ? originalContent
+                  : `@use "@sass-palette/${id}-config";\n${originalContent}`;
               },
             },
           },
@@ -59,30 +68,31 @@ export const injectConfigModule = (app: App, id: string): void => {
   }
 
   // for webpack
-  if (bundler.endsWith("webpack")) {
-    const webpackBundlerConfig: WebpackBundlerOptions = app.options
-      .bundlerConfig as WebpackBundlerOptions;
+  if (bundler.name.endsWith("webpack")) {
+    const webpackBundlerConfig = config as WebpackBundlerOptions;
 
     if (!webpackBundlerConfig.scss) webpackBundlerConfig.scss = {};
 
     const { additionalData } = webpackBundlerConfig.scss;
 
-    const addtionalDataHandler = (
+    const additionalDataHandler = (
       content: string,
       loaderContext: LoaderContext
     ): string => {
-      if (typeof additionalData === "string")
-        return `@use "@sass-palette/${id}-config";\n${additionalData}${content}`;
+      const originalContent =
+        typeof additionalData === "string"
+          ? `${additionalData}${content}`
+          : typeof additionalData === "function"
+          ? additionalData(content, loaderContext)
+          : content;
 
-      if (typeof additionalData === "function")
-        return `@use "@sass-palette/${id}-config";\n${additionalData(
-          content,
-          loaderContext
-        )}`;
-
-      return `@use "@sass-palette/${id}-config";\n${content}`;
+      return originalContent.match(
+        new RegExp(`@use\\s+["']@sass-palette\\/${id}-config["'];`)
+      )
+        ? originalContent
+        : `@use "@sass-palette/${id}-config";\n${originalContent}`;
     };
 
-    webpackBundlerConfig.scss.additionalData = addtionalDataHandler;
+    webpackBundlerConfig.scss.additionalData = additionalDataHandler;
   }
 };

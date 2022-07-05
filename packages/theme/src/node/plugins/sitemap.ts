@@ -1,17 +1,23 @@
+import { sitemapPlugin } from "vuepress-plugin-sitemap2";
+
+import type { Plugin } from "@vuepress/core";
 import type { SitemapOptions } from "vuepress-plugin-sitemap2";
-import type { HopeThemeConfig } from "../../shared";
 
-export const resolveSitemapOptions = (
-  themeConfig: HopeThemeConfig,
-  options?: Omit<SitemapOptions, "hostname"> | false
-): SitemapOptions | false => {
-  if (options === false) return false;
+export const getSitemapPlugin = (
+  options?: Omit<SitemapOptions, "hostname"> | false,
+  hostname?: string,
+  legacy = false
+): Plugin | null => {
+  if (options === false) return null;
 
-  // disable feed if `hostname` is not set and no options for feed plugin
-  if (!Object.keys(options || {}).length && !themeConfig.hostname) return false;
+  // disable sitemap if `hostname` is not set and no options for sitemap plugin
+  if (!Object.keys(options || {}).length && !hostname) return null;
 
-  return {
-    hostname: themeConfig.hostname,
-    ...(options || {}),
-  } as SitemapOptions;
+  return sitemapPlugin(
+    {
+      hostname,
+      ...(options || {}),
+    } as SitemapOptions,
+    legacy
+  );
 };

@@ -1,10 +1,12 @@
 {
   "name": "create-vuepress-theme-hope",
-  "version": "2.0.0-beta.6",
+  "version": "2.0.0-beta.84",
   "description": "Create vuepress-theme-hope demo project helper",
   "keywords": [
     "create",
     "vuepress",
+    "vuepress2",
+    "vuepress-theme",
     "vuepress-theme-hope"
   ],
   "homepage": "https://vuepress-theme-hope.github.io/v2/",
@@ -22,19 +24,27 @@
     "email": "mister-hope@outlook.com",
     "url": "https://mrhope.site"
   },
+  "type": "module",
   "bin": {
-    "create-vuepress-theme-hope": "./lib/node/index.js"
+    "create-vuepress-theme-hope": "./lib/index.js"
   },
+  "files": [
+    "lib",
+    "template"
+  ],
   "scripts": {
     "build": "rollup -c",
     "clean": "rimraf ./lib ./*.tsbuildinfo",
-    "dev": "yarn dev:ts",
+    "dev": "pnpm dev:ts",
     "dev:ts": "tsc -b tsconfig.build.json --watch"
   },
   "dependencies": {
-    "@types/inquirer": "^8.2.0",
     "cac": "^6.7.12",
-    "execa": "^5.1.1",
-    "inquirer": "^8.2.1"
+    "execa": "^6.1.0",
+    "inquirer": "^9.0.0"
+  },
+  "devDependencies": {
+    "@types/inquirer": "8.2.1",
+    "rimraf": "3.0.2"
   }
 }

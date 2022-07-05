@@ -10,17 +10,17 @@ tag:
 
 `vuepress-theme-hope` 通过内置 [`vuepress-plugin-seo2`][seo2] 为提供 SEO 增强功能。
 
-为了使插件能够更好的工作，你可能需要查看一下 [页面配置](../../config/page.md#信息类) 并合理的配置它们。
+为了使插件能够更好的工作，你可能需要查看一下 [页面配置](../../config/frontmatter/info.md) 并合理的配置它们。
 
 ::: info
 
-`vuepress-theme-hope` 将 `themeConfig.plugins` 中的 `seo` 选项作为插件选项提供给 `vuepress-plugin-seo2`。
+`vuepress-theme-hope` 将主题选项中的 `plugins.seo` 作为插件选项提供给 `vuepress-plugin-seo2`。
 
 :::
 
 插件会通过向网站 `<head>` 注入标签，让你的网站完全支持 [开放内容协议 OGP](https://ogp.me/) 和 [JSON-LD 1.1](https://www.w3.org/TR/json-ld-api/)，以全面增强站点的搜索引擎优化性。
 
-如果不需要这个插件，请设置 `themeConfig.plugins.seo` 为 `false`。
+如果不需要这个插件，请设置在主题选项中设置 `plugins.seo: false`。
 
 <!-- more -->
 
@@ -32,37 +32,37 @@ tag:
 
 ### 默认的 OGP 生成逻辑
 
-|         属性名称         |                         值                          |
-| :----------------------: | :-------------------------------------------------: |
-|         `og:url`         |           `themeConfig.hostname` + `path`           |
-|      `og:site_name`      |                 `siteConfig.title`                  |
-|        `og:title`        |                    `page.title`                     |
-|     `og:description`     |           `page.frontmatter.description`            |
-|        `og:type`         |                     `'article'`                     |
-|        `og:image`        |  `themeConfig.hostname` + `page.frontmatter.image`  |
-|    `og:updated_time`     |               `page.git.updatedTime`                |
-|       `og:locale`        |                     `page.lang`                     |
-|  `og:locale:alternate`   |        `themeConfig.locales` 包含的其他语言         |
-|      `twitter:card`      |               `'summary_large_image'`               |
-|   `twitter:image:alt`    |                 `siteConfig.title`                  |
-|     `article:author`     | `page.frontmatter.author` \|\| `themeConfig.author` |
-|      `article:tag`       | `page.frontmatter.tags` \|\| `page.frontmatter.tag` |
-| `article:published_time` | `page.frontmatter.date` \|\| `page.createTimeStamp` |
-| `article:modified_time`  |               `page.git.updatedTime`                |
+|         属性名称         |                                                   值                                                   |
+| :----------------------: | :----------------------------------------------------------------------------------------------------: |
+|         `og:url`         |                                    `themeConfig.hostname` + `path`                                     |
+|      `og:site_name`      |                                           `siteConfig.title`                                           |
+|        `og:title`        |                                              `page.title`                                              |
+|     `og:description`     |      `page.frontmatter.description` \|\| 自动生成 (当插件选项中的 `autoDescription` 为 `true` 时)      |
+|        `og:type`         |                                              `"article"`                                               |
+|        `og:image`        | `themeConfig.hostname` + `page.frontmatter.image` \|\| 页面的第一张图片\|\| 插件选项的 `fallbackImage` |
+|    `og:updated_time`     |                                         `page.git.updatedTime`                                         |
+|       `og:locale`        |                                              `page.lang`                                               |
+|  `og:locale:alternate`   |                                  `themeConfig.locales` 包含的其他语言                                  |
+|      `twitter:card`      |                                `"summary_large_image"` (仅在找到图片时)                                |
+|   `twitter:image:alt`    |                                     `page.title` (仅在找到图片时)                                      |
+|     `article:author`     |                          `page.frontmatter.author` \|\| `themeConfig.author`                           |
+|      `article:tag`       |                          `page.frontmatter.tags` \|\| `page.frontmatter.tag`                           |
+| `article:published_time` |                          `page.frontmatter.date` \|\| `page.git.createdTime`                           |
+| `article:modified_time`  |                                         `page.git.updatedTime`                                         |
 
 ### 默认的 JSON-LD 生成逻辑
 
-|     属性名      |                         值                          |
-| :-------------: | :-------------------------------------------------: |
-|   `@context`    |               `"https://schema.org"`                |
-|     `@type`     |                   `"NewsArticle"`                   |
-|   `headline`    |                    `page.title`                     |
-|     `image`     |  `themeConfig.hostname` + `page.frontmatter.image`  |
-| `datePublished` | `page.frontmatter.date` \|\| `page.createTimeStamp` |
-| `dateModified`  |               `page.git.updatedTime`                |
-|    `author`     | `page.frontmatter.author` \|\| `themeConfig.author` |
+|     属性名      |                                 值                                 |
+| :-------------: | :----------------------------------------------------------------: |
+|   `@context`    |                       `"https://schema.org"`                       |
+|     `@type`     |                          `"NewsArticle"`                           |
+|   `headline`    |                            `page.title`                            |
+|     `image`     | 页面中的图片\|\| `themeConfig.hostname` + `page.frontmatter.image` |
+| `datePublished` |        `page.frontmatter.date` \|\| `page.git.createdTime`         |
+| `dateModified`  |                       `page.git.updatedTime`                       |
+|    `author`     |        `page.frontmatter.author` \|\| `themeConfig.author`         |
 
-## 自由定制
+## 直接添加 head 标签
 
 你可以在页面的 frontmatter 中配置 `head` 选项，自主添加特定标签到页面 `<head>` 以增强 SEO。
 
@@ -83,16 +83,43 @@ head:
 
 插件支持让你完全控制生成逻辑。
 
-### ogp
+### 页面类型
 
-你可以在 `themeConfig.plugins.seo` 中通过 `ogp` 传入一个函数来按照你的需要修改默认 OGP 对象并返回。
+对于大多数页面，基本只有文章和网页两种类型，所以插件提供了 `isArticle` 选项让你提供辨别文章的逻辑。
+
+选项接受一个 `(page: Page) => boolean` 格式的函数，默认情况下从 Markdown 文件生成的非主页页面都会被视为文章。
+
+::: note
+
+如果某个网页的确符合图书、音乐之类的“冷门”类型，你可以通过设置下方三个选项处理它们。
+
+:::
+
+### OGP
+
+你可以在主题选项中通过 `plugins.seo.ogp` 传入一个函数来按照你的需要修改默认 OGP 对象并返回。
 
 ```ts
-function ogp<ExtendObject = Record<string, unknown>>(
+function ogp<
+  ExtraPageData extends Record<string | number | symbol, unknown> = Record<
+    never,
+    never
+  >,
+  ExtraPageFrontmatter extends Record<
+    string | number | symbol,
+    unknown
+  > = Record<string, unknown>,
+  ExtraPageFields extends Record<string | number | symbol, unknown> = Record<
+    never,
+    never
+  >
+>(
   /** 插件自动推断的 OGP 对象 */
   ogp: SeoContent,
-  /** SEO 有关信息，包含 App, 当前 Page 和页面的永久链接 */
-  info: PageSeoInfo<ExtendObject>
+  /** 页面对象 */
+  page: ExtendPage<ExtraPageData, ExtraPageFrontmatter, ExtraPageFields>,
+  /** VuePress App */
+  app: App
 ): SeoContent;
 ```
 
@@ -102,7 +129,7 @@ function ogp<ExtendObject = Record<string, unknown>>(
 
 ```ts
 ({
-  ogp: (ogp, { page }) => ({
+  ogp: (ogp, page) => ({
     ...ogp,
     "og:image": page.frontmatter.banner || ogp["og:image"],
   }),
@@ -111,14 +138,29 @@ function ogp<ExtendObject = Record<string, unknown>>(
 
 ### JSON-LD
 
-同 OGP，你可以在 `themeConfig.plugins.seo` 中通过 `jsonLd` 传入一个函数来按照你的需要修改默认 JSON-LD 对象并返回。
+同 OGP，你可以在主题选项中通过 `plugins.seo.jsonLd` 传入一个函数来按照你的需要修改默认 JSON-LD 对象并返回。
 
 ```ts
-function jsonLd<ExtendObject = Record<string, unknown>>(
+function jsonLd<
+  ExtraPageData extends Record<string | number | symbol, unknown> = Record<
+    never,
+    never
+  >,
+  ExtraPageFrontmatter extends Record<
+    string | number | symbol,
+    unknown
+  > = Record<string, unknown>,
+  ExtraPageFields extends Record<string | number | symbol, unknown> = Record<
+    never,
+    never
+  >
+>(
   /** 插件自动推断的 JSON-LD 对象 */
   jsonLD: ArticleJSONLD | null,
-  /** SEO 有关信息，包含 App, 当前 Page 和页面的永久链接 */
-  info: PageSeoInfo<ExtendObject>
+  /** 页面对象 */
+  page: ExtendPage<ExtraPageData, ExtraPageFrontmatter, ExtraPageFields>,
+  /** VuePress App */
+  app: App
 ): ArticleJSONLD | null;
 ```
 
@@ -128,14 +170,47 @@ function jsonLd<ExtendObject = Record<string, unknown>>(
 
 :::
 
-### customHead
+## 规范链接
 
-有些时候你可能需要符合其他协议或按照其他搜索引擎提供的格式提供对应的 SEO 标签，此时你可以在 `themeConfig.plugins.seo` 中使用 `customHead` 选项，其类型为:
+如果你将内容部署到不同的站点，或不同 URL 下的相同内容，你可能需要在主题选项中通过 `plugins.seo.canonical` 选项为你的页面提供 “规范链接”。 你可以设置一个字符串，这样它会附加在页面路由链接之前，或者添加一个自定义函数 `(page: Page) => string | 如有必要，null` 返回规范链接。
+
+::: tip 例子
+
+如果你的站点部署在 `example.com` 的 docs 文件夹下，但同时在下列网址中可用:
+
+- `http://example.com/docs/xxx`
+- `https://example.com/docs/xxx`
+- `http://www.example.com/docs/xxx`
+- `https://www.example.com/docs/xxx` (首选)
+
+要让搜索引擎结果始终是首选，你可能需要将 `canonical` 设置为 `https://www.example.com/docs/`，以便搜索引擎知道首选第四个 URL 作为索引结果。
+
+:::
+
+### 自定义 head 标签
+
+有些时候你可能需要符合其他协议或按照其他搜索引擎提供的格式提供对应的 SEO 标签，此时你可以在主题选项中通过 `plugins.seo.customHead` 选项自定义 head 标签，其类型为:
 
 ```ts
-function customHead<ExtendObject = Record<string, unknown>>(
+function customHead<
+  ExtraPageData extends Record<string | number | symbol, unknown> = Record<
+    never,
+    never
+  >,
+  ExtraPageFrontmatter extends Record<
+    string | number | symbol,
+    unknown
+  > = Record<string, unknown>,
+  ExtraPageFields extends Record<string | number | symbol, unknown> = Record<
+    never,
+    never
+  >
+>(
   head: HeadConfig[],
-  info: PageSeoInfo<ExtendObject>
+  /** 页面对象 */
+  page: Page<ExtraPageData, ExtraPageFrontmatter, ExtraPageFields>,
+  /** VuePress App */
+  app: App
 ): void;
 ```
 
@@ -159,11 +234,23 @@ function customHead<ExtendObject = Record<string, unknown>>(
 
 - [开放内容协议 OGP](https://ogp.me/) (**O**pen **G**raph **Pr**otocal)
 
+  本插件完美支持该协议，会自动生成符合该协议的 `<meta>` 标签。
+
 - [JSON-LD 1.1](https://www.w3.org/TR/json-ld-api/)
+
+  本插件会为文章类页面生成 NewsArticle 类标签。
 
 - [RDFa 1.1](https://www.w3.org/TR/rdfa-primer/)
 
+  主题结构完美支持
+
 - [Schema.Org](https://schema.org/)
+
+  结构标记的 Schema 定义站点
+
+## 相关工具
+
+- [Google 富媒体结构测试工具](https://search.google.com/test/rich-results)
 
 [seo2]: https://vuepress-theme-hope.github.io/v2/seo/zh/
 [seo2-config]: https://vuepress-theme-hope.github.io/v2/seo/zh/config.html

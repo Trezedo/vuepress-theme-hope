@@ -5,27 +5,6 @@ icon: config
 
 You can pass these options to the plugin:
 
-## Enable all
-
-- Type: `boolean`
-- Default: `false`
-
-Whether to enable all features.
-
-::: danger
-
-Please use this option ONLY for playing or testing.
-
-As time grows,`vupress-plugin-md-enhance` is becoming more powerful. It’s adding more syntax to Markdown parser and more code to output.
-
-Enabling features you don’t need will increase dev and build time. (`markdown-it` has to check for extra syntaxs)
-
-Also, presentation feature will add a 700KB size chunk (mostly is `reveal.js`) to your output.
-
-Please use the options below and enable ONLY the feature you want to use.
-
-:::
-
 ## gfm
 
 - Type: `boolean`
@@ -37,7 +16,7 @@ Whether to support full GFM syntax.
 
 For full GFM syntax, see [GFM](https://github.github.com/gfm/).
 
-We are not 100% supporting it to be honestly, we only supply it's syntax inlucding tasklists, footnote and so on.
+We are not 100% supporting it to be honestly, we only supply it’s syntax inlucding tasklists, footnote and so on.
 
 Some of the behavior might be different, for example to allow Vue syntax, we are not disallowing `<script>` tags. But in most situation, the behavior should be same.
 
@@ -59,7 +38,21 @@ Whether to enable custom container including
 
 ::: warning
 
-The last 4 items conflict with default theme and will overide it’s style.
+The last 4 items conflict with default theme and will override it’s style.
+
+:::
+
+## linkCheck
+
+- Type: `"always" | "dev" | "build" | "never" | boolean`
+- Default: `"dev"`
+
+Whether to enable link check.
+
+::: note
+
+- `true` equals to `'always'`
+- `false` equals to `'never'`
 
 :::
 
@@ -70,12 +63,19 @@ The last 4 items conflict with default theme and will overide it’s style.
 
 Whether to enable v-pre wrapper.
 
-## codegroup
+## tabs
 
 - Type: `boolean`
 - Default: `false`
 
-Whether to enable codegroup.
+Whether to enable tabs.
+
+## codetabs
+
+- Type: `boolean`
+- Default: `false`
+
+Whether to enable codetabs.
 
 ## align
 
@@ -83,6 +83,41 @@ Whether to enable codegroup.
 - Default: `false`
 
 Whether to enable custom align.
+
+## attrs
+
+- Type: `AttrsOptions | boolean`
+
+  ```ts
+  interface AttrsOptions {
+    /**
+     * left delimiter
+     *
+     * @default '{'
+     */
+    left?: string;
+
+    /**
+     * right delimiter
+     *
+     * @default '}'
+     */
+    right?: string;
+
+    /**
+     * allowed attributes
+     *
+     * @description An empty list means allowing all attribute
+     *
+     * @default []
+     */
+    allowed?: (string | RegExp)[];
+  }
+  ```
+
+- Default: `false`
+
+Whether to enable attribute cutomize support.
 
 ## sup
 
@@ -128,9 +163,9 @@ Whether enable image mark support.
 
 ```ts
 interface ImageMarkOptions {
-  /** lightmode only ids */
+  /** lightmode only IDs */
   light?: string[];
-  /** darkmode only ids */
+  /** darkmode only IDs */
   dark?: string[];
 }
 ```
@@ -145,17 +180,18 @@ Whether to enable tasklist format support. You can pass an object to config task
 ```ts
 interface TaskListOptions {
   /**
+   * Whether disable checkbox
+   *
+   * @default true
+   */
+  disabled?: boolean;
+
+  /**
    * Whether use `<label>` to wrap text
    *
    * @default true
    */
   label?: boolean;
-  /**
-   * Whether place `<label>` after `<input>` or wrap `<input>`
-   *
-   * @default true
-   */
-  labelAfter?: boolean;
 }
 ```
 
@@ -167,6 +203,39 @@ interface TaskListOptions {
 Whether to enable $\TeX$ syntax support. You can pass an object to config $\KaTeX$.
 
 Please see [Katex Docs](https://katex.org/docs/options.html) for available options.
+
+## include
+
+- Type: `IncludeOptions | boolean`
+
+  ```ts
+  interface IncludeOptions {
+    /**
+     * handle include filePath
+     *
+     * @default (path) => path
+     */
+    getPath?: (path: string) => string;
+
+    /**
+     * Whether deep include files in included markdown files
+     *
+     * @default false
+     */
+    deep?: boolean;
+  }
+  ```
+
+- Default: `false`
+
+Whether to enable Markdown import support. You can pass in a function for path resolution.
+
+## chart
+
+- Type: `boolean`
+- Default: `false`
+
+Whether to enable chart support
 
 ## flowchart
 
@@ -181,6 +250,52 @@ Whether to enable flowchart support
 - Default: `false`
 
 Whether to enable [Mermaid](https://mermaid-js.github.io/mermaid/#/) support.
+
+## stylize
+
+- Type: `StylizeOptions | false`
+
+  ```ts
+  interface StylizeResult {
+    /**
+     * Tag name
+     */
+    tag: string;
+
+    /**
+     * Attributes settings
+     */
+    attrs: Record<string, string>;
+
+    /**
+     * Tag content
+     */
+    content: string;
+  }
+
+  interface StylizeItem {
+    /**
+     * Inline token matcher
+     */
+    matcher: string | RegExp;
+
+    /**
+     * Content Replacer
+     */
+    replacer: (options: {
+      tag: string;
+      content: string;
+      attrs: Record<string, string>;
+      env?: MarkdownEnv;
+    }) => StylizeResult | void;
+  }
+
+  type StylizeOptions = StylizeItem[];
+  ```
+
+- Default: `false`
+
+Stylize inline tokens to create snippet you want.
 
 ## demo
 
@@ -239,23 +354,23 @@ CodePen editor status
 
 ### others
 
-The following are the library links used by the third-party code demo service. Unless your environment cannot visit jsdelivr or the speed is slow, you probably don’t need to override the default values.
+The following are the library links used by the third-party code demo service. Unless your environment cannot visit unpkg or the speed is slow, you probably don’t need to override the default values.
 
 #### demo.babel
 
-Default value: `"https://cdn.jsdelivr.net/npm/@babel/standalone/babel.min.js"`
+Default value: `"https://unpkg.com/@babel/standalone/babel.min.js"`
 
 #### demo.vue
 
-Default value: `"https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js"`
+Default value: `"https://unpkg.com/vue/dist/vue.global.prod.js"`
 
 #### demo.react
 
-Default value: `"https://cdn.jsdelivr.net/npm/react/umd/react.production.min.js"`
+Default value: `"https://unpkg.com/react/umd/react.production.min.js"`
 
 #### demo.reactDOM
 
-Default value: `"https://cdn.jsdelivr.net/npm/react-dom/umd/react-dom.production.min.js"`
+Default value: `"https://unpkg.com/react-dom/umd/react-dom.production.min.js"`
 
 ## presentation
 
@@ -268,7 +383,12 @@ You can set it with an object, the object will be used to config reveal.js.
 
 ### presentation.plugins
 
-- Type: `string[]`
+- Type: `RevealPlugin[]`
+
+  ```ts
+  type RevealPlugin = "highlight" | "math" | "search" | "notes" | "zoom";
+  ```
+
 - Required: No
 
 Plugins you want to use on reveal.js.
@@ -302,6 +422,25 @@ The delay of operating dom, in ms.
 ::: tip
 
 If the theme you are using has a switching animation, it is recommended to configure this option to `Switch animation duration + 200`.
+
+:::
+
+## enableAll <Badge text="Demo only" type="danger" />
+
+- Type: `boolean`
+- Default: `false`
+
+Whether to enable all features.
+
+::: danger
+
+Please use this option ONLY for playing or testing.
+
+The plugin is FULLY treeshakable, so you should use the options below and enable ONLY the feature you want to use.
+
+Enabling features you don’t need will increase dev and build time. (`markdown-it` has to check for extra syntaxs)
+
+Also, some feature will add large chunks to your output (can up to 2MB).
 
 :::
 
@@ -349,4 +488,4 @@ If the theme you are using has a switching animation, it is recommended to confi
 
 - Required: No
 
-Locales config for markdown enhance plugin.
+Locales config for Markdown Enhance Plugin.

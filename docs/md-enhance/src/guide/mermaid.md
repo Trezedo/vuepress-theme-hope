@@ -7,19 +7,19 @@ Let the Markdown file support [mermaid](https://mermaid-js.github.io/mermaid/#/)
 
 <!-- more -->
 
-## Configuration
+## Config
 
-:::: code-group
+::: code-tabs#language
 
-::: code-group-item TS
+@tab TS
 
 ```ts {8}
 // .vuepress/config.ts
-import { mdEnhance } from "vuepress-plugin-md-enhance";
+import { mdEnhancePlugin } from "vuepress-plugin-md-enhance";
 
 export default {
   plugins: [
-    mdEnhance({
+    mdEnhancePlugin({
       // Enable mermaid
       mermaid: true,
     }),
@@ -27,17 +27,15 @@ export default {
 };
 ```
 
-:::
-
-::: code-group-item JS
+@tab JS
 
 ```js {8}
 // .vuepress/config.js
-const { mdEnhance } = require("vuepress-plugin-md-enhance");
+const { mdEnhancePlugin } = require("vuepress-plugin-md-enhance");
 
 module.exports = {
   plugins: [
-    mdEnhance({
+    mdEnhancePlugin({
       // Enable mermaid
       mermaid: true,
     }),
@@ -46,8 +44,6 @@ module.exports = {
 ```
 
 :::
-
-::::
 
 ## Syntax
 
@@ -283,7 +279,7 @@ section Go home
 
 :::
 
-### Gantt diagrams
+### Gantt Diagrams
 
 ```gantt
 dateFormat  YYYY-MM-DD
@@ -353,7 +349,7 @@ Add another diagram to demo page    :48h
 
 :::
 
-### Pie chart diagrams
+### Pie Chart Diagrams
 
 ```pie
 title What Voldemort doesn’t have?
@@ -375,7 +371,177 @@ title What Voldemort doesn’t have?
 
 :::
 
-### A complex example
+### Gitgraph Diagrams
+
+```git-graph
+commit
+branch hotfix
+checkout hotfix
+commit
+branch develop
+checkout develop
+commit id:"ash" tag:"abc"
+branch featureB
+checkout featureB
+commit type:HIGHLIGHT
+checkout main
+checkout hotfix
+commit type:NORMAL
+checkout develop
+commit type:REVERSE
+checkout featureB
+commit
+checkout main
+merge hotfix
+checkout featureB
+commit
+checkout develop
+branch featureA
+commit
+checkout develop
+merge hotfix
+checkout featureA
+commit
+checkout featureB
+commit
+checkout develop
+merge featureA
+branch release
+checkout release
+commit
+checkout main
+commit
+checkout release
+merge main
+checkout develop
+merge release
+```
+
+::: details Code
+
+```git-graph
+commit
+branch hotfix
+checkout hotfix
+commit
+branch develop
+checkout develop
+commit id:"ash" tag:"abc"
+branch featureB
+checkout featureB
+commit type:HIGHLIGHT
+checkout main
+checkout hotfix
+commit type:NORMAL
+checkout develop
+commit type:REVERSE
+checkout featureB
+commit
+checkout main
+merge hotfix
+checkout featureB
+commit
+checkout develop
+branch featureA
+commit
+checkout develop
+merge hotfix
+checkout featureA
+commit
+checkout featureB
+commit
+checkout develop
+merge featureA
+branch release
+checkout release
+commit
+checkout main
+commit
+checkout release
+merge main
+checkout develop
+merge release
+```
+
+:::
+
+### C4C Diagrams
+
+```c4c
+title System Context diagram for Internet Banking System
+
+Person(customerA, "Banking Customer A", "A customer of the bank, with personal bank accounts.")
+Person(customerB, "Banking Customer B")
+Person_Ext(customerC, "Banking Customer C")
+System(SystemAA, "Internet Banking System", "Allows customers to view information about their bank accounts, and make payments.")
+
+Person(customerD, "Banking Customer D", "A customer of the bank, <br/> with personal bank accounts.")
+
+Enterprise_Boundary(b1, "BankBoundary") {
+
+  SystemDb_Ext(SystemE, "Mainframe Banking System", "Stores all of the core banking information about customers, accounts, transactions, etc.")
+
+  System_Boundary(b2, "BankBoundary2") {
+    System(SystemA, "Banking System A")
+    System(SystemB, "Banking System B", "A system of the bank, with personal bank accounts.")
+  }
+
+  System_Ext(SystemC, "E-mail system", "The internal Microsoft Exchange e-mail system.")
+  SystemDb(SystemD, "Banking System D Database", "A system of the bank, with personal bank accounts.")
+
+  Boundary(b3, "BankBoundary3", "boundary") {
+    SystemQueue(SystemF, "Banking System F Queue", "A system of the bank, with personal bank accounts.")
+    SystemQueue_Ext(SystemG, "Banking System G Queue", "A system of the bank, with personal bank accounts.")
+  }
+}
+
+BiRel(customerA, SystemAA, "Uses")
+BiRel(SystemAA, SystemE, "Uses")
+Rel(SystemAA, SystemC, "Sends e-mails", "SMTP")
+Rel(SystemC, customerA, "Sends e-mails to")
+```
+
+::: details Code
+
+````md
+```c4c
+title System Context diagram for Internet Banking System
+
+Person(customerA, "Banking Customer A", "A customer of the bank, with personal bank accounts.")
+Person(customerB, "Banking Customer B")
+Person_Ext(customerC, "Banking Customer C")
+System(SystemAA, "Internet Banking System", "Allows customers to view information about their bank accounts, and make payments.")
+
+Person(customerD, "Banking Customer D", "A customer of the bank, <br/> with personal bank accounts.")
+
+Enterprise_Boundary(b1, "BankBoundary") {
+
+  SystemDb_Ext(SystemE, "Mainframe Banking System", "Stores all of the core banking information about customers, accounts, transactions, etc.")
+
+  System_Boundary(b2, "BankBoundary2") {
+    System(SystemA, "Banking System A")
+    System(SystemB, "Banking System B", "A system of the bank, with personal bank accounts.")
+  }
+
+  System_Ext(SystemC, "E-mail system", "The internal Microsoft Exchange e-mail system.")
+  SystemDb(SystemD, "Banking System D Database", "A system of the bank, with personal bank accounts.")
+
+  Boundary(b3, "BankBoundary3", "boundary") {
+    SystemQueue(SystemF, "Banking System F Queue", "A system of the bank, with personal bank accounts.")
+    SystemQueue_Ext(SystemG, "Banking System G Queue", "A system of the bank, with personal bank accounts.")
+  }
+}
+
+BiRel(customerA, SystemAA, "Uses")
+BiRel(SystemAA, SystemE, "Uses")
+Rel(SystemAA, SystemC, "Sends e-mails", "SMTP")
+Rel(SystemC, customerA, "Sends e-mails to")
+```
+````
+
+:::
+
+### A Complex Example
 
 ```mermaid
 graph TB

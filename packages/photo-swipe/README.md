@@ -1,9 +1,9 @@
 <!-- markdownlint-disable -->
 <p align="center">
-  <img width="240" src="https://vuepress-theme-hope.github.io/v2/logo.svg" style="text-align: center;"/>
+  <img width="240" src="https://vuepress-theme-hope.github.io/v2/logo.svg" style="text-align: center;">
 </p>
 <h1 align="center">vuepress-plugin-photo-swipe</h1>
-<h4 align="center">VuePress图片预览插件🔍 / VuePress photo preview plugin🔍</h4>
+<h4 align="center">VuePress photo preview plugin🖼️ / VuePress图片预览插件🖼️</h4>
 
 [![Version](https://img.shields.io/npm/v/vuepress-plugin-photo-swipe/next.svg?style=flat-square&logo=npm) ![Downloads](https://img.shields.io/npm/dm/vuepress-plugin-photo-swipe.svg?style=flat-square&logo=npm) ![Size](https://img.shields.io/bundlephobia/min/vuepress-plugin-photo-swipe?style=flat-square&logo=npm)](https://www.npmjs.com/package/vuepress-plugin-photo-swipe)
 
@@ -14,16 +14,15 @@
 ## Install
 
 ```bash
-npm i -D vuepress-plugin-photo-swipe
+# pnpm
+pnpm add -D vuepress-plugin-photo-swipe@next
+# npm
+npm i -D vuepress-plugin-photo-swipe@next
+# yarn
+yarn add -D vuepress-plugin-photo-swipe@next
 ```
 
-Or
-
-```bash
-yarn add -D vuepress-plugin-photo-swipe
-```
-
-## Migration from V1
+## Migrating from V1
 
 - option `delay`, which means the delay finding images when page loaded or navigated ![new](https://img.shields.io/badge/-new-brightgreen)
 
@@ -34,13 +33,12 @@ yarn add -D vuepress-plugin-photo-swipe
 ## 安装
 
 ```bash
-npm i -D vuepress-plugin-photo-swipe
-```
-
-或
-
-```bash
-yarn add -D vuepress-plugin-photo-swipe
+# pnpm
+pnpm add -D vuepress-plugin-photo-swipe@next
+# npm
+npm i -D vuepress-plugin-photo-swipe@next
+# yarn
+yarn add -D vuepress-plugin-photo-swipe@next
 ```
 
 ## 从 V1 迁移

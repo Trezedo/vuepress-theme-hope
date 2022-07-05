@@ -1,4 +1,24 @@
-@use "@mr-hope/vuepress-shared/styles/wrapper";
+@use "vuepress-shared/styles/wrapper";
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  #{hope-config.$content-class}:not(.custom) &:first-child {
+    margin-top: calc(0.5rem - var(--navbar-height)) !important;
+    padding-top: var(--navbar-height) !important;
+  }
+}
+
+#{hope-config.$content-class}:not(.custom) {
+  padding-top: 0 !important;
+}
+
+#{hope-config.$content-class}:not(.custom) > h1:first-child {
+  display: none;
+}
 
 .page-title {
   @include wrapper.horizontal-wrapper;
@@ -14,44 +34,10 @@
     padding-top: var(--navbar-height) !important;
     font-size: 2.2rem;
 
-    @media (max-width: hope-config.$pad) {
-      margin-top: calc(
-        0.5rem - var(--navbar-mobile-height, --navbar-height)
-      ) !important;
-      padding-top: var(--navbar-mobile-height, --navbar-height) !important;
-    }
-
     .icon {
       margin-right: 0.25em;
       color: var(--c-brand, #3eaf7c);
       font-size: 0.9em;
     }
   }
-}
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  #{hope-config.$contentClass}:not(.custom) &:first-child {
-    margin-top: calc(0.5rem - var(--navbar-height)) !important;
-    padding-top: var(--navbar-height) !important;
-
-    @media (max-width: hope-config.$pad) {
-      margin-top: calc(
-        0.5rem - var(--navbar-mobile-height, --navbar-height)
-      ) !important;
-      padding-top: var(--navbar-mobile-height, --navbar-height) !important;
-    }
-  }
-}
-
-#{hope-config.$contentClass}:not(.custom) {
-  padding-top: 0 !important;
-}
-
-#{hope-config.$contentClass}:not(.custom) > h1:first-child {
-  display: none;
 }

@@ -1,6 +1,7 @@
 ---
 title: Feed Plugin Config
 icon: rss
+order: 5
 category:
   - Config
 tag:
@@ -13,7 +14,7 @@ tag:
 
 `vuepress-theme-hope` provides feed generation support via the `vuepress-plugin-feed2` plugin.
 
-`vuepress-theme-hope` passes `themeConfig.plugins.feed` as a plugin option to the `vuepress-plugin-feed2` plugin.
+`vuepress-theme-hope` passes `plugins.feed` in theme options as plugin options to `vuepress-plugin-feed2` plugin.
 
 The `vuepress-plugin-feed2` plugin can generate feed files in the following three formats for you:
 
@@ -27,7 +28,7 @@ Please enable the plugin by setting `atom`, `json` or `rss` to `true` in the plu
 
 Atom and JSON are provided to provide more adaptations for Feed software.
 
-If possible, use RSS as first choise.
+If possible, use RSS as first choice.
 
 :::
 
@@ -37,42 +38,42 @@ See the [feed2 plugin documentation][feed-config] for more details.
 
 :::
 
-## Plugin options
+## Plugin Options
 
-## atom
+### atom
 
 - Type: `boolean`
 - Default: `false`
 
 Whether to output Atom syntax files.
 
-## json
+### json
 
 - Type: `boolean`
 - Default: `false`
 
 Whether output JSON syntax files.
 
-## rss
+### rss
 
 - Type: `boolean`
 - Default: `false`
 
 Whether to output RSS syntax files.
 
-## image
+### image
 
 - Type: `string`
 
 A large image/icon of the feed, probably used as banner.
 
-## icon
+### icon
 
 - Type: `string`
 
 A small icon of the feed, probably used as favicon.
 
-## count
+### count
 
 - Type: `number`
 - Default: `1000`
@@ -81,7 +82,14 @@ Set the maximum number of items in the feed. After all pages are sorted, the fir
 
 If your site has a lot of articles, you may consider this option to reduce feed file size.
 
-## filter
+### customElements
+
+- Type: `string[]`
+- Default: `["ExternalLinkIcon"]`
+
+Custom element or component which should be removed in feed.
+
+### filter
 
 - Type: `(page: Page)=> boolean`
 - Default:
@@ -98,7 +106,7 @@ If your site has a lot of articles, you may consider this option to reduce feed 
 
 A custom filter funciton, used to filter feed items.
 
-## sort
+### sort
 
 - Type: `(pageA: Page, pageB: Page)=> number`
 
@@ -112,44 +120,53 @@ You can sort the pages in the site according to your needs.
 
 :::
 
-## channel
+### channel
 
 `channel` option is used to config _Feed Channels_.
 
 For available options, please see [Config → Channel][feed-config-channel]
 
-## atomOutputFilename
+### atomOutputFilename
 
 - Type: `string`
 - Default: `atom.xml`
 
-Atom syntax output filename, relative to dest folder
+Atom syntax output filename, relative to output directory.
 
-## jsonOutputFilename
+### jsonOutputFilename
 
 - Type: `string`
 - Default: `feed.json`
 
-JSON syntax output filename, relative to dest folder
+JSON syntax output filename, relative to output directory.
 
-## rssOutputFilename
+### rssOutputFilename
 
 - Type: `string`
 - Default: `rss.xml`
 
-RSS syntax output filename, relative to dest folder.
+RSS syntax output filename, relative to output directory.
 
-## getter
+### getter
 
 Feed generation controller.
 
 ::: tip
 
-The plugin is providing a resonable getter by default, if you want full control of feed generating, you can set this field.
+The plugin is providing a reasonable getter by default, if you want full control of feed generating, you can set this field.
 
 :::
 
 For details, see [Feed Getter][feed-config-getter].
+
+### locales
+
+- Type: `Record<string, BaseFeedOptions>`
+- Required: No
+
+You can use it to specific options for each locale.
+
+Any options above are supported except `hostname`.
 
 [feed-config]: https://vuepress-theme-hope.github.io/v2/feed/config/
 [feed-config-channel]: https://vuepress-theme-hope.github.io/v2/feed/config/channel.html

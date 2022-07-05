@@ -21,7 +21,7 @@ icon: config
 
 这是用户设置样式变量的文件。
 
-默认路径的文件名拥有上方的 id 前缀。
+默认路径的文件名拥有上方的 ID 前缀。
 
 :::
 
@@ -49,7 +49,7 @@ icon: config
 
 这是用户控制注入 CSS 变量的文件。所有的变量会被转换为连字符格式然后被注入。
 
-默认路径的文件名拥有上方的 id 前缀。
+默认路径的文件名拥有上方的 ID 前缀。
 
 :::
 
@@ -69,11 +69,11 @@ icon: config
 ## generator
 
 - 类型: `string`
-- 必填: No
+- 必填: 否
 
 自定义的生成器，用于生成调色板配置的衍生值。
 
-如: 你可能想要根据 `$themeColor` 的值提供一个 `themeColorLight`。
+如: 你可能想要根据 `$theme-color` 的值提供一个 `$theme-color-light`。
 
 ## style
 

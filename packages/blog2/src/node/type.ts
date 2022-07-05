@@ -1,5 +1,6 @@
 import { createPage } from "@vuepress/core";
-import { logger, removeLeadingSlash } from "./utils";
+import { removeLeadingSlash } from "@vuepress/shared";
+import { logger } from "./utils";
 
 import type { App } from "@vuepress/core";
 import type { BlogOptions, PageMap, TypeMap } from "../shared";
@@ -28,7 +29,10 @@ export const prepareType = (
   const {
     type = [],
     slugify = (name: string): string =>
-      name.replace(/[ _]/g, "-").toLowerCase(),
+      name
+        .replace(/[ _]/g, "-")
+        .replace(/[:?*|\\/<>]/g, "")
+        .toLowerCase(),
   } = options;
 
   return Promise.all(
@@ -38,7 +42,7 @@ export const prepareType = (
           key,
           sorter = (): number => -1,
           filter = (): boolean => true,
-          path = "",
+          path = "/:key/",
           layout = "Layout",
           frontmatter = (): Record<string, string> => ({}),
         },

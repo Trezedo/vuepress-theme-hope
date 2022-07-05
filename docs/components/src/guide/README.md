@@ -3,88 +3,30 @@ title: Guide
 icon: creative
 ---
 
-This plugin register 8 components and 1 global component:
+::: info Tree Shakable
 
-- `<ArticleInfo />`
-- `<BackToTop />` (Global Components)
-- `<Badge />`
-- `<BreadCrumb />`
-- `<CodeGroup />`
-- `<CodeGroupItem />`
-- `<FullScreen />`
-- `<PageAnchor />`
-- `<Pagination />`
+This plugin fully supports tree-shaking.
 
-## `<ArticleInfo />`
+This means you are free to pick any components you like, and remain the rest of the components unbundled.
 
-Article information components, see [ArticleInfo](./article-info.md) for details.
-
-## `<BackToTop />`
-
-Back-to-top Button
-
-## `<BreadCrumb />`
-
-### Props
-
-- `show`: Whether display globally
-- `icon`: Whether display icon
-- `iconPrefix`: icon class prefix
-
-## Badge
-
-A badge which allows you to diy it’s color.
-
-## `<CodeGroup />`, `<CodeGroupItem />`
-
-Code Group
-
-Demo:
-
-````md
-:::: code-group
-
-::: code-group-item yarn
-
-```bash
-yarn add -D vuepress-theme-hope
-```
+For example, if you call this plugin with `{ backToTop: true }`, then only `<BackToTop />` component is injected.
 
 :::
 
-::: code-group-item npm
+This plugin can register 6 components and 2 global components:
 
-```bash
-npm i -D vuepress-theme-hope
-```
+- [AddThis](addthis.md) (Global Components)
 
-:::
+- [BackToTop](backtotop.md) (Global Components)
 
-::::
-````
+- [Badge](badge.md)
 
-## `<FullScreen />`
+- [CodePen](codepen.md)
 
-A full-screen button
+- [FontIcon](fonticon.md)
 
-### Props
+- [PDF](pdf.md)
 
-- enable: Whether enable this component
+- [StackBlitz](stackblitz.md)
 
-## `<PageAnchor />`
-
-TOC list
-
-### 属性
-
-- `items`: page headers
-
-## `<Pagination />`
-
-Paging component.
-
-### Props
-
-- `currentPage`: v-model variable, current page.
-- `total`: total number of items
-- `perPage`: number of items per page, default is 10
+- [YouTube](youtube.md)

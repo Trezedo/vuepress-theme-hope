@@ -1,99 +1,39 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-import { getDate, getAuthor } from "@mr-hope/vuepress-shared";
 import { fs } from "@vuepress/utils";
-import { getLocales, getLink, logger } from "./utils";
+import { getCanonicalLink, getJSONLD, getOGP } from "./info";
+import { addOGP, appendCanonical, appendJSONLD } from "./inject";
+import { logger } from "./utils";
 
-import type { AppDir } from "@vuepress/core";
-import type {
-  ArticleJSONLD,
-  PageSeoInfo,
-  SeoContent,
-  SeoOptions,
-} from "../shared";
+import type { App, AppDir } from "@vuepress/core";
+import type { ExtendPage, SeoOptions } from "../shared";
 
-export const generateSeo = (
+export const appendSEO = (
+  page: ExtendPage,
   options: SeoOptions,
-  { page, app, permalink }: PageSeoInfo
-): { OGP: SeoContent; JSONLD: ArticleJSONLD | null } => {
-  const {
-    isArticle = (page): boolean =>
-      Boolean(page.filePathRelative && !page.frontmatter.home),
-  } = options;
-  const { base } = app.options;
-  const {
-    frontmatter: {
-      author: pageAuthor,
-      time,
-      date = time,
-      banner,
-      cover,
-      tag,
-      tags = tag as string[],
-    },
-    git = {},
-  } = page;
-  const { siteData } = app;
-  const locales = getLocales(page.lang, siteData.locales);
+  app: App
+): void => {
+  const head = page.frontmatter.head || [];
 
-  const author =
-    pageAuthor === false ? [] : getAuthor(pageAuthor || options.author);
-  const { updatedTime } = git;
+  const defaultOGP = getOGP(page, options, app);
+  const defaultJSONLD = getJSONLD(page, options, app);
 
-  const modifiedTime = updatedTime ? new Date(updatedTime).toISOString() : "";
-  const articleTags: string[] = Array.isArray(tags)
-    ? tags
-    : typeof tag === "string"
-    ? [tag]
-    : [];
+  const ogpContent = options.ogp
+    ? options.ogp(defaultOGP, page, app)
+    : defaultOGP;
 
-  const articleTitle = page.title;
-  const image = cover
-    ? getLink(options.hostname, base, cover)
-    : banner
-    ? getLink(options.hostname, base, banner)
-    : "";
+  const jsonLDContent = options.jsonLd
+    ? options.jsonLd(defaultJSONLD, page, app)
+    : null;
 
-  let publishedTime = "";
+  const canonicalLink = getCanonicalLink(page, options);
 
-  if (date instanceof Date) publishedTime = new Date(date).toISOString();
-  else if (date) {
-    const dateInfo = getDate(date);
-    if (dateInfo && dateInfo.value)
-      publishedTime = dateInfo.value.toISOString();
-  }
+  addOGP(head, ogpContent);
+  appendJSONLD(head, jsonLDContent);
+  appendCanonical(head, canonicalLink);
 
-  return {
-    OGP: {
-      "og:url": getLink(options.hostname, base, permalink || page.path),
-      "og:site_name": siteData.title,
-      "og:title": articleTitle,
-      "og:description": page.frontmatter.description || "",
-      "og:type": isArticle(page) ? "article" : "website",
-      "og:image": image,
-      "og:updated_time": modifiedTime,
-      "og:locale": page.lang,
-      "og:locale:alternate": locales,
+  if (options.customHead) options.customHead(head, page, app);
 
-      "twitter:card": "summary_large_image",
-      "twitter:image:alt": siteData.title,
-
-      "article:author": author[0]?.name,
-      "article:tag": articleTags,
-      "article:published_time": publishedTime,
-      "article:modified_time": modifiedTime,
-    },
-    JSONLD: isArticle(page)
-      ? {
-          "@context": "https://schema.org",
-          "@type": "NewsArticle",
-          headline: articleTitle,
-          image: [image],
-          datePublished: publishedTime,
-          dateModified: modifiedTime,
-          author: author.map((item) => ({ "@type": "Person", ...item })),
-        }
-      : null,
-  };
+  page.frontmatter.head = head;
 };
 
 export const generateRobotsTxt = async (dir: AppDir): Promise<void> => {

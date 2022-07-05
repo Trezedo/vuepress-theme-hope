@@ -1,8 +1,20 @@
 import type { Page } from "@vuepress/core";
 import type { GitData } from "@vuepress/plugin-git";
 
-export type ModifyTimeGetter = <ExtraPageData = { git: GitData }>(
-  page: Page<ExtraPageData>
+export type ModifyTimeGetter = <
+  ExtraPageData extends Record<string | number | symbol, unknown> & {
+    git?: GitData;
+  } = { git?: GitData },
+  ExtraPageFrontmatter extends Record<
+    string | number | symbol,
+    unknown
+  > = Record<never, never>,
+  ExtraPageFields extends Record<string | number | symbol, unknown> = Record<
+    never,
+    never
+  >
+>(
+  page: Page<ExtraPageData, ExtraPageFrontmatter, ExtraPageFields>
 ) => string;
 
 export interface SitemapOptions {
@@ -28,7 +40,7 @@ export interface SitemapOptions {
   excludeUrls?: string[];
 
   /**
-   * Output file name, relative to dest folder
+   * Output filename, relative to dest folder
    *
    * 输出的文件名，相对于输出目录
    *

@@ -1,35 +1,60 @@
-import { defineUserConfig } from "@vuepress/cli";
-import type { UserConfig } from "@vuepress/cli";
-import type { BundlerConfig } from "@vuepress/core";
 import type {
-  HopeThemeOptions,
-  HopeThemeNavbarConfig,
-  HopeThemeSidebarArrayConfig,
-  HopeThemeSidebarConfig,
-  HopeThemeSidebarObjectConfig,
+  HopeThemeBlogPluginHelper,
+  HopeThemeCommentPluginHelper,
+  HopeThemeCopyCodePluginHelper,
+  HopeThemeCopyrightPluginHelper,
+  HopeThemeFeedPluginHelper,
+  HopeThemeGitPluginHelper,
+  HopeThemeMdEnhancePluginHelper,
+  HopeThemeNavbarHelper,
+  HopeThemePhotoSwipePluginHelper,
+  HopeThemePWAPluginHelper,
+  HopeThemeReadingTimePluginHelper,
+  HopeThemeSEOPluginHelper,
+  HopeThemeSidebarArrayHelper,
+  HopeThemeSidebarHelper,
+  HopeThemeSidebarObjectHelper,
+  HopeThemeSitemapPluginHelper,
 } from "../shared";
 
-export const defineHopeConfig = <T extends BundlerConfig>(
-  config: UserConfig<HopeThemeOptions, T>
-): UserConfig<HopeThemeOptions, T> =>
-  defineUserConfig<HopeThemeOptions, T>({ theme: "hope", ...config });
+export const navbar: HopeThemeNavbarHelper = (navbarConfig) => navbarConfig;
 
-export const defineThemeConfig = (
-  themeConfig: HopeThemeOptions
-): HopeThemeOptions => themeConfig;
+export const sidebar: HopeThemeSidebarHelper = (sidebarConfig) => sidebarConfig;
 
-export const defineNavbarConfig = (
-  navbarConfig: HopeThemeNavbarConfig
-): HopeThemeNavbarConfig => navbarConfig;
+export const arraySidebar: HopeThemeSidebarArrayHelper = (sidebarConfig) =>
+  sidebarConfig;
 
-export const defineSidebarConfig = (
-  sidebarConfig: HopeThemeSidebarConfig
-): HopeThemeSidebarConfig => sidebarConfig;
+export const objectSidebar: HopeThemeSidebarObjectHelper = (sidebarConfig) =>
+  sidebarConfig;
 
-export const defineSidebarArrayConfig = (
-  sidebarConfig: HopeThemeSidebarArrayConfig
-): HopeThemeSidebarArrayConfig => sidebarConfig;
+export const blog: HopeThemeBlogPluginHelper = (blogConfig) => blogConfig;
 
-export const defineSidebarObjectConfig = (
-  sidebarConfig: HopeThemeSidebarObjectConfig
-): HopeThemeSidebarObjectConfig => sidebarConfig;
+export const comment: HopeThemeCommentPluginHelper = (commentConfig) =>
+  commentConfig;
+
+export const copyCode: HopeThemeCopyCodePluginHelper = (copyCodeConfig) =>
+  copyCodeConfig;
+
+export const copyright: HopeThemeCopyrightPluginHelper = (copyrightConfig) =>
+  copyrightConfig;
+
+export const feed: HopeThemeFeedPluginHelper = (feedConfig) => feedConfig;
+
+export const git: HopeThemeGitPluginHelper = (gitConfig) => gitConfig;
+
+export const mdEnhance: HopeThemeMdEnhancePluginHelper = (mdEnhanceConfig) =>
+  mdEnhanceConfig;
+
+export const photoSwipe: HopeThemePhotoSwipePluginHelper = (photoSwipeConfig) =>
+  photoSwipeConfig;
+
+export const pwa: HopeThemePWAPluginHelper = (pwaConfig) => pwaConfig;
+
+export const readingTime: HopeThemeReadingTimePluginHelper = (
+  readingTimeConfig
+) => readingTimeConfig;
+
+export const seo: HopeThemeSEOPluginHelper = (seoConfig) => seoConfig;
+
+export const sitemap: HopeThemeSitemapPluginHelper = (sitemapConfig) =>
+  sitemapConfig;

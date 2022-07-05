@@ -2,22 +2,28 @@
   --badge-tip-color: #42b983;
   --badge-warning-color: #f4cd00;
   --badge-danger-color: #f55;
+  --badge-info-color: #0295ff;
+  --badge-note-color: #666;
 }
 
 .badge {
   display: inline-block;
-  font-size: 14px;
-  height: 18px;
-  line-height: 18px;
-  border-radius: 3px;
-  padding: 0 6px;
-  color: var(--white);
-  background-color: var(--c-brand, #3eaf7c);
   vertical-align: top;
-  transition: background-color var(--color-transition, 0.3s),
-    color var(--color-transition, 0.3s);
 
-  // compatable with toc
+  height: 18px;
+  padding: 0 6px;
+  border-radius: 3px;
+
+  background-color: var(--c-brand, #3eaf7c);
+  color: var(--white);
+
+  font-size: 14px;
+  line-height: 18px;
+
+  transition: background-color var(--color-transition, 0.3s ease),
+    color var(--color-transition, 0.3s ease);
+
+  // compatible with toc
   .table-of-contents & {
     vertical-align: middle;
   }
@@ -32,6 +38,14 @@
 
   &.danger {
     background-color: var(--badge-danger-color);
+  }
+
+  &.info {
+    background-color: var(--badge-info-color);
+  }
+
+  &.note {
+    background-color: var(--badge-note-color);
   }
 
   & + & {

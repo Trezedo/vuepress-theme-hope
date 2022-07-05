@@ -1,17 +1,27 @@
 #nav-screen {
   position: fixed;
-  top: var(--navbar-mobile-height);
+  top: var(--navbar-height);
   right: 0;
   bottom: 0;
   left: 0;
-  padding: 0 2rem;
-  background-color: var(--bg-color);
-  transition: background-color 0.5s;
-  overflow-y: auto;
-  z-index: 200;
+  z-index: 150;
 
-  @media (min-width: hope-config.$mobile) {
+  overflow-y: auto;
+
+  padding: 0 2rem;
+
+  background-color: var(--bg-color);
+
+  transition: background-color 0.5s;
+
+  @media (min-width: hope-config.$tablet) {
     display: none;
+  }
+
+  .container {
+    max-width: 320px;
+    margin: 0 auto;
+    padding: 2rem 0 4rem;
   }
 
   &.fade-enter-active,
@@ -30,12 +40,6 @@
     .container {
       transform: translateY(-8px);
     }
-  }
-
-  .container {
-    margin: 0 auto;
-    padding: 2rem 0 4rem;
-    max-width: 320px;
   }
 
   .outlook-wrapper {

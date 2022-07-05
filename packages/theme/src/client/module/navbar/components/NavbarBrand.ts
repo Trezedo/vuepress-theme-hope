@@ -1,15 +1,17 @@
 import { useRouteLocale, useSiteLocaleData, withBase } from "@vuepress/client";
-import { computed, defineComponent, h, VNode } from "vue";
+import { computed, defineComponent, h } from "vue";
 import { RouterLink } from "vue-router";
 
 import { useThemeLocaleData } from "@theme-hope/composables";
+
+import type { VNode } from "vue";
 
 import "../styles/navbar-brand.scss";
 
 export default defineComponent({
   name: "NavbarBrand",
 
-  setup(_, { slots }) {
+  setup() {
     const routeLocale = useRouteLocale();
     const siteLocale = useSiteLocaleData();
     const themeLocale = useThemeLocaleData();
@@ -29,7 +31,7 @@ export default defineComponent({
     );
 
     return (): VNode =>
-      h(RouterLink, { to: siteBrandLink.value, class: "home-link" }, () => [
+      h(RouterLink, { to: siteBrandLink.value, class: "brand" }, () => [
         siteBrandLogo.value
           ? h("img", {
               class: ["logo", { light: Boolean(siteBrandLogoDark.value) }],
@@ -39,19 +41,18 @@ export default defineComponent({
           : null,
         siteBrandLogoDark.value
           ? h("img", {
-              class: ["logo dark", { light: Boolean(siteBrandLogoDark) }],
-              src: siteBrandLogo.value,
+              class: ["logo dark"],
+              src: siteBrandLogoDark.value,
               alt: siteBrandTitle.value,
             })
           : null,
         siteBrandTitle.value
           ? h(
               "span",
-              { class: ["site-name", { "hide-in-pad": siteBrandLogo }] },
+              { class: ["site-name", { "hide-in-pad": siteBrandLogo.value }] },
               siteBrandTitle.value
             )
           : null,
-        slots.default?.(),
       ]);
   },
 });

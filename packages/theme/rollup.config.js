@@ -2,13 +2,12 @@ import { rollupTypescript } from "../../scripts/rollup";
 import commonjs from "@rollup/plugin-commonjs";
 import { nodeResolve } from "@rollup/plugin-node-resolve";
 import typescript from "@rollup/plugin-typescript";
-import typescript2 from "rollup-plugin-typescript2";
-import rollupCopy from "rollup-plugin-copy";
+import vue from "@vuejs/plugin-vue";
+import copy from "rollup-plugin-copy";
 import dts from "rollup-plugin-dts";
-import { preserveShebangs } from "rollup-plugin-preserve-shebangs";
-import vue from "rollup-plugin-vue";
+import typescript2 from "rollup-plugin-typescript2";
 import { terser } from "rollup-plugin-terser";
-import styles from "rollup-plugin-styles";
+import shebangPlugin from "../../scripts/shebang";
 
 const isProduction = process.env.mode === "production";
 
@@ -17,13 +16,12 @@ const rollupBundleTypescript = (
   {
     external = [],
     dtsExternal = [],
-    useStyle = false,
     resolve = false,
-    copy = [],
+    copy: copyOptions = [],
     tsconfig = {},
     output = {},
     inlineDynamicImports = true,
-    preserveShebang = false,
+    shebang = false,
   } = {}
 ) => [
   {
@@ -38,15 +36,14 @@ const rollupBundleTypescript = (
       },
     ],
     plugins: [
-      ...(preserveShebang ? [preserveShebangs()] : []),
+      ...(shebang ? [shebangPlugin()] : []),
       typescript(tsconfig),
-      ...(useStyle ? [styles()] : []),
       ...(resolve ? [nodeResolve({ preferBuiltins: true }), commonjs()] : []),
       ...(isProduction ? [terser()] : []),
-      ...(copy.length
+      ...(copyOptions.length
         ? [
-            rollupCopy({
-              targets: copy.map((item) =>
+            copy({
+              targets: copyOptions.map((item) =>
                 typeof item === "string"
                   ? {
                       src: `./src/client/${item}`,
@@ -81,7 +78,6 @@ const rollupBundleVue = (
     dts: enableDts = true,
     external = [],
     dtsExternal = [],
-    useStyle = false,
     resolve = false,
     copy = [],
     output = {},
@@ -114,12 +110,11 @@ const rollupBundleVue = (
             },
           },
         }),
-        ...(useStyle ? [styles()] : []),
         ...(resolve ? [nodeResolve({ preferBuiltins: true }), commonjs()] : []),
         ...(isProduction ? [terser()] : []),
         ...(copy.length
           ? [
-              rollupCopy({
+              copy({
                 targets: copy.map((item) =>
                   typeof item === "string"
                     ? {
@@ -165,12 +160,11 @@ export default [
       "@theme-hope/utils",
       "@theme-hope/components/transitions/DropTransition.vue",
       "@theme-hope/module/blog/components/icons/EmptyIcon.vue",
-      "@mr-hope/vuepress-shared/lib/client",
       "@vuepress/client",
-      "bcryptjs",
       "vue",
       "vue-router",
       "vuepress-plugin-blog2/lib/client",
+      "vuepress-shared/lib/client",
       /\.jpg$/,
       /\.scss$/,
     ],
@@ -181,9 +175,9 @@ export default [
     external: [
       "@theme-hope/composables",
       "@theme-hope/utils",
-      "@mr-hope/vuepress-shared/lib/client",
       "@vuepress/client",
       "vuepress-plugin-blog2/lib/client",
+      "vuepress-shared/lib/client",
       /\.scss$/,
     ],
     dtsExternal: [/\.scss$/],
@@ -194,13 +188,13 @@ export default [
     external: [
       "@theme-hope/composables",
       "@theme-hope/utils",
-      "@mr-hope/vuepress-shared/lib/client",
-      "@vueuse/core",
       "@vuepress/client",
       "@vuepress/plugin-external-link-icon/lib/client",
       "@vuepress/shared",
+      "@vueuse/core",
       "vue",
       "vue-router",
+      "vuepress-shared/lib/client",
       /\.scss$/,
     ],
     dtsExternal: [/\.scss$/],
@@ -217,12 +211,12 @@ export default [
       "@theme-hope/components/transitions/DropTransition.vue",
       "@theme-hope/composables",
       "@theme-hope/utils",
-      "@mr-hope/vuepress-shared/lib/client",
       "@vuepress/client",
       "@vuepress/plugin-external-link-icon/lib/client",
       "@vuepress/shared",
       "vue",
       "vue-router",
+      "vuepress-shared/lib/client",
       /\.scss$/,
     ],
     dtsExternal: [/\.scss$/],
@@ -232,12 +226,12 @@ export default [
     external: [
       "@theme-hope/composables",
       "@theme-hope/utils",
-      "@mr-hope/vuepress-shared/lib/client",
       "@vuepress/client",
       "@vuepress/plugin-external-link-icon/lib/client",
       "@vuepress/shared",
       "vue",
       "vue-router",
+      "vuepress-shared/lib/client",
       /\.scss$/,
     ],
     dtsExternal: [/\.scss$/],
@@ -252,14 +246,12 @@ export default [
       "@theme-hope/components/transitions/DropTransition.vue",
       "@theme-hope/composables",
       "@theme-hope/utils",
-      "@mr-hope/vuepress-shared/lib/client",
       "@vuepress/client",
       "@vuepress/plugin-external-link-icon/lib/client",
       "@vuepress/shared",
-      "bcryptjs",
-      "lodash.throttle",
       "vue",
       "vue-router",
+      "vuepress-shared/lib/client",
       /\.scss$/,
     ],
     dtsExternal: [/\.scss$/],
@@ -268,11 +260,11 @@ export default [
   rollupBundleTypescript("composables/index", {
     external: [
       "@theme-hope/utils",
-      "@mr-hope/vuepress-shared/lib/client",
       "@vuepress/client",
       "@vuepress/plugin-theme-data/lib/client",
       "vue",
       "vue-router",
+      "vuepress-shared/lib/client",
     ],
   }),
 
@@ -294,10 +286,10 @@ export default [
   rollupBundleVue("layouts/404.ts", {
     external: [
       "@theme-hope/composables",
-      "@mr-hope/vuepress-shared/lib/client",
       "@vuepress/client",
       "vue",
       "vue-router",
+      "vuepress-shared/lib/client",
       /\.scss$/,
     ],
     dtsExternal: [/\.scss$/],
@@ -305,13 +297,13 @@ export default [
 
   rollupTypescript("node/index", {
     external: [
-      "@mr-hope/vuepress-shared",
-      "@mr-hope/vuepress-plugin-components",
+      "vuepress-shared",
       "@vuepress/cli",
       "@vuepress/utils",
-      "bcryptjs",
+      "bcrypt-ts",
       "vuepress-plugin-blog2",
       "vuepress-plugin-comment2",
+      "vuepress-plugin-components",
       "vuepress-plugin-copy-code2",
       "vuepress-plugin-feed2",
       "vuepress-plugin-md-enhance",

@@ -7,19 +7,19 @@ Let you insert code demos in your Markdown file.
 
 <!-- more -->
 
-## Configuration
+## Config
 
-:::: code-group
+::: code-tabs#language
 
-::: code-group-item TS
+@tab TS
 
 ```ts {8}
 // .vuepress/config.ts
-import { mdEnhance } from "vuepress-plugin-md-enhance";
+import { mdEnhancePlugin } from "vuepress-plugin-md-enhance";
 
 export default {
   plugins: [
-    mdEnhance({
+    mdEnhancePlugin({
       // Enable Code Demo
       demo: true,
     }),
@@ -27,17 +27,15 @@ export default {
 };
 ```
 
-:::
-
-::: code-group-item JS
+@tab JS
 
 ```js {8}
 // .vuepress/config.js
-const { mdEnhance } = require("vuepress-plugin-md-enhance");
+const { mdEnhancePlugin } = require("vuepress-plugin-md-enhance");
 
 module.exports = {
   plugins: [
-    mdEnhance({
+    mdEnhancePlugin({
       // Enable Code Demo
       demo: true,
     }),
@@ -46,20 +44,18 @@ module.exports = {
 ```
 
 :::
-
-::::
 
 ## Syntax
 
 You should use the following syntax:
 
 ````md
-::: demo [type] Optional title text
+::: [type]-demo Optional title text
 
 ```html
 <!-- ↑ use available ones -->
 <!-- your code here -->
-<!-- you can have mutiple code block, but each language must appear only once. -->
+<!-- you can have multiple code block, but each language must appear only once. -->
 ```
 
 ```json
@@ -84,11 +80,11 @@ The plugin support three types:
 - vue
 - react
 
-## Available languages
+## Available Languages
 
 You can use different language in your demo block.
 
-When you set language which can not run on browers, since the plugin is not able to resolve them, so demo display will be disabled. The plugin will only show the code and provide you a button to open it in CodePen.
+When you set language which can not run on browsers, since the plugin is not able to resolve them, so demo display will be disabled. The plugin will only show the code and provide you a button to open it in CodePen.
 
 Available HTML languages:
 
@@ -119,9 +115,9 @@ Available CSS languages:
 
 > You can also use `styl` in code block.
 
-### Not supported language demo
+### Not Supported Language Demo
 
-::: demo A demo using language not supoprted by browsers
+::: normal-demo A demo using language not supported by browsers
 
 ```md
 # Title
@@ -150,7 +146,7 @@ h1 {
 :::: details Code
 
 ````md
-::: demo A normal demo
+::: normal-demo A normal demo
 
 ```md
 # Title

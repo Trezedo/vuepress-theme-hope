@@ -1,18 +1,16 @@
 import type { LocaleConfig } from "@vuepress/core";
-import type {
-  WalineLocale,
-  WalineOptions as _WalineOptions,
-} from "@waline/client";
+import type { WalineInitOptions, WalineLocale } from "@waline/client";
+import type { ConvertLocaleConfig } from "vuepress-shared";
 import type { BaseCommentOptions } from "./base";
 
 export type WalineLocaleData = Partial<WalineLocale>;
 
-export type WalineLocaleConfig = LocaleConfig<WalineLocaleData>;
+export type WalineLocaleConfig = ConvertLocaleConfig<WalineLocaleData>;
 
 export interface WalineOptions
   extends BaseCommentOptions,
-    Omit<_WalineOptions, "el" | "visitor"> {
-  type: "waline";
+    Omit<WalineInitOptions, "el" | "comment"> {
+  provider: "Waline";
 
   /**
    * 是否启用访问量
@@ -21,7 +19,7 @@ export interface WalineOptions
    *
    * @default true
    */
-  pageviews?: boolean;
+  pageview?: boolean;
 
   /**
    * Locale config for waline

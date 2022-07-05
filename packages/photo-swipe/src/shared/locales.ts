@@ -1,5 +1,4 @@
-import type { ConvertLocaleConfig } from "@mr-hope/vuepress-shared";
-import type PhotoSwipeDefaultUI from "photoswipe/dist/photoswipe-ui-default";
+import type { ConvertLocaleConfig } from "vuepress-shared";
 
 export interface PhotoSwipeLocaleData {
   /**
@@ -10,18 +9,18 @@ export interface PhotoSwipeLocaleData {
   close: string;
 
   /**
+   * Download button label text
+   *
+   * 下载按钮标签文字
+   */
+  download: string;
+
+  /**
    * Full screen button label text
    *
    * 全屏按钮标签文字
    */
   fullscreen: string;
-
-  /**
-   * Share button label text
-   *
-   * 分享按钮标签文字
-   */
-  share: string;
 
   /**
    * Zoom button label text
@@ -35,21 +34,14 @@ export interface PhotoSwipeLocaleData {
    *
    * 上一张图片按钮标签文字
    */
-  prev: string;
+  arrowPrev: string;
 
   /**
    * Next image button label text
    *
    * 下一张图片按钮标签文字
    */
-  next: string;
-
-  /**
-   * Share button config
-   *
-   * 功能按钮配置
-   */
-  buttons: PhotoSwipeDefaultUI.ShareButtonData[];
+  arrowNext: string;
 }
 
 export type PhotoSwipeLocaleConfig = ConvertLocaleConfig<PhotoSwipeLocaleData>;

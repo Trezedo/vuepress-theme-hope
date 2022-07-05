@@ -1,23 +1,13 @@
-import { addViteOptimizeDepsInclude } from "@mr-hope/vuepress-shared";
 import { path } from "@vuepress/utils";
-import { defineHopeConfig } from "vuepress-theme-hope";
-import themeConfig from "./themeConfig";
+import { config } from "docs-shared";
+import theme from "./theme";
 
 const base = (process.env.BASE as "/" | `/${string}/`) || "/";
 
-export default defineHopeConfig({
+export default config({
   base,
 
-  dest: "./dist",
-
   head: [
-    [
-      "link",
-      {
-        rel: "stylesheet",
-        href: "//at.alicdn.com/t/font_2410206_mfj6e1vbwo.css",
-      },
-    ],
     [
       "meta",
       {
@@ -40,40 +30,16 @@ export default defineHopeConfig({
     },
   },
 
-  themeConfig,
+  theme,
 
-  plugins: [
-    {
-      name: "theme-enhance",
-      alias: {
-        "@IconDisplay": path.resolve(__dirname, "./components/IconDisplay"),
-        "@KatexPlayground": path.resolve(
-          __dirname,
-          "./components/KatexPlayground"
-        ),
-        "@theme-hope/components/HomeHero": path.resolve(
-          __dirname,
-          "./components/HopeHero"
-        ),
-      },
-      onInitialized: (app) => {
-        if (app.env.isDev)
-          addViteOptimizeDepsInclude(app, [
-            "@mr-hope/vuepress-shared/lib/client",
-            "dayjs",
-            "dayjs/plugin/localizedFormat",
-            "dayjs/plugin/objectSupport",
-            "dayjs/plugin/timezone",
-            "dayjs/plugin/utc",
-          ]);
+  pagePatterns: ["**/*.md", "!**/*.snippet.md", "!.vuepress", "!node_modules"],
 
-        addViteOptimizeDepsInclude(app, [
-          "axios",
-          "three",
-          "three/examples/jsm/controls/OrbitControls",
-          "three/examples/jsm/loaders/STLLoader",
-        ]);
-      },
-    },
-  ],
+  alias: {
+    "@IconDisplay": path.resolve(__dirname, "./components/IconDisplay"),
+    "@KatexPlayground": path.resolve(__dirname, "./components/KatexPlayground"),
+  },
+
+  define: () => ({
+    IS_NETLIFY: "NETLIFY" in process.env,
+  }),
 });

@@ -1,6 +1,7 @@
 ---
 title: PWA 插件配置
 icon: app
+order: 7
 category:
   - 配置
 tag:
@@ -13,11 +14,11 @@ tag:
 
 `vuepress-plugin-pwa2` 插件默认禁用，提供渐进式网络应用程序支持。
 
-`vuepress-theme-hope` 将 `themeConfig.plugins.pwa` 作为插件选项传递给 `vuepress-plugin-pwa2` 插件。
+`vuepress-theme-hope` 将主题选项中的 `plugins.pwa` 作为插件选项传递给 `vuepress-plugin-pwa2` 插件。
 
-::: tip
+::: tip 快速启用
 
-你可以设置 `pwa: true` 来以默认设置启用插件。<Badge text="不推荐" type="warning" />
+你可以设置 `pwa: true` 来以默认设置启用插件。<Badge text="不推荐使用默认设置" type="warning" />
 
 :::
 
@@ -47,17 +48,17 @@ tag:
 
 如果未设置某些选项，它们会回退到插件预设值。
 
-- name: `siteConfig.title` || `siteConfig.locales['/'].title` || `'Site'`
-- short_name: `siteConfig.title` || `siteConfig.locales['/'].title` || `'Site'`
-- description: `siteConfig.description` || `siteConfig.locales['/'].description` || `'A site built with vuepress'`
-- lang: `siteConfig.locales['/'].lang` || `themeConfig.locales['/'].lang` || `"en-US"`
+- name: `siteConfig.title` || `siteConfig.locales['/'].title` || `"Site"`
+- short_name: `siteConfig.title` || `siteConfig.locales['/'].title` || `"Site"`
+- description: `siteConfig.description` || `siteConfig.locales['/'].description` || `"A site built with vuepress"`
+- lang: `siteConfig.locales['/'].lang` || `"en-US"`
 - start_url: `context.base`
 - scope: `context.base`
 
 - display: `"standalone"`
 - theme_color: `"#46bd87"`
-- background_color: `'#ffffff'`
-- orientation: `'portrait-primary'`
+- background_color: `"#ffffff"`
+- orientation: `"portrait-primary"`
 - prefer_related_applications: `false`
 
 :::
@@ -130,20 +131,20 @@ tag:
 
 :::
 
-## update
+### update
 
-- 类型: `'disabled' | 'available' | 'hint' | 'force'`
-- 默认值: `'available'`
+- 类型: `"disabled" | "available" | "hint" | "force"`
+- 默认值: `"available"`
 
 发现新内容时的控制逻辑。
 
-- `'disabled'`: 即使有新的 service worker 也不做任何事情，新的 service work 开始等待后，会在用户下次访问时接管页面，让用户获得新内容。
+- `"disabled"`: 即使有新的 service worker 也不做任何事情，新的 service work 开始等待后，会在用户下次访问时接管页面，让用户获得新内容。
 
-- `'available'`: 仅当新的 service worker 可用时才显示更新弹出窗口
+- `"available"`: 仅当新的 service worker 可用时才显示更新弹出窗口
 
-- `'hint'`: 显示更新内容可用提示，并允许用户立即刷新。当新的 SW 成功注册后，将转为更新内容就绪弹窗。
+- `"hint"`: 显示更新内容可用提示，并允许用户立即刷新。当新的 SW 成功注册后，将转为更新内容就绪弹窗。
 
-  当您希望用户立即查看新文档时，这很有帮助。
+  当你希望用户立即查看新文档时，这很有帮助。
 
   ::: note
 
@@ -151,7 +152,7 @@ tag:
 
   :::
 
-- `'force'`: 立即注销当前 Service Worker 然后刷新以获取新内容
+- `"force"`: 立即注销当前 Service Worker 然后刷新以获取新内容
 
   ::: danger
 
@@ -212,21 +213,21 @@ Safari 图标
 
 磁贴颜色，缺省会自动回退到主题色。
 
-## hintComponent
+### hintComponent
 
 - 类型: `string`
-- 默认值: `'SWHintPopup'`
+- 默认值: `"SWHintPopup"`
 
 可填入自定义的提示弹窗组件路径。
 
-## updateComponent
+### updateComponent
 
 - 类型: `string`
-- 默认值: `'SWUpdatePopup'`
+- 默认值: `"SWUpdatePopup"`
 
 可填入自定义的更新弹窗组件路径。
 
-## appendBase
+### appendBase
 
 - 类型: `boolean`
 - 默认值: `false`

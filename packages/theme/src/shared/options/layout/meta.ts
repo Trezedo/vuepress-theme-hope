@@ -1,5 +1,68 @@
 export interface HopeThemeMetaLocateData {
   /**
+   * Author label text
+   *
+   * 作者文字
+   */
+  author: string;
+
+  /**
+   * Writing date label text
+   *
+   * 写作日期文字
+   */
+  date: string;
+
+  /**
+   * Label text marked as original
+   *
+   * 标记原创的文字
+   */
+  origin: string;
+
+  /**
+   * Page views label text
+   *
+   * 访问量文字
+   */
+  views: string;
+
+  /**
+   * Tag label text
+   *
+   * 标签文字
+   */
+  tag: string;
+
+  /**
+   * Category label text
+   *
+   * 分类文字
+   */
+  category: string;
+
+  /**
+   * Expect reading time label text
+   *
+   * 期望阅读时间文字
+   */
+  readingTime: string;
+
+  /**
+   * Words label Text
+   *
+   * 文章字数
+   */
+  words: string;
+
+  /**
+   * Table of contents
+   *
+   * 此页内容
+   */
+  toc: string;
+
+  /**
    * Page nav - previous link
    */
   prev: string;
@@ -58,40 +121,4 @@ export interface HopeThemeMetaLocaleOptions {
    * @default true
    */
   editLink?: boolean;
-
-  /**
-   * Pattern of edit link, we provide built-in support for GitHub, Gitlab, Gitee, Bitbucket
-   *
-   * 编辑链接的匹配，我们已经为 GitHub、Gitlab、Gitee 和 Bitbucket 提供了内置支持
-   *
-   * @example ':repo/edit/:branch/:path'
-   */
-  editLinkPattern?: string;
-
-  /**
-   * The repo of your docs
-   *
-   * 文档仓库
-   *
-   * @default themeConfig.repo
-   */
-  docsRepo?: string;
-
-  /**
-   * The branch of your docs
-   *
-   * 文档所在分支
-   *
-   * @default 'main'
-   */
-  docsBranch?: string;
-
-  /**
-   * Docs dir location in repo
-   *
-   * 文档在仓库中的目录
-   *
-   * @default ''
-   */
-  docsDir?: string;
 }

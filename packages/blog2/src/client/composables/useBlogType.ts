@@ -1,8 +1,8 @@
-import { resolveRouteWithRedirect } from "@mr-hope/vuepress-shared/lib/client";
 import { typeMap } from "@temp/blog/type";
 import { usePageFrontmatter, useRouteLocale } from "@vuepress/client";
 import { computed, ref } from "vue";
 import { useRouter } from "vue-router";
+import { resolveRouteWithRedirect } from "vuepress-shared/lib/client";
 
 import type { ComputedRef } from "vue";
 import type {
@@ -31,6 +31,15 @@ export const useBlogType = <
       usePageFrontmatter<{ blog?: BlogTypeFrontmatterOptions }>().value.blog
         ?.key ||
       "";
+
+    if (!blogTypeMap.value[mapKey])
+      throw new Error(
+        `useBlogType: ${
+          key
+            ? `key ${key} is invalid`
+            : "can not bind to an exisiting key on non blog pages"
+        }`
+      );
 
     const routes = router.getRoutes();
     const configMap = blogTypeMap.value[mapKey][routeLocale.value];
@@ -62,7 +71,9 @@ export const useBlogType = <
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 if (import.meta.webpackHot || import.meta.hot) {
-  __VUE_HMR_RUNTIME__.updateBlogType = (map: Record<string, TypeMap>): void => {
+  __VUE_HMR_RUNTIME__["updateBlogType"] = (
+    map: Record<string, TypeMap>
+  ): void => {
     blogTypeMap.value = map;
   };
 }

@@ -1,6 +1,7 @@
 ---
 title: A11y
 icon: support
+order: 6
 category:
   - Interface
 tag:

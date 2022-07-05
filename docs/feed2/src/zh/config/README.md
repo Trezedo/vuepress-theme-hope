@@ -52,6 +52,13 @@ icon: config
 
 如果你的站点文章很多，你应该考虑设置这个选项以减少 feed 文件大小。
 
+## customElements
+
+- 类型: `string[]`
+- 默认值: `["ExternalLinkIcon"]`
+
+应在 Feed 中删除的自定义元素或组件。
+
 ## filter
 
 - 类型: `(page: Page)=> boolean`
@@ -123,3 +130,12 @@ Feed 生成控制器
 :::
 
 详见 [Feed 生成器](./getter.md).
+
+## locales
+
+- 类型: `Record<string, BaseFeedOptions>`
+- 必填: 否
+
+你可以将它用于每个语言环境的特定选项。
+
+除 `hostname` 外，上述任何选项均受支持。

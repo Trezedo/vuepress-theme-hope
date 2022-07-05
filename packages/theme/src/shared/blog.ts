@@ -1,5 +1,5 @@
-import type { Author } from "@mr-hope/vuepress-shared";
-import { ReadingTime } from "vuepress-plugin-reading-time2";
+import type { ReadingTime } from "vuepress-plugin-reading-time2";
+import type { Author } from "vuepress-shared";
 
 export interface ArticleInfo extends Record<string, unknown> {
   /**
@@ -23,6 +23,11 @@ export interface ArticleInfo extends Record<string, unknown> {
   title: string;
 
   /**
+   * Article short title
+   */
+  shortTitle: string;
+
+  /**
    * Page icon
    */
   icon?: string;
@@ -36,6 +41,11 @@ export interface ArticleInfo extends Record<string, unknown> {
    * writing date info
    */
   date?: Date;
+
+  /**
+   * writing date info in currect language
+   */
+  localizedDate?: string;
 
   /**
    * article category

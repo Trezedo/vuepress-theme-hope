@@ -12,7 +12,7 @@ export interface HopeThemeSidebarLocaleOptions {
    * @description 设置为 `false` 以在当前语言中禁用侧边栏
    * @see https://vuepress-theme-hope.gitee.io/v2/zh/guide/layout/sidebar.html
    */
-  sidebar?: HopeThemeSidebarConfig | "auto" | false;
+  sidebar?: HopeThemeSidebarConfig | "structure" | "heading" | false;
 
   /**
    * Whether show icons in the sidebar
@@ -24,7 +24,7 @@ export interface HopeThemeSidebarLocaleOptions {
   sidebarIcon?: boolean;
 
   /**
-   * Sidebar heading depth
+   * Heading depth for sidebar and toc
    *
    * - Set to `0` to disable all levels
    * - Set to `1` to include `<h2>`
@@ -35,9 +35,9 @@ export interface HopeThemeSidebarLocaleOptions {
    * via `markdown.extractHeaders.level`.
    *
    * The default value of `markdown.extractHeaders.level` is `[2, 3]`,
-   * so the default max value of `headingDepth` is `2`
+   * so the default max value of `headerDepth` is `2`
    *
    * @default 2
    */
-  headingDepth?: number;
+  headerDepth?: number;
 }

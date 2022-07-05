@@ -1,6 +1,7 @@
 ---
 title: Home Page
 icon: home
+order: 6
 category:
   - Layout
 tag:
@@ -12,65 +13,76 @@ tag:
 
 To use it, set `home: true` in page frontmatter. Any extra content after the `YAML front matter` will be parsed as normal Markdown and rendered after the features section.
 
-![Screenshot](./assets/home.png)
+![Screenshot](./assets/home-light.png#light)
+![Screenshot](./assets/home-dark.png#dark)
 
 <!-- more -->
 
-## Item style
-
-The frontmatter parameters that can be configured are as follows:
+## Frontmatter Options
 
 ### home
 
 - Type: `boolean`
 
-Enable homepage style when set to `true`
+Enable homepage style when setting to `true`
 
 ### title
 
-- Type: `string | false`
-- Default: `'Hello'`
+- Type: `string`
+- Required: No
 
-Title, won’t display when set to `false`
+Page title, will be used in breadcrumb, seo, etc.
+
+### heroText
+
+- Type: `string | false`
+- Default: `"Hello"`
+
+Hero Title
+
+### tagline
+
+- Type: `string | false`
+- Default: `"Welcome to your VuePress site"`
+
+Short description in hero
 
 ### heroImage
 
 - Type: `string`
+- Required: No
 
 Home hero (logo) image address, need to fill in the absolute path (pictures need to be placed in the `.vuepress/public` folder)
 
 ### heroImageDark
 
 - Type: `string`
+- Required: No
 
 Darkmode Home hero (logo) image address, need to fill in the absolute path (pictures need to be placed in the `.vuepress/public` folder), will be the same as `heroImage` by default.
 
-### heroText
+### heroAlt
 
 - Type: `string`
+- Required: No
 
 Home icon alt text
-
-### tagline
-
-- Type: `string`
-- Default: `'Welcome to your VuePress site'`
-
-Append text
 
 ### actions
 
 - Type: `ActionConfig | ActionConfig[]`
+- Required: No
 
 `ActionConfig` structure:
 
 - `text`: Button text
 - `link`: Button link
-- `type`: Button type (Only support `'primary'` and `'default'` (default))
+- `type`: Button type (Only support `"primary"` and `"default"` (default))
 
 ### features
 
 - Type: `Feature[]`
+- Required: No
 
 Structure of `Feature`:
 
@@ -102,7 +114,7 @@ actions:
 features:
   - title: Markdown Enhance
     icon: markdown
-    details: Add align, sup/sub script, footnote, tasklist, tex, flowchart, diagram, mark and presentation support in markdown
+    details: Add align, sup/sub script, footnote, tasklist, tex, flowchart, diagram, mark and presentation support in Markdown
     link: /guide/markdown/
 
   - title: Pageviews and comments
@@ -142,17 +154,17 @@ features:
 
   - title: Sitemap
     icon: sitemap
-    details: Generate a Sitemap for your website
+    details: Generate a Sitemap for your site
     link: /guide/feature/sitemap/
 
   - title: Feed support
     icon: rss
-    details: Generate feed to allow users to subcribe it
+    details: Generate feed to allow users to subscribe it
     link: /guide/feature/feed/
 
   - title: PWA support
     icon: mobile
-    details: Make your website more like an APP
+    details: Make your site more like an APP
     link: /guide/feature/pwa/
 
   - title: More new features

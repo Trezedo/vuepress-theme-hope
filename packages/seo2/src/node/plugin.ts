@@ -1,69 +1,42 @@
-import { resolvePagePermalink } from "@vuepress/core";
-import { generateRobotsTxt, generateSeo } from "./seo";
-import { appendSEO } from "./inject";
-import { stripTags } from "./stripTags";
+import { chalk } from "@vuepress/utils";
+import { stripTags } from "vuepress-shared";
+
+import { covertOptions } from "./compact";
+import { appendSEO, generateRobotsTxt } from "./seo";
 import { logger, md2text } from "./utils";
 
-import type { Plugin, PluginConfig } from "@vuepress/core";
-import type {
-  ExtendPage,
-  PageSeoInfo,
-  SeoContent,
-  SeoOptions,
-} from "../shared";
+import type { Plugin, PluginFunction } from "@vuepress/core";
+import type { ExtendPage, SeoOptions } from "../shared";
 
-export const seoPlugin: Plugin<SeoOptions> = (options) => {
-  if (!options.hostname) {
-    logger.error("Option 'hostname' is required!");
+export const seoPlugin =
+  (options: SeoOptions, legacy = false): PluginFunction =>
+  (app) => {
+    // TODO: Remove it in v2 stable
+    if (legacy) covertOptions(options as SeoOptions & Record<string, unknown>);
+    if (app.env.isDebug) logger.info(`Options: ${options.toString()}`);
 
-    return { name: "vuepress-plugin-seo2" };
-  }
+    const plugin: Plugin = { name: "vuepress-plugin-seo2" };
 
-  return {
-    name: "vuepress-plugin-seo2",
+    if (!options.hostname) {
+      logger.error(`Option ${chalk.magenta("hostname")} is required!`);
 
-    extendsPage: (page, app): void => {
-      // generate summary
-      if (!page.frontmatter.description)
-        page.frontmatter.summary =
-          stripTags(page.excerpt) || md2text(page.content).slice(0, 180) || "";
+      return plugin;
+    }
 
-      const head = page.frontmatter.head || [];
-      const pageSeoInfo: PageSeoInfo = {
-        page: page as ExtendPage,
-        app,
-        permalink: resolvePagePermalink(page),
-      };
+    return {
+      ...plugin,
 
-      const { OGP, JSONLD } = generateSeo(options as SeoOptions, pageSeoInfo);
+      extendsPage: (page: ExtendPage, app): void => {
+        // generate summary
+        if (!page.frontmatter.description)
+          page.frontmatter.summary =
+            stripTags(page.excerpt) ||
+            md2text(page.content).slice(0, 180) ||
+            "";
 
-      const ogpContent: SeoContent = options.ogp
-        ? options.ogp(OGP, pageSeoInfo)
-        : OGP;
+        appendSEO(page, options, app);
+      },
 
-      const jsonLDContent = options.jsonLd
-        ? options.jsonLd(JSONLD, pageSeoInfo)
-        : null;
-
-      appendSEO(head, ogpContent, options as SeoOptions);
-
-      if (jsonLDContent)
-        head.push([
-          "script",
-          { type: "application/ld+json" },
-          JSON.stringify(jsonLDContent),
-        ]);
-
-      if (options.customHead) options.customHead(head, pageSeoInfo);
-
-      page.frontmatter.head = head;
-    },
-
-    onGenerated: (app): Promise<void> => generateRobotsTxt(app.dir),
+      onGenerated: (app): Promise<void> => generateRobotsTxt(app.dir),
+    };
   };
-};
-
-export const seo = (options: SeoOptions | false): PluginConfig<SeoOptions> => [
-  "seo2",
-  options,
-];

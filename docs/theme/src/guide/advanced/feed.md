@@ -12,7 +12,7 @@ The theme adds feed suport using [`vuepress-plugin-feed2`][feed2].
 
 ::: info
 
-`vuepress-theme-hope` provides `feed` options in `themeConfig.plugins` as plugin options to `vuepress-plugin-feed2`.
+`vuepress-theme-hope` provides `plugins.feed` in theme options to `vuepress-plugin-feed2`.
 
 :::
 
@@ -20,11 +20,11 @@ The theme adds feed suport using [`vuepress-plugin-feed2`][feed2].
 
 ## Enable Feed Output
 
-`@mr-hope/vuepress-plugin-feed` plugin can generate feed in the following three formats for you:
+The `vuepress-plugin-feed2` plugin can generate feed files in the following three formats for you:
 
-- Atom 1.0 (Default output: atom.xml)
-- JSON 1.1 (Default output: feed.json)
-- RSS 2.0 (Default output: rss.xml)
+- Atom 1.0
+- JSON 1.1
+- RSS 2.0
 
 ::: tip
 
@@ -34,18 +34,26 @@ Please use RSS if possible.
 
 :::
 
-Please set `atom`, `json` or `rss` to `true` in the `themeConfig.plugins.feed` according to the format you want to generate.
+Please set `plugins.feed.atom`, `plugins.feed.json` or `plugins.feed.rss` to `true` in theme options according to the format you want to generate.
 
-Considering that rare people stick to feed now, the plugin provides a minimal configuration to adjust the automatic generation of detailed feed files. Also it allows you to freely define the output content of the feed.
+::: tip
+
+Of course you can enable them all. This is not a choose 1 from 3 situation.
+
+:::
+
+Considering that rare people stick to feed now, this plugin provides a minimal configuration to adjust the automatic generation of detailed feed files. Also it allows you to freely define the output content of the feed.
 
 ## Channel Settings
 
-You can customize information of feed channel by setting the `channel` option in `themeConfig.plugins.feed`.
+You can customize the feed channel information by setting the `plugins.feed.channel` in theme options.
 
-We recommend you to set the following options:
+We recommend the following settings:
 
-- Convert the date when the feed was created to ISOString and write it to `channel.pubDate`
-- Set the content update cycle (unit: minute) in `channel.ttl`
+- Convert the date of creating the feed to ISOString and write it into `channel.pubDate`
+- The update period of the content set in `channel.ttl` (unit: minutes)
+- Set copyright information via `channel.copyright`, or fallback to `copyright` in theme options
+- Set the channel author via `channel.author`, or fallback to `author` in theme options
 
 ::: tip Default channel settings
 
@@ -55,27 +63,33 @@ We recommend you to set the following options:
 
 :::
 
-For detailed options and their values, please see [Feed Channel Config][feed2-channel]
+For detailed options and their default values, see [Feed Channel Config][feed2-channel]
 
-## Generation control
+## Generation Control
 
-### Default generation logic
+### Default Generation
 
 By default, all articles are added to the feed stream.
 
 For the content read by default, see [Configuration → Item Control][feed2-item]
 
-### Custom feed item
+### Customize Feed item
 
 You can control how feed item is generated in specific article by configuring the `feed` option in frontmatter.
 
 For detailed options and their default values, see [Configuration → Project Settings][feed2-item].
 
-### Custom Feed Generation
+### Customize Feed Generation
 
-You can take full control of feed items generation by configuring the `getter` in the plugin options.
+You can take full control of feed items generation by configuring the `plugins.feed.getter`.
 
 For detailed options and their default values, see [Configuration → Feed Getter][feed2-getter].
+
+### I18n Config
+
+The plugin generates separate feeds for each language.
+
+You can provide different settings for different languages via `plugins.feed.locales`.
 
 [feed2]: https://vuepress-theme-hope.github.io/v2/feed/
 [feed2-channel]: https://vuepress-theme-hope.github.io/v2/feed/config/channel.html

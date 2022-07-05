@@ -1,6 +1,7 @@
 ---
 title: Article List
 icon: article
+order: 3
 category:
   - Blog
 tag:
@@ -17,15 +18,16 @@ The topic provides you with a list of all articles under the path `/article/` by
 
 By default, the theme will only display the excerpt or description you specify in the article list.
 
-If you want the theme to automatically extract excerpts, set `autoExcerpt: true` in `themeConfig.plugins.blog`.
+If you want the theme to automatically extract excerpts, set `plugins.blog.autoExcerpt: true` in theme options.
 
 ## Article
 
 All articles will be added to the article list by default and rendered under the path `/article/`.
 
-![Article list](./assets/article-list.png)
+![Article list](./assets/article-list-light.png#light)
+![Article list](./assets/article-list-dark.png#dark)
 
-If you don’t want the list to contain some specific articles, just set the `article` to `false` in the frontmatter of the article.
+If you don’t want the list to contain some specific articles, just set the `article` to `false` in the frontmatter of the article, or you may customize it through `plugins.blog.filter` in theme options.
 
 To sticky a specific article in the article list, just set `sticky` to `true` in the frontmatter of the article.
 
@@ -35,7 +37,7 @@ For sticky articles, you can set `sticky` with a number to set their order. Arti
 
 :::
 
-## Star articles
+## Star Articles
 
 You can star an article by setting `star` to `true` in frontmatter. After staring, users can view these articles on the `/star/` page.
 
@@ -53,7 +55,7 @@ Similar to sticky articles, you can also set `star` to number to set their order
 
 :::
 
-## Encryption and Slideshow
+## Encryption and Slides
 
 The theme provides separate lists for the two special pages: encrypted article page and slide page. You can view them on the `/encrypt/` and `/slide/` pages.
 

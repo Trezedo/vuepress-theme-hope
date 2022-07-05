@@ -1,7 +1,7 @@
 import { ensureLeadingSlash, resolveLocalePath } from "@vuepress/shared";
 
 import type { LocaleConfig } from "@vuepress/core";
-import type Token from "markdown-it/lib/token";
+import type { default as Token } from "markdown-it/lib/token";
 import type { MarkdownItContainerRenderFunction } from "@vuepress/plugin-container";
 
 export const getDetailsRender =
@@ -13,9 +13,8 @@ export const getDetailsRender =
   (tokens: Token[], index, _options, env): string => {
     const token = tokens[index];
 
+    // `before` tag
     if (token.nesting === 1) {
-      // `before` tag
-
       // resolve info (title)
       let info = token.info
         .trim()
@@ -25,8 +24,8 @@ export const getDetailsRender =
         )
         .trim();
 
+      // get locale
       if (!info && locales) {
-        // locale
         const { filePathRelative } = env;
         const relativePath = ensureLeadingSlash(filePathRelative ?? "");
 
@@ -36,7 +35,7 @@ export const getDetailsRender =
         info = localeData.defaultInfo || "Details";
       }
 
-      return `<details class="custom-block details"><summary>${
+      return `<details class="custom-container details"><summary>${
         info || "Details"
       }</summary>\n`;
     }

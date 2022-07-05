@@ -1,23 +1,22 @@
 ---
 title: Other features
 icon: others
+order: 5
 category:
   - Interface
 tag:
   - Interface
 ---
 
-## Style customization
+## Style Customization
 
-The theme allows you to set variables in the `config.scss` and `palette.scss` of `.vuepress/style` to customize most of the colors, responsive breakpoints, page layout size and other parameters.
+The theme allows you to set variables in `.vuepress/styles/config.scss` and `.vuepress/styles/palette.scss` to customize most of the colors, responsive breakpoints, page layout size and other parameters.
 
 For detailed info, please see [Config → Style Customize](../../config/style.md)
 
 ## Fullscreen Button
 
-Enabled by default, it’s in outlook popup window in navbar.
-
-If you don’t need it, you can disable it by setting `fullscreen` to `false` in the themeConfig.
+If you need it, you can enable it by setting `fullscreen: true` in the theme options.
 
 ::: tip
 
@@ -25,44 +24,39 @@ If the current browser does not support full screen, the full screen button is a
 
 :::
 
-:::: code-group
+::: code-tabs#language
 
-::: code-group-item TS
+@tab TS
 
-```ts {7}
+```ts
 // .vuepress/config.ts
-import { defineHopeConfig } from "vuepress-theme-hope";
+import { defineUserConfig } from "vuepress";
+import { hopeTheme } from "vuepress-theme-hope";
 
-export default defineHopeConfig({
-  themeConfig: {
-    // Enable by default
-    fullscreen: false,
-  },
+export default defineUserConfig({
+  theme: hopeTheme({
+    fullscreen: true,
+  }),
 });
 ```
 
-:::
+@tab JS
 
-::: code-group-item JS
-
-```js {7}
+```js
 // .vuepress/config.js
-const { defineHopeConfig } = require("vuepress-theme-hope");
+const { hopeTheme } = require("vuepress-theme-hope");
 
-module.exports = defineHopeConfig({
-  themeConfig: {
-    // Enable by default
-    fullscreen: false,
-  },
-});
+module.exports = {
+  theme: hopeTheme({
+    fullscreen: true,
+  }),
+};
 ```
 
 :::
-
-::::
 
 ## Back to top button
 
 `vuepress-theme-hope` adds a back-to-top control which will display after scrolling down 300px by default.
 
-You can set `backToTop` to `false` in `themeConfig` to disable it, or set it to a number to change the default trigger distance.
+You can set `backToTop: false` in theme options to disable it, or set it to a number to change the default trigger distance.

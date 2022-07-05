@@ -1,6 +1,7 @@
 ---
-title: Theme Layout Config
+title: Theme Layout Options
 icon: config
+order: 4
 category:
   - Config
 tag:
@@ -8,11 +9,15 @@ tag:
   - Layout
 ---
 
+The following options control theme layout.
+
+<!-- more  -->
+
 ## Navbar Config
 
 For related guide, please see [Layout → Navbar](../../guide/layout/navbar.md).
 
-## navbar <Badge text="Recommanded" />
+### navbar <Badge text="Recommended" type="tip" />
 
 - Type: `HopeThemeNavbarConfig | false`
 - Default: `false`
@@ -26,23 +31,47 @@ Navbar config
 
 Whether display icons in navbar.
 
-### logo <Badge text="Recommanded" />
+### navbarLayout
 
-- Type: `string | null`
+- Type: `HopeNavbarLayoutOptions`
+
+  ```ts
+  type HopeThemeNavbarComponent =
+    | "Brand"
+    | "Links"
+    | "Language"
+    | "Search"
+    | "Outlook"
+    | "Repo";
+
+  interface HopeNavbarLayoutOptions {
+    left: HopeThemeNavbarComponent[];
+    center: HopeThemeNavbarComponent[];
+    right: HopeThemeNavbarComponent[];
+  }
+  ```
+
+- Default: `{ left: ["Brand"], center: ["Links"], right: ["Language", "Repo", "Outlook", "Search"] }`
+
+Customize navbar layout.
+
+### logo <Badge text="Recommended" type="tip" />
+
+- Type: `string`
 - Required: No
 
 Navbar logo, should be absolute path relative to `.vuepress/public` folder.
 
 ### logoDark
 
-- Type: `string | null`
+- Type: `string`
 - Required: No
 
 Navbar logo in darkmode, should be absolute path relative to `.vuepress/public` folder.
 
 ### repo
 
-- Type: `string | null`
+- Type: `string`
 - Required: No
 
 Repository link
@@ -56,7 +85,7 @@ Whether display repo link in navbar.
 
 ### repoLabel
 
-- Type: `string | null`
+- Type: `string`
 - Required: No
 
 Repository aria label of navbar.
@@ -85,10 +114,10 @@ Whether hide site title on mobile.
 
 For guide, see [Layout → Sidebar](../../guide/layout/sidebar.md).
 
-### sidebar <Badge text="Recommanded" />
+### sidebar <Badge text="Recommended" type="tip" />
 
-- Type: `HopeThemeSidebarConfig | "auto" | false`
-- Default: `'auto'`
+- Type: `HopeThemeSidebarConfig | "structure" | "heading" | false`
+- Default: `"structure"`
 
 Sidebar Config.
 
@@ -99,7 +128,7 @@ Sidebar Config.
 
 Whether show icons in the sidebar
 
-### headingDepth
+### headerDepth
 
 - Type: `number`
 - Default: `2`
@@ -122,32 +151,46 @@ Whether enable route navigation globally.
 
 Whether show icons in route navigation
 
+### prevLink
+
+- Type: `boolean`
+- Default: `true`
+
+Whether show prevLink in bottom.
+
+### nextLink
+
+- Type: `boolean`
+- Default: `true`
+
+Whether show nextLink in bottom.
+
 ## Title
 
-## titleIcon
+### titleIcon
 
 - Type: `boolean`
 - Default: `true`
 
 Whether display icon besides page title
 
-## pageInfo
+### pageInfo
 
 - Type: `ArticleInfo[] | false`
-- Default: `["Author", "Original", "PageView", "Date", "Category", "Tag", "ReadingTime"]`
+- Default: `["Author", "Original", "Date", "Category", "Tag", "ReadingTime"]`
 
 Article information. The order of the items decides the display order. Fill in `false` to disable it.
 
 Available items in `ArticleInfo`:
 
-- `'Author'`: author
-- `'Date'`: writing date
-- `'Original'`: is original
-- `'Category'`: category
-- `'Tag'`: tags
-- `'ReadingTime'`: expect reading time
-- `'Word'`: word number for the article
-- `'PageView'`: pageviews
+- `"Author"`: author
+- `"Date"`: writing date
+- `"Original"`: is original
+- `"Category"`: category
+- `"Tag"`: tags
+- `"ReadingTime"`: expect reading time
+- `"Word"`: word number for the article
+- `"PageView"`: pageviews
 
 ## Meta
 
@@ -176,7 +219,7 @@ Whether to show "Edit this page" or not.
 
 - Type: `string`
 
-Pattern of edit link. While `:repo` `:branch` `:path` wil be automatically replaced by `docsRepo` `docsBranch` and `docsDir + filePath`。
+Pattern of edit link. While `:repo` `:branch` `:path` will be automatically replaced by `docsRepo` `docsBranch` and `docsDir + filePath`。
 
 ::: note
 
@@ -187,21 +230,21 @@ The theme provide built-in support for GitHub, Gitlab, Gitee and Bitbucket.
 ### docsRepo
 
 - Type: `string`
-- Default: `themeConfig.repo`
+- Default: `repo`
 
 The repo of your docs
 
 ### docsBranch
 
 - Type: `string`
-- Default: `'main'`
+- Default: `"main"`
 
 The branch of your docs
 
 ### docsDir
 
 - Type: `string`
-- Default: `''`
+- Default: `""`
 
 Docs dir location in repo
 
@@ -217,7 +260,7 @@ The default content for the footer, can accept HTMLString.
 ### copyright
 
 - Type: `string | boolean`
-- Default: `'Copyright © <author>'`
+- Default: `"Copyright © <author>"`
 
 The default copyright info, set it to `false` to disable it by default.
 

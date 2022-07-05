@@ -1,13 +1,9 @@
-import { getAuthor } from "@mr-hope/vuepress-shared/lib/client";
 import { useSiteLocaleData, withBase } from "@vuepress/client";
 import { computed, defineComponent, h } from "vue";
+import { getAuthor } from "vuepress-shared/lib/client";
 
 import SocialMedia from "@theme-hope/module/blog/components/SocialMedia";
-import {
-  useNavigate,
-  useThemeData,
-  useThemeLocaleData,
-} from "@theme-hope/composables";
+import { useNavigate, useThemeLocaleData } from "@theme-hope/composables";
 
 import {
   useArticles,
@@ -27,7 +23,6 @@ export default defineComponent({
   setup() {
     const blogOptions = useBlogOptions();
     const siteLocale = useSiteLocaleData();
-    const themeData = useThemeData();
     const themeLocale = useThemeLocaleData();
     const articles = useArticles();
     const categoryMap = useCategoryMap();
@@ -38,7 +33,7 @@ export default defineComponent({
     const bloggerName = computed(
       () =>
         blogOptions.value.name ||
-        getAuthor(themeData.value.author)[0]?.name ||
+        getAuthor(themeLocale.value.author)[0]?.name ||
         siteLocale.value.title
     );
 
@@ -66,10 +61,9 @@ export default defineComponent({
               ...(intro.value
                 ? {
                     style: { cursor: "pointer" },
-                    ariaLabel: locale.value.intro,
+                    "aria-label": locale.value.intro,
                     "data-balloon-pos": "down",
                     role: "navigation",
-                    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
                     onClick: () => navigate(intro.value!),
                   }
                 : {}),
@@ -78,7 +72,7 @@ export default defineComponent({
               bloggerAvatar.value
                 ? h("img", {
                     class: [
-                      "avatar",
+                      "blogger-avatar",
                       {
                         round: blogOptions.value.roundAvatar,
                       },
@@ -91,13 +85,13 @@ export default defineComponent({
               bloggerName.value
                 ? h(
                     "div",
-                    { class: "name", property: "name" },
+                    { class: "blogger-name", property: "name" },
                     bloggerName.value
                   )
                 : null,
               blogOptions.value.description
                 ? h("div", {
-                    class: "description",
+                    class: "blogger-description",
                     innerHTML: blogOptions.value.description,
                   })
                 : null,

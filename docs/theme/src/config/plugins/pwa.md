@@ -1,6 +1,7 @@
 ---
 title: PWA Plugin Config
 icon: app
+order: 7
 category:
   - Config
 tag:
@@ -13,11 +14,11 @@ tag:
 
 The `vuepress-plugin-pwa2` plugin provides progressive web app support.
 
-`vuepress-theme-hope` passes `themeConfig.plugins.pwa` as plugin options to the `vuepress-plugin-pwa2` plugin.
+`vuepress-theme-hope` passes `plugins.pwa` in theme options as plugin options to `vuepress-plugin-pwa2` plugin.
 
-::: tip
+::: tip Quick Enable
 
-If you want to simple enable this feature, you can set `pwa: true`. <Badge text="Not recommanded" type="warning" />
+To simply enable this feature, you can set `pwa: true`. <Badge text="Quick Enable Not recommended" type="warning" />
 
 :::
 
@@ -36,7 +37,7 @@ See the [pwa2 plugin documentation][pwa-config] for more details.
 
 Whether display install button when Service Worker is first registered successfully.
 
-## manifest
+### manifest
 
 - Type: `ManifestOption`
 - Required: No
@@ -45,19 +46,19 @@ You can fill with an object which will be parsed to manifest.webmanifest.
 
 ::: tip
 
-Some options have their fallback if you donot set them.
+Some options have their fallback if you do not set them.
 
-- name: `siteConfig.title` || `siteConfig.locales['/'].title` || `'Site'`
-- short_name: `siteConfig.title` || `siteConfig.locales['/'].title` || `'Site'`
-- description: `siteConfig.description` || `siteConfig.locales['/'].description` || `'A site built with vuepress'`
-- lang: `siteConfig.locales['/'].lang` || `themeConfig.locales['/'].lang` || `"en-US"`
+- name: `siteConfig.title` || `siteConfig.locales['/'].title` || `"Site"`
+- short_name: `siteConfig.title` || `siteConfig.locales['/'].title` || `"Site"`
+- description: `siteConfig.description` || `siteConfig.locales['/'].description` || `"A site built with vuepress"`
+- lang: `siteConfig.locales['/'].lang` || `"en-US"`
 - start_url: `context.base`
 - scope: `context.base`
 
 - display: `"standalone"`
 - theme_color: `"#46bd87"`
-- background_color: `'#ffffff'`
-- orientation: `'portrait-primary'`
+- background_color: `"#ffffff"`
+- orientation: `"portrait-primary"`
 - prefer_related_applications: `false`
 
 :::
@@ -77,7 +78,7 @@ Path of favico.ico with absolute path.
 
 ::: warning
 
-We recommand you to set favicon for your site
+We recommend you to set favicon for your site
 
 :::
 
@@ -124,32 +125,32 @@ Whether cache pictures
 
 Max picture size which allows to cache, with KB unit
 
-## update
+### update
 
-- Type: `'disabled' | 'available' | 'hint' | 'force'`
-- Default: `'available'`
+- Type: `"disabled" | "available" | "hint" | "force"`
+- Default: `"available"`
 
-Controll logic when new content is found.
+Control logic when new content is found.
 
-- `'disabled'`: Do nothing even when new service worker is avaible. After new service work succeeds installing and starts waiting, it will control page and provide new content in next visit.
+- `"disabled"`: Do nothing even when new service worker is available. After new service work succeeds installing and starts waiting, it will control page and provide new content in next visit.
 
-- `'available'`: Only display update popup when the new service worker is available
+- `"available"`: Only display update popup when the new service worker is available
 
-- `'hint'`: Display a hint to let user choose to refresh immediately
+- `"hint"`: Display a hint to let user choose to refresh immediately
 
   This is helpful when you want users to see new docs immediately.
 
   ::: note
 
-  If users choose to refresh, the current service worker will be unregister, and request will start comming to web. Later the new service worker will start installing and control current page after installed.
+  If users choose to refresh, the current service worker will be unregistered, and request will start coming to web. Later the new service worker will start installing and control current page after installed.
 
   :::
 
-- `'force'`: unregister current service worker immediately then refresh to get new content
+- `"force"`: unregister current service worker immediately then refresh to get new content
 
   ::: danger
 
-  Though this ensure users are visiting newest content, but this may affect visiting experiences.
+  Though this ensures users are visiting the newest content, but this may affect visiting experiences.
 
   :::
 
@@ -163,7 +164,7 @@ How docs are updated is controlled by a previous version, so the current option 
 
 Special settings for Apple
 
-> If you don’t want to make detailed settings, you can safely ignore it; if you don’t want your site compatable with safari on apple, please set it to `false`.
+> If you don’t want to make detailed settings, you can safely ignore it; if you don’t want your site compatible with safari on apple, please set it to `false`.
 
 #### apple.icon
 
@@ -190,7 +191,7 @@ Safari mask icon
 
 Special settings for Microsoft tiles
 
-> If you don’t want to make detailed settings, you can safely ignore it; if you don’t want your site compatable with windows, please set it to `false`.
+> If you don’t want to make detailed settings, you can safely ignore it; if you don’t want your site compatible with windows, please set it to `false`.
 
 #### msTile.image
 
@@ -206,21 +207,21 @@ Tile icon
 
 The tile color will automatically fall back to themeColor if you don’t set it.
 
-## hintComponent
+### hintComponent
 
 - Type: `string`
-- Default: `'SWHintPopup'`
+- Default: `"SWHintPopup"`
 
 You can fill in the custom hint popup component path.
 
-## updateComponent
+### updateComponent
 
 - Type: `string`
-- Default: `'SWUpdatePopup'`
+- Default: `"SWUpdatePopup"`
 
 You can fill in the custom update popup component path.
 
-## appendBase
+### appendBase
 
 - Type: `boolean`
 - Default: `false`
@@ -288,7 +289,7 @@ Options passed to `workbox-build`, for details, see [Workbox documentation](http
     hint: string;
 
     /**
-     * Update avaible text
+     * Update available text
      */
     update: string;
   }

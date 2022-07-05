@@ -25,14 +25,14 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-import Token from "markdown-it/lib/token";
-import parseLinkLabel from "markdown-it/lib/helpers/parse_link_label";
+import { default as Token } from "markdown-it/lib/token";
+import { default as parseLinkLabel } from "markdown-it/lib/helpers/parse_link_label";
 
 import type { MarkdownEnv } from "@vuepress/markdown";
-import type Renderer from "markdown-it/lib/renderer";
-import type StateBlock from "markdown-it/lib/rules_block/state_block";
-import type StateCore from "markdown-it/lib/rules_core/state_core";
-import type StateInline from "markdown-it/lib/rules_inline/state_inline";
+import type { default as Renderer } from "markdown-it/lib/renderer";
+import type { default as StateBlock } from "markdown-it/lib/rules_block/state_block";
+import type { default as StateCore } from "markdown-it/lib/rules_core/state_core";
+import type { default as StateInline } from "markdown-it/lib/rules_inline/state_inline";
 import type { PluginSimple } from "markdown-it";
 import type { RuleBlock } from "markdown-it/lib/parser_block";
 import type { RuleInline } from "markdown-it/lib/parser_inline";
@@ -75,7 +75,7 @@ interface FootNoteStateCore extends StateCore {
 }
 
 const getIDSuffix = (tokens: FootNoteToken[], index: number): string =>
-  // add suffix when mutiple id was found
+  // add suffix when multiple id was found
   tokens[index].meta.subId > 0 ? `:${tokens[index].meta.subId}` : "";
 
 const renderFootnoteAnchorName: Renderer.RenderRule = (
@@ -108,10 +108,14 @@ const renderFootnoteRef: Renderer.RenderRule = (
   env: FootNoteEnv,
   self
 ): string => {
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  const id = self.rules.footnoteAnchorName!(tokens, index, options, env, self);
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  const caption = self.rules.footnoteCaption!(
+  const id = self.rules["footnoteAnchorName"]!(
+    tokens,
+    index,
+    options,
+    env,
+    self
+  );
+  const caption = self.rules["footnoteCaption"]!(
     tokens,
     index,
     options,
@@ -145,8 +149,7 @@ const renderFootnoteOpen: Renderer.RenderRule = (
   env: FootNoteEnv,
   self
 ): string =>
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  `<li id="footnote${self.rules.footnoteAnchorName!(
+  `<li id="footnote${self.rules["footnoteAnchorName"]!(
     tokens,
     index,
     options,
@@ -163,8 +166,7 @@ const renderFootnoteAnchor: Renderer.RenderRule = (
   env: FootNoteEnv,
   self
 ): string => {
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  return ` <a href="#footnote-ref${self.rules.footnoteAnchorName!(
+  return ` <a href="#footnote-ref${self.rules["footnoteAnchorName"]!(
     tokens,
     index,
     options,
@@ -213,6 +215,7 @@ const footnoteDef: RuleBlock = (
   if (!state.env.footnotes) state.env.footnotes = {};
   if (!state.env.footnotes.refs) state.env.footnotes.refs = {};
   const label = state.src.slice(start + 2, pos - 2);
+
   state.env.footnotes.refs[`:${label}`] = -1;
 
   token = new Token("footnoteReferenceOpen", "", 1);
@@ -394,15 +397,18 @@ const footnoteTail = (state: FootNoteStateCore): boolean => {
       insideRef = true;
       current = [];
       currentLabel = stateToken.meta.label;
+
       return false;
     }
     if (stateToken.type === "footnoteReferenceClose") {
       insideRef = false;
       // prepend ':' to avoid conflict with Object.prototype members
       refTokens[`:${currentLabel}`] = current;
+
       return false;
     }
     if (insideRef) current.push(stateToken);
+
     return !insideRef;
   });
 
@@ -463,16 +469,17 @@ const footnoteTail = (state: FootNoteStateCore): boolean => {
 };
 
 export const footnote: PluginSimple = (md) => {
-  md.renderer.rules.footnoteRef = renderFootnoteRef;
-  md.renderer.rules.footnoteBlockOpen = renderFootnoteBlockOpen;
-  md.renderer.rules.footnoteBlockClose = renderFootnoteBlockClose;
-  md.renderer.rules.footnoteOpen = renderFootnoteOpen;
-  md.renderer.rules.footnoteClose = renderFootnoteClose;
-  md.renderer.rules.footnoteAnchor = renderFootnoteAnchor;
+  md.renderer.rules["footnoteRef"] = renderFootnoteRef;
+  md.renderer.rules["footnoteBlockOpen"] = renderFootnoteBlockOpen;
+  md.renderer.rules["footnoteBlockClose"] = renderFootnoteBlockClose;
+  md.renderer.rules["footnoteOpen"] = renderFootnoteOpen;
+  md.renderer.rules["footnoteClose"] = renderFootnoteClose;
+  md.renderer.rules["footnoteAnchor"] = renderFootnoteAnchor;
 
   // helpers (only used in other rules, no tokens are attached to those)
-  md.renderer.rules.footnoteCaption = renderFootnoteCaption;
-  md.renderer.rules.footnoteAnchorName = renderFootnoteAnchorName;
+  // helpers (only used in other rules, no tokens are attached to those)
+  md.renderer.rules["footnoteCaption"] = renderFootnoteCaption;
+  md.renderer.rules["footnoteAnchorName"] = renderFootnoteAnchorName;
 
   md.block.ruler.before("reference", "footnoteDef", footnoteDef, {
     alt: ["paragraph", "reference"],

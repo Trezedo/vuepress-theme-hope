@@ -12,7 +12,7 @@ packages/*/lib/
 dist/
 
 # VS Code Config file
-.vscode/
+# .vscode/
 
 # Rollup Cache
 .rollup.cache/
@@ -22,3 +22,9 @@ dist/
 
 # Coverage Files
 coverage/
+
+# macOS
+.DS_Store
+
+# VSCode settings
+.vscode/settings.json

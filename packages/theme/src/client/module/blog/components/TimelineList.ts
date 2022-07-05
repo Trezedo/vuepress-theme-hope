@@ -1,7 +1,7 @@
 import { computed, defineComponent, h } from "vue";
 import { RouterLink } from "vue-router";
 
-import { DropTransition } from "@theme-hope/components/transitions";
+import DropTransition from "@theme-hope/components/transitions/DropTransition";
 import { TimelineIcon } from "@theme-hope/module/blog/components/icons";
 import { useTimelines } from "@theme-hope/module/blog/composables";
 import { useNavigate, useThemeLocaleData } from "@theme-hope/composables";
@@ -25,7 +25,7 @@ export default defineComponent({
         h(
           "div",
           {
-            class: "title",
+            class: "timeline-list-title",
             onClick: () => navigate(timelines.value.path),
           },
           [
@@ -37,32 +37,35 @@ export default defineComponent({
         h("hr"),
         h(
           "div",
-          { class: "content" },
+          { class: "timeline-content" },
           h(
             "ul",
             { class: "timeline-list" },
             timelines.value.config.map(({ year, items }, index) =>
-              h(DropTransition, { delay: 0.08 * (index + 1) }, () =>
-                h("li", [
-                  h("h3", { class: "year" }, year),
-                  h(
-                    "ul",
-                    { class: "year-wrapper" },
-                    items.map(({ date, info, path }) =>
-                      h("li", [
-                        h("span", { class: "date" }, date),
-                        h(
-                          RouterLink,
-                          {
-                            class: "timeline-title",
-                            to: path,
-                          },
-                          () => info.title
-                        ),
-                      ])
-                    )
-                  ),
-                ])
+              h(
+                DropTransition,
+                { appear: true, delay: 0.08 * (index + 1) },
+                () =>
+                  h("li", [
+                    h("h3", { class: "timeline-year" }, year),
+                    h(
+                      "ul",
+                      { class: "timeline-year-wrapper" },
+                      items.map(({ date, info, path }) =>
+                        h("li", { class: "timeline-item" }, [
+                          h("span", { class: "timeline-date" }, date),
+                          h(
+                            RouterLink,
+                            {
+                              class: "timeline-title",
+                              to: path,
+                            },
+                            () => info.title
+                          ),
+                        ])
+                      )
+                    ),
+                  ])
               )
             )
           )

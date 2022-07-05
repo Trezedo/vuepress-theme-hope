@@ -1,6 +1,7 @@
 ---
 title: Guide
 icon: creative
+index: false
 category:
   - Intro
 tag:
@@ -21,20 +22,28 @@ The theme largely inherits the config of `@vuepress/theme-default`, while adds a
 
 ### Markdown Enhance
 
-Added more syntax to Markdown, enriching documentation and blog writing
+Added more syntax to Markdown, enriching documentation and blog writing:
 
 - [Custom Container](markdown/container.md)
-- [CodeGroup](markdown/code-group.md)
-- [Tex Support](markdown/tex.md)
-- [Custom alignment](markdown/align.md)
-- [FlowChart](markdown/flowchart.md)
-- [Mermaid Diagram](markdown/mermaid.md)
-- [Mark](markdown/mark.md)
+- [Tabs](markdown/tabs.md)
+- [Code Tabs](markdown/code-tabs.md)
+- [Footnote](markdown/footnote.md)
 - [Task list](markdown/tasklist.md)
+- [Image Enahancement](markdown/image.md)
+- [Custom alignment](markdown/align.md)
+- [Custom Attributes](markdown/attrs.md)
 - [Subscript and Supercript](markdown/sup-sub.md)
+- [Mark](markdown/mark.md)
+- [Chart](markdown/chart.md)
+- [ECharts](markdown/echarts.md)
+- [FlowChart](markdown/flowchart.md)
+- [Tex Support](markdown/tex.md)
+- [Mermaid Diagram](markdown/mermaid.md)
+- [File include](markdown/include.md)
 - [Code demo](markdown/demo.md)
 - [Presentation](markdown/presentation.md)
-- [Badge `<Badge />`](markdown/components.md#badge): Add color support
+- [Stylize](markdown/stylize.md)
+- [Components out of box](markdown/components.md)
 - [Customize Themes](interface/code-theme.md)
 
 ### Layout
@@ -87,13 +96,13 @@ Layout Optimization:
   - Automatically generated word count and estimated reading time
   - Tags and Categorys
 
+- [Copyright](feature/copyright.md)
+
 - [Encryption](feature/encrypt.md)
 
 - [Search Support](feature/search.md)
 
 ### Blog
-
-- [Social follow button and page social sharing][add-this]
 
 - [Article list with sticky support, and summary autogeneration](blog/intro.md)
 
@@ -115,10 +124,6 @@ Layout Optimization:
 
 - [Sitemap generation](advanced/sitemap.md)
 
-- [Component customize](advanced/customize.md)
-
-- [Theme extending](advanced/extend.md)
-
 ## Build-in Plugins🧩
 
 The theme includes the following plugins, you can use them in other themes or directly.
@@ -127,9 +132,11 @@ The theme includes the following plugins, you can use them in other themes or di
 
 - [vuepress-plugin-comment2][comment2]: Comment and pageviews
 
-- [@mr-hope/vuepress-plugin-components][components]: Provide some out of box plugins
+- [vuepress-plugin-components][components]: Provide some out of box plugins
 
 - [vuepress-plugin-copy-code2][copy-code2]: Provide copy button for code blocks
+
+- [vuepress-plugin-copyright2][copyright2]: Append copyright information when copying or diable copy and selection.
 
 - [vuepress-plugin-feed2][feed2]: Feed support
 
@@ -141,30 +148,34 @@ The theme includes the following plugins, you can use them in other themes or di
 
 - [vuepress-plugin-reading-time2][reading-time2]: Expect reading time and words count
 
+- [vuepress-plugin-redirect][redirect]: Redirect pages
+
 - [vuepress-plugin-sass-palette][sass-palette]: Sass style plugin for all plugins and themes
 
 - [vuepress-plugin-seo2][seo2]: SEO Enhancement Plugin
+
+- [vuepress-plugin-sitemap2][sitemap2]: Sitemap plugin
 
 ::: tip
 
 Here are some other plugins that are not enabled by default by the theme, you can enable them according to your own needs.
 
-- [vuepress-plugin-add-this][add-this]: Provide sociel share and follow function using AddThis
-
 - [vuepress-plugin-lightgallery][lightgallery]: Photo preview plugin based on lightgallery
 
 :::
 
-[add-this]: https://vuepress-theme-hope.github.io/v2/add-this/
 [blog2]: https://vuepress-theme-hope.github.io/v2/blog/
 [comment2]: https://vuepress-theme-hope.github.io/v2/comment/
 [components]: https://vuepress-theme-hope.github.io/v2/components/
 [copy-code2]: https://vuepress-theme-hope.github.io/v2/copy-code/
+[copyright2]: https://vuepress-theme-hope.github.io/v2/copyright/
 [feed2]: https://vuepress-theme-hope.github.io/v2/feed/
 [lightgallery]: https://vuepress-theme-hope.github.io/v2/lightgallery/
 [md-enhance]: https://vuepress-theme-hope.github.io/v2/md-enhance/
 [photo-swipe]: https://vuepress-theme-hope.github.io/v2/photo-swipe/
 [pwa2]: https://vuepress-theme-hope.github.io/v2/pwa/
 [reading-time2]: https://vuepress-theme-hope.github.io/v2/reading-time/
+[redirect]: https://vuepress-theme-hope.github.io/v2/redirect/
 [sass-palette]: https://vuepress-theme-hope.github.io/v2/sass-palette/
 [seo2]: https://vuepress-theme-hope.github.io/v2/seo/
+[sitemap2]: https://vuepress-theme-hope.github.io/v2/sitemap/

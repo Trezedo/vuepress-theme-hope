@@ -8,7 +8,7 @@ tag:
   - Page Info
 ---
 
-By including [`@mr-hope/vuepress-plugin-components`][components], `vuepress-theme-hope` can display article information for you.
+`vuepress-theme-hope` can display article information for you.
 
 <!-- more -->
 
@@ -24,16 +24,16 @@ To keep it globally disabled, please set `pageInfo` to `false` in the plugin opt
 
 The optional values and corresponding contents of the entry are as follows:
 
-| Entry           | Corresponding content  | page frontmatter value                |
-| --------------- | ---------------------- | ------------------------------------- |
-| `'Author'`      | author                 | `author`                              |
-| `'Date'`        | Writing Date           | `time`                                |
-| `'Original'`    | Whether is original    | `isOriginal`                          |
-| `'Category'`    | Category               | `category`                            |
-| `'Tag'`         | tags                   | `tags`                                |
-| `'ReadingTime'` | Estimated reading time | N/A (automatically generated)         |
-| `'Word'`        | Word count             | N/A (automatically generated)         |
-| `'PageView'`    | Visits                 | `pageview` (only available in Waline) |
+| Entry           | Corresponding content  | page frontmatter value                | Theme Options              |
+| --------------- | ---------------------- | ------------------------------------- | -------------------------- |
+| `"Author"`      | author                 | `author`                              | `author`                   |
+| `"Date"`        | Writing Date           | `time`                                | N/A                        |
+| `"Original"`    | Whether is original    | `isOriginal`                          | N/A                        |
+| `"Category"`    | Category               | `category`                            | N/A                        |
+| `"Tag"`         | Tag                    | `tag`                                 | N/A                        |
+| `"ReadingTime"` | Estimated reading time | N/A (automatically generated)         | N/A                        |
+| `"Word"`        | Word count             | N/A (automatically generated)         | N/A                        |
+| `"PageView"`    | Pageviews              | `pageview` (only available in Waline) | `plugins.comment.pageview` |
 
 By default it will display "Author, Visit Number, Writing Date, Category, Tags, Expect Reading Time".
 
@@ -60,7 +60,7 @@ interface AuthorInfo {
 }
 ```
 
-### Writing time
+### Writing Date
 
 We recommended to fill it with a standard date format. A standard format is in the form of `xxxx-xx-xx`, such as "April 1, 2020" should be written as `2020-04-01`.
 
@@ -76,9 +76,9 @@ date: 2020-01-01
 
 See [blog section](../blog/category-and-tags.md) for details
 
-### Reading time
+### Reading Time
 
-The default statistic method is 300 words per minute. You can override it by setting `themeConfig.plugins.readingTime.wordPerMinute`. This option does not support individual configuration on the page.
+The default statistic method is 300 words per minute. You can override it by setting `plugins.readingTime.wordPerMinute` in theme options. This option does not support individual configuration on the page.
 
 ### View Count <Badge text="Support page config" />
 
@@ -91,5 +91,3 @@ Example:
 pageview: false
 ---
 ```
-
-[components]: https://vuepress-theme-hope.github.io/v2/components/

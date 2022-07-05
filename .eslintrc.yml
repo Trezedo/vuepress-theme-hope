@@ -10,11 +10,34 @@ extends:
   - plugin:prettier/recommended
 
 ignorePatterns:
+  - "!.vuepress/**"
   - "**/dist/**"
   - "**/node_modules/**"
   - ".cache/**"
   - ".temp/**"
   - "packages/*/lib/**"
+
+rules:
+  padding-line-between-statements:
+    - error
+    - blankLine: always
+      prev:
+        - const
+        - let
+      next:
+        - "*"
+    - blankLine: any
+      prev:
+        - const
+        - let
+      next:
+        - const
+        - let
+    - blankLine: always
+      prev:
+        - "*"
+      next:
+        - return
 
 overrides:
   - files:
@@ -91,7 +114,6 @@ overrides:
       parser: "@typescript-eslint/parser"
       project:
         - "./tsconfig.json"
-        - "./tsconfig.eslint.json"
 
     rules:
       "@typescript-eslint/explicit-function-return-type":
@@ -125,6 +147,17 @@ overrides:
 
         - selector:
             - property
+          format: null
+          custom:
+            regex: (^/.*/$|^@|^[a-z]+(?:-[a-z]+)*?$)
+            match: true
+          # allow locales path like `/zh/`, alias starting with `@` and css property like `line-width`
+          filter: (^/.*/$|^@|^[a-z]+(?:-[a-z]+)*?$)
+          leadingUnderscore: allow
+          trailingUnderscore: allow
+
+        - selector:
+            - property
           format:
             - camelCase
             - PascalCase
@@ -139,6 +172,9 @@ overrides:
       "@typescript-eslint/no-explicit-any":
         - warn
         - ignoreRestArgs: true
+
+      "@typescript-eslint/no-non-null-assertion":
+        - off
 
       "@typescript-eslint/no-unsafe-member-access":
         - warn

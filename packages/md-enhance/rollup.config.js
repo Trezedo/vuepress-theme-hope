@@ -3,7 +3,7 @@ import { rollupTypescript } from "../../scripts/rollup";
 export default [
   ...rollupTypescript("node/index", {
     external: [
-      "@mr-hope/vuepress-shared",
+      "vuepress-shared",
       "@vuepress/plugin-container",
       "@vuepress/shared",
       "@vuepress/utils",
@@ -12,68 +12,81 @@ export default [
       "katex",
       "vuepress-plugin-sass-palette",
     ],
-  }),
-  ...rollupTypescript("client/appEnhance", {
-    external: [
-      "@CodeGroup",
-      "@CodeGroupItem",
-      "@FlowChart",
-      "@Mermaid",
-      "@Presentation",
-      "@vuepress/client",
-      "katex/dist/katex.min.css",
-      "vue",
-      /\.scss$/,
-      /\.css$/,
-    ],
-    dtsExternal: [/\.scss$/, /\.css$/],
     copy: [["client/styles", "client"]],
   }),
-  ...rollupTypescript("client/appSetup", {
-    external: ["@vuepress/client", "vue", "vue-router", /\.scss$/],
-    dtsExternal: [/\.scss$/],
-  }),
-  ...rollupTypescript("client/components/CodeGroup", {
+  ...rollupTypescript("client/compact/index", {
     external: ["vue", /\.scss$/],
     dtsExternal: [/\.scss$/],
+    copy: [["compact/styles", "compact"]],
   }),
-  ...rollupTypescript("client/components/CodeGroupItem", {
-    external: ["vue", /\.scss$/],
+  ...rollupTypescript("client/components/ChartJS", {
+    external: ["chart.js/auto", "vue", "vuepress-shared/lib/client", /\.scss$/],
+    dtsExternal: [/\.scss$/],
+  }),
+  ...rollupTypescript("client/components/CodeDemo", {
+    external: [
+      "balloon-css/balloon.css",
+      "vue",
+      "vuepress-shared/lib/client",
+      /\.scss$/,
+    ],
+    dtsExternal: [/\.scss$/],
+  }),
+  ...rollupTypescript("client/components/CodeTabs", {
+    external: ["@vuepress/client", "@vueuse/core", "vue", /\.scss$/],
+    dtsExternal: [/\.scss$/],
+  }),
+  ...rollupTypescript("client/components/ECharts", {
+    external: [
+      "@vueuse/core",
+      "echarts",
+      "vue",
+      "vuepress-shared/lib/client",
+      /\.scss$/,
+    ],
     dtsExternal: [/\.scss$/],
   }),
   ...rollupTypescript("client/components/FlowChart", {
-    external: ["lodash.debounce", "flowchart.js", "vue", /\.scss$/],
+    external: [
+      "@vueuse/core",
+      "flowchart.js",
+      "vue",
+      "vuepress-shared/lib/client",
+      /\.scss$/,
+    ],
     dtsExternal: [/\.scss$/],
   }),
   ...rollupTypescript("client/components/Mermaid", {
-    external: [
-      "@mr-hope/vuepress-shared/lib/client",
-      "mermaid",
-      "vue",
-      /\.scss$/,
-    ],
+    external: ["mermaid", "vue", "vuepress-shared/lib/client", /\.scss$/],
     dtsExternal: [/\.scss$/],
   }),
   ...rollupTypescript("client/components/Presentation", {
     external: [
-      "@mr-hope/vuepress-shared/lib/client",
+      /^@temp/,
       "@vuepress/client",
-      /^reveal\.js/,
       "vue",
+      "vuepress-shared/lib/client",
       /\.scss$/,
       /\.css$/,
     ],
     dtsExternal: [/\.scss$/, /\.css$/],
   }),
+  ...rollupTypescript("client/components/Tabs", {
+    external: ["@vuepress/client", "@vueuse/core", "vue", /\.scss$/],
+    dtsExternal: [/\.scss$/],
+  }),
   ...rollupTypescript("client/SlidePage", {
     external: [
-      "@mr-hope/vuepress-shared/lib/client",
       "@vuepress/client",
       "@vueuse/core",
       "vue",
       "vue-router",
+      "vuepress-shared/lib/client",
       /\.scss$/,
     ],
     dtsExternal: [/\.scss$/],
+  }),
+  ...rollupTypescript("client/reveal/index", {
+    external: [/^reveal\.js/],
   }),
 ];

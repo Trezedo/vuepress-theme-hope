@@ -1,6 +1,7 @@
 ---
 title: 样式配置
 icon: style
+order: 6
 category:
   - 配置
 tag:
@@ -10,40 +11,49 @@ tag:
 
 你可以在 `.vuepress/styles` 中通过在 `config.scss` 和 `palette.scss` 文件中写入变量值来更改主题的样式。
 
+你也可以在 `.vuepress/styles/index.scss` 中添加你自己的样式。
+
 <!-- more -->
 
 ## config.scss
 
 `config.scss` 用于纯变量配置，以下是支持的变量与默认值。
 
+响应式布局断点:
+
+- `$pc`
+- `$laptop`
+- `$pad`
+- `$tablet`
+- `$mobile`
+
+代码块:
+
+- `$code-light-theme`: 日间模式代码块主题
+- `$code-dark-theme`: 夜间模式代码块主题
+- `$code-lang`: 代码块语言
+
+内容类名: `$content-class`
+
+颜色列表: `$colors`
+
+::: details 例子
+
 ```scss
-/* 响应式布局断点 */
-$wide: 1440px !default; // 宽屏
-$desktop: 1280px !default; // 桌面
-$pad: 959px !default; // 平板
-$mobile: 719px !default; // 移动设备
-$mobileS: 419px !default; // 小型移动设备
+// 修改日间模式代码主题
+$code-light-theme: "coy";
 
-// 代码语言
-$codeLang: "c" "cpp" "cs" "css" "dart" "docker" "fs" "go" "html" "java" "js"
-  "json" "kt" "less" "makefile" "md" "php" "py" "rb" "rs" "sass" "scss" "sh"
-  "styl" "ts" "toml" "vue" "yml" !default;
-
-/* 内容 Class */
-$contentClass: ".theme-hope-content" !default;
-
-/** 深色模式选择器 */
-$darkSelector: 'html[data-theme="dark"]' !default;
-$lightSelector: 'html[data-theme="light"]' !default;
-
-/* 颜色列表 */
-$colors: #cf1322, #fa541c, #f39c12, #2ecc71, #25a55b, #13c2c2, #096dd9, #aa6fe9,
-  #eb2f96 !default;
-
-/* 代码主题 */
-$codeLightTheme: "one-light" !default;
-$codeDarkTheme: "one-dark" !default;
+// 修改电脑响应式布局断点
+$pc: 1920px;
 ```
+
+:::
+
+::: details 默认值
+
+@[code{7-}](../../../../../packages/theme/templates/config.scss)
+
+:::
 
 ## palette.scss
 
@@ -53,7 +63,7 @@ $codeDarkTheme: "one-dark" !default;
 
 此处的所有变量 (包括你新添加的变量) 都会被转换为 kebab-case 的格式注入为 CSS 变量。
 
-如 `$themeColor` 会被注入为 `--theme-color`。
+如 `$theme-color` 会被注入为 `--theme-color`，`$backgroundColor` 会被注入为 `--background-color`。
 
 :::
 
@@ -61,74 +71,111 @@ $codeDarkTheme: "one-dark" !default;
 
 对于所有颜色，如果其在浅色模式和深色模式颜色相同，可直接设置；否则，请设置一个 Map 类型的 Sass 变量分别给出浅色和深色模式下的颜色值。
 
+可用的颜色变量:
+
+- `$theme-color`: 主题色
+- `$text-color`: 字体颜色
+- `$bg-color`: 背景色
+- `$bg-color-light`: 浅背景色
+- `$bg-color-active`: 用于激活元素的背景色
+- `$bg-color-back`: 用于背景元素的背景色
+- `$bg-color-float`: 用于浮动元素的背景色
+- `$bg-color-blur`: 用于模糊元素的背景色
+- `$bg-color-float-blur`: 用于浮动模糊元素的背景色
+- `$border-color`: 边框颜色
+- `$box-shadow`: 元素阴影色
+- `$card-shadow`: 卡片阴影色
+
+::: details 例子
+
 ```scss
-$themeColor: #3eaf7c !default;
+// 将主题颜色设置为红色
+$theme-color: red;
 
-$textColor: (
-  light: #2c3e50,
-  dark: #9e9e9e,
-) !default;
-
-$bgColor: (
-  light: #fff,
-  dark: #1e1e1e,
-) !default;
-
-$bgColorLight: (
-  light: #f8f8f8,
-  dark: #272727,
-) !default;
-
-$bgColorBlur: (
-  light: rgba(255, 255, 255, 0.9),
-  dark: rgba(30, 30, 30, 0.9),
-) !default;
-
-$borderColor: (
-  light: #eaecef,
-  dark: #302d28,
-) !default;
-
-// shadow
-$boxShadow: (
-  light: #f0f1f2,
-  dark: #0f0e0d,
-) !default;
-
-$cardShadow: (
-  light: rgba(0, 0, 0, 0.15),
-  dark: rgba(0, 0, 0, 0.3),
-) !default;
+// 将边框颜色加深
+$border-color: (
+  light: #ddd,
+  dark: #444,
+);
 ```
+
+:::
+
+::: details 默认值
+
+@[code{4-60}](../../../../../packages/theme/templates/color.scss)
+
+:::
 
 ### 布局设置
 
+可用的布局变量:
+
+导航栏:
+
+- `$navbar-height`: 导航栏高度
+- `$navbar-horizontal-padding`: 导航栏水平填充
+- `$navbar-vertical-padding`: 导航栏垂直填充
+- `$navbar-mobile-height`: 移动设备上的导航栏高度
+- `$navbar-mobile-horizontal-padding`: 移动设备上的导航栏水平填充
+- `$navbar-mobile-vertical-padding`: 移动设备上的导航栏垂直填充
+
+侧边栏:
+
+- `$sidebar-width`: 侧边栏宽度
+- `$sidebar-mobile-width`: 移动设备侧边栏宽度
+
+内容:
+
+- `$content-width`: 主要内容的宽度
+- `$home-page-width`: 主页内容的宽度
+
+字体:
+
+- `$font-family`: 普通文本上使用的字体
+- `$font-family-fancy:` 用于花哨元素的字体
+
+代码:
+
+- `$font-family-code`: 代码上使用的字体
+- `$line-numbers-width`: 代码块中行号的宽度
+
+过渡:
+
+- `$color-transition`: 用于颜色的过渡
+- `$transform-transition`: 用于变换动画的过渡
+
+::: details 例子
+
 ```scss
-// navbar
-$navbarHeight: 4.5rem !default;
-$navbarHorizontalPadding: 1.5rem !default;
-$navbarVerticalPadding: 0.7rem !default;
-$navbarMobileHeight: 3.25rem !default;
-$navbarMobileHorizontalPadding: 1rem !default;
-$navbarMobileVerticalPadding: 0.5rem !default;
+// 加大移动设备上的导航栏高度
+$navbar-mobile-height: 3.5rem;
 
-// sidebar
-$sidebarWidth: 18rem !default;
-$sidebarMobileWidth: 16rem !default;
-
-// content
-$contentWidth: 740px !default;
-$homePageWidth: 1160px !default;
-
-// font
-$fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", STHeiti, "Microsoft YaHei", SimSun, sans-serif' !default;
-$fontFamilyFancy: 'Georgia Pro, Crimson, Georgia, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", STHeiti, "Microsoft YaHei", SimSun, sans-serif' !default;
-
-// code
-$fontFamilyCode: 'Consolas, Monaco, "Andale Mono", "Ubuntu Mono", monospace' !default;
-$lineNumbersWidth: 2.5rem !default;
-
-// transition
-$colorTransition: "0.3s ease" !default;
-$transformTransition: "0.3s ease" !default;
+// 将 Windows 网页字体设置为思源宋体 (当然你也要记得导入这个字体)
+$font-family: 'Georgia, -apple-system, "Nimbus Roman No9 L", "PingFang SC", "Hiragino Sans GB", "Noto Serif SC", "Microsoft Yahei", "WenQuanYi Micro Hei", "ST Heiti", sans-serif';
 ```
+
+:::
+
+::: details 默认值
+
+@[code](../../../../../packages/theme/templates/layout.scss)
+
+:::
+
+## index.scss
+
+填入此文件所有内容都将解析为标准 CSS，然后在主题和插件样式之后注入。
+
+因此，你可以在此处添加新样式或覆盖样式:
+
+::: details 例子
+
+```scss
+// 在导航栏中将站点名称改为斜体
+.site-name {
+  font-style: italic;
+}
+```
+
+:::

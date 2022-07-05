@@ -1,67 +1,83 @@
+import { path } from "@vuepress/utils";
+import { useSassPalettePlugin } from "vuepress-plugin-sass-palette";
 import {
+  addCustomElement,
   addViteSsrExternal,
-  addViteSsrNoExternal,
   addViteOptimizeDepsExclude,
   addViteOptimizeDepsInclude,
   getLocales,
   noopModule,
-} from "@mr-hope/vuepress-shared";
-import { path } from "@vuepress/utils";
-import { useSassPalettePlugin } from "vuepress-plugin-sass-palette";
+} from "vuepress-shared";
+
+import { covertOptions } from "./compact";
 import { walineLocales } from "./locales";
+import { logger } from "./utils";
 
 import type { CommentOptions } from "../shared";
-import type { Plugin, PluginConfig } from "@vuepress/core";
+import type { PluginFunction } from "@vuepress/core";
 
 /** Comment Plugin */
-export const commentPlugin: Plugin<CommentOptions> = (options, app) => {
-  const isWaline = options.type === "waline";
+export const commentPlugin =
+  (options: CommentOptions, legacy = false): PluginFunction =>
+  (app) => {
+    // TODO: Remove this in V2
+    if (legacy)
+      covertOptions(options as CommentOptions & Record<string, unknown>);
+    if (app.env.isDebug) logger.info(`Options: ${options.toString()}`);
 
-  const userWalineLocales = isWaline
-    ? getLocales(app, walineLocales, options.walineLocales)
-    : {};
+    const provider =
+      options.provider &&
+      ["Giscus", "Waline", "Twikoo"].includes(options.provider)
+        ? options.provider
+        : "None";
 
-  // remove locales so that they won't be injected in client twice
-  if ("walineLocales" in options) delete options.walineLocales;
+    const userWalineLocales =
+      options.provider === "Waline"
+        ? getLocales({
+            app,
+            name: "waline",
+            default: walineLocales,
+            config: options.walineLocales,
+          })
+        : {};
 
-  useSassPalettePlugin(app, { id: "hope" });
+    // remove locales so that they won’t be injected in client twice
+    if ("walineLocales" in options) delete options.walineLocales;
 
-  // TODO: Wait for Vssue to support vue3
-  // if (options.type === "vssue")
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  // app.use("@vssue/vuepress-plugin-vssue", options);
+    useSassPalettePlugin(app, { id: "hope" });
 
-  return {
-    name: "vuepress-plugin-comment2",
+    return {
+      name: "vuepress-plugin-comment2",
 
-    alias: {
-      "@Waline": isWaline
-        ? path.resolve(__dirname, "../client/components/Waline.js")
-        : noopModule,
-    },
+      alias: {
+        "@CommentProvider":
+          provider === "None"
+            ? noopModule
+            : path.resolve(__dirname, `../client/components/${provider}.js`),
+      },
 
-    define: () => ({
-      COMMENT_OPTIONS: options,
-      WALINE_LOCALES: userWalineLocales,
-    }),
+      define: () => ({
+        COMMENT_OPTIONS: options,
+        WALINE_LOCALES: userWalineLocales,
+      }),
 
-    onInitialized: (app): void => {
-      addViteSsrNoExternal(app, [
-        "@mr-hope/vuepress-shared",
-        "vuepress-plugin-comment2",
-      ]);
-      addViteOptimizeDepsExclude(app, "vuepress-plugin-comment2");
+      extendsBundlerOptions: (config: unknown, app): void => {
+        if (provider === "Giscus") {
+          addCustomElement({ app, config }, "GiscusWidget");
+          addViteSsrExternal({ app, config }, "giscus");
+        }
 
-      if (isWaline) {
-        addViteOptimizeDepsInclude(app, "@waline/client");
-        addViteSsrExternal(app, "@waline/client");
-      }
-    },
+        if (provider === "Waline") {
+          addViteOptimizeDepsInclude({ app, config }, "autosize");
+          addViteOptimizeDepsExclude({ app, config }, "@waline/client");
+        }
 
-    clientAppEnhanceFiles: path.resolve(__dirname, "../client/appEnhance.js"),
+        if (provider === "Twikoo") {
+          addViteOptimizeDepsInclude({ app, config }, "twikoo");
+          addViteSsrExternal({ app, config }, "twikoo");
+        }
+      },
+
+      clientConfigFile: path.resolve(__dirname, "../client/config.js"),
+    };
   };
-};
-
-export const comment = (
-  options: CommentOptions | false
-): PluginConfig<CommentOptions> => ["comment2", options];

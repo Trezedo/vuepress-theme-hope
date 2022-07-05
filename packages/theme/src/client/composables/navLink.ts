@@ -1,5 +1,5 @@
-import { resolveRouteWithRedirect } from "@mr-hope/vuepress-shared/lib/client";
 import { useRouter } from "vue-router";
+import { resolveRouteWithRedirect } from "vuepress-shared/lib/client";
 
 import type { AutoLink } from "../../shared";
 
@@ -10,13 +10,16 @@ import type { AutoLink } from "../../shared";
  * - Input: '/README.md'
  * - Output: { text: 'Home', link: '/' }
  */
-export const useAutoLink = (item: string): AutoLink => {
+export const useAutoLink = (item: string, preferFull = false): AutoLink => {
   const router = useRouter();
-  const resolved = resolveRouteWithRedirect(router, item);
+  const { fullPath, meta, name } = resolveRouteWithRedirect(
+    router,
+    encodeURI(item)
+  );
 
   return {
-    icon: resolved.meta.icon,
-    text: resolved.meta.title || item,
-    link: resolved.name === "404" ? item : resolved.fullPath,
+    text: !preferFull && meta.shortTitle ? meta.shortTitle : meta.title || item,
+    link: name === "404" ? item : fullPath,
+    ...(meta.icon ? { icon: meta.icon } : {}),
   };
 };

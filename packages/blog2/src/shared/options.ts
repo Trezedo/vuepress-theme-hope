@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import type { Page } from "@vuepress/core";
 
 export interface BlogCategoryOptions {
@@ -13,32 +14,63 @@ export interface BlogCategoryOptions {
    *
    * 从页面中获取分类的函数
    */
-  getter: (page: Page) => string[];
+  getter: <
+    ExtraPageData extends Record<string | number | symbol, unknown> = Record<
+      never,
+      never
+    >,
+    ExtraPageFrontmatter extends Record<
+      string | number | symbol,
+      unknown
+    > = Record<string, unknown>,
+    ExtraPageFields extends Record<string | number | symbol, unknown> = Record<
+      never,
+      never
+    >
+  >(
+    page: Page<ExtraPageData, ExtraPageFrontmatter, ExtraPageFields>
+  ) => string[];
 
   /**
    * A custom function to sort the pages
    *
    * 页面排序器
    */
-  sorter?: (pageA: Page, pageB: Page) => number;
+  sorter?: <
+    ExtraPageData extends Record<string | number | symbol, unknown> = Record<
+      never,
+      never
+    >,
+    ExtraPageFrontmatter extends Record<
+      string | number | symbol,
+      unknown
+    > = Record<string, unknown>,
+    ExtraPageFields extends Record<string | number | symbol, unknown> = Record<
+      never,
+      never
+    >
+  >(
+    pageA: Page<ExtraPageData, ExtraPageFrontmatter, ExtraPageFields>,
+    pageB: Page<ExtraPageData, ExtraPageFrontmatter, ExtraPageFields>
+  ) => number;
 
   /**
-   * Path pattern
+   * Path pattern of page to be registered
    *
-   * @description `:key` will be replaced by the "slugify" result of the orginal key
+   * @description `:key` will be replaced by the "slugify" result of the original key
    *
-   * 路径图案
+   * 待注册的页面路径图案
    *
    * @description `:key` 将会被替换为原 key 的 slugify 结果
    *
    * @default `/:key/`
    */
-  path?: string;
+  path?: string | false;
 
   /**
-   * Layout name
+   * Page layout name
    *
-   * 布局组件名称
+   * 页面布局组件名称
    *
    * @default 'Layout'
    */
@@ -49,25 +81,25 @@ export interface BlogCategoryOptions {
    *
    * Front Matter 配置
    */
-  frontmatter?: (localePath: string) => Record<string, string>;
+  frontmatter?: (localePath: string) => Record<string, unknown>;
 
   /**
-   * Item Path pattern or custom function
+   * Item page path pattern or custom function to be registered
    *
-   * @description When filling in a string, `:key` and `:name` will be replaced by the "slugify" result of the orginal key and name
+   * @description When filling in a string, `:key` and `:name` will be replaced by the "slugify" result of the original key and name
    *
-   * 项目路径图案或自定义函数
+   * 待注册的项目页面路径图案或自定义函数
    *
    * @description 当填入字符串的时候, `:key` 和 `:name` 会被自动替换为原始的 key、name 的 slugify 结果。
    *
    * @default `/:key/:name/`
    */
-  itemPath?: string | ((name: string) => string);
+  itemPath?: string | ((name: string) => string) | false;
 
   /**
-   * Item layout name
+   * Item page layout name
    *
-   * 项目布局组件名称
+   * 项目页面布局组件名称
    *
    * @default 'Layout'
    */
@@ -81,7 +113,7 @@ export interface BlogCategoryOptions {
   itemFrontmatter?: (
     name: string,
     localePath: string
-  ) => Record<string, string>;
+  ) => Record<string, unknown>;
 }
 
 export interface BlogTypeOptions {
@@ -97,28 +129,59 @@ export interface BlogTypeOptions {
    *
    * 一个过滤函数来决定页面是否满足此类型
    */
-  filter: (page: Page) => boolean;
+  filter: <
+    ExtraPageData extends Record<string | number | symbol, unknown> = Record<
+      never,
+      never
+    >,
+    ExtraPageFrontmatter extends Record<
+      string | number | symbol,
+      unknown
+    > = Record<string, unknown>,
+    ExtraPageFields extends Record<string | number | symbol, unknown> = Record<
+      never,
+      never
+    >
+  >(
+    page: Page<ExtraPageData, ExtraPageFrontmatter, ExtraPageFields>
+  ) => boolean;
 
   /**
    * A custom function to sort the pages
    *
    * 页面排序器
    */
-  sorter?: (pageA: Page, pageB: Page) => number;
+  sorter?: <
+    ExtraPageData extends Record<string | number | symbol, unknown> = Record<
+      never,
+      never
+    >,
+    ExtraPageFrontmatter extends Record<
+      string | number | symbol,
+      unknown
+    > = Record<string, unknown>,
+    ExtraPageFields extends Record<string | number | symbol, unknown> = Record<
+      never,
+      never
+    >
+  >(
+    pageA: Page<ExtraPageData, ExtraPageFrontmatter, ExtraPageFields>,
+    pageB: Page<ExtraPageData, ExtraPageFrontmatter, ExtraPageFields>
+  ) => number;
 
   /**
-   * Path to register
+   * Page path to be registered
    *
-   * 需要注册的页面路径
+   * 待注册的页面路径
    *
    * @default '/:key/'
    */
-  path?: string;
+  path?: string | false;
 
   /**
-   * Layout name
+   * Page layout name
    *
-   * 布局组件名称
+   * 页面布局组件名称
    *
    * @default 'Layout'
    */
@@ -129,7 +192,7 @@ export interface BlogTypeOptions {
    *
    * Front Matter 配置
    */
-  frontmatter?: (localePath: string) => Record<string, string>;
+  frontmatter?: (localePath: string) => Record<string, unknown>;
 }
 
 export interface BlogOptions {
@@ -138,7 +201,22 @@ export interface BlogOptions {
    *
    * 获取文章信息的函数。
    */
-  getInfo?: (page: Page) => Record<string, unknown>;
+  getInfo?: <
+    ExtraPageData extends Record<string | number | symbol, unknown> = Record<
+      never,
+      never
+    >,
+    ExtraPageFrontmatter extends Record<
+      string | number | symbol,
+      unknown
+    > = Record<string, unknown>,
+    ExtraPageFields extends Record<string | number | symbol, unknown> = Record<
+      never,
+      never
+    >
+  >(
+    page: Page<ExtraPageData, ExtraPageFrontmatter, ExtraPageFields>
+  ) => Record<string, unknown>;
 
   /**
    * Page filter, determine whether a page should be included.
@@ -147,7 +225,22 @@ export interface BlogOptions {
    *
    * @default (page) => Boolean(page.filePathRelative) && !page.frontmatter.home
    */
-  filter?: (page: Page) => boolean;
+  filter?: <
+    ExtraPageData extends Record<string | number | symbol, unknown> = Record<
+      never,
+      never
+    >,
+    ExtraPageFrontmatter extends Record<
+      string | number | symbol,
+      unknown
+    > = Record<string, unknown>,
+    ExtraPageFields extends Record<string | number | symbol, unknown> = Record<
+      never,
+      never
+    >
+  >(
+    page: Page<ExtraPageData, ExtraPageFrontmatter, ExtraPageFields>
+  ) => boolean;
 
   /**
    * Categories config

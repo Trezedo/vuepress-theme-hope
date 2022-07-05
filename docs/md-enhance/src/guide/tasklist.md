@@ -7,19 +7,19 @@ Let the Markdown file in your VuePress site support task list.
 
 <!-- more -->
 
-## Configuration
+## Config
 
-:::: code-group
+::: code-tabs#language
 
-::: code-group-item TS
+@tab TS
 
 ```ts {8}
 // .vuepress/config.ts
-import { mdEnhance } from "vuepress-plugin-md-enhance";
+import { mdEnhancePlugin } from "vuepress-plugin-md-enhance";
 
 export default {
   plugins: [
-    mdEnhance({
+    mdEnhancePlugin({
       // Enable Task List
       tasklist: true,
     }),
@@ -27,17 +27,15 @@ export default {
 };
 ```
 
-:::
-
-::: code-group-item JS
+@tab JS
 
 ```js {8}
 // .vuepress/config.js
-const { mdEnhance } = require("vuepress-plugin-md-enhance");
+const { mdEnhancePlugin } = require("vuepress-plugin-md-enhance");
 
 module.exports = {
   plugins: [
-    mdEnhance({
+    mdEnhancePlugin({
       // Enable Task List
       tasklist: true,
     }),
@@ -46,8 +44,6 @@ module.exports = {
 ```
 
 :::
-
-::::
 
 ## Syntax
 
@@ -62,4 +58,26 @@ module.exports = {
 ```md
 - [ ] Plan A
 - [x] Plan B
+```
+
+## Advanced
+
+Besides setting `tasklist: true` in the plugin options, you can also pass objects to it as options. The available options are as follows:
+
+```ts
+interface TaskListOptions {
+  /**
+   * Whether disable checkbox
+   *
+   * @default true
+   */
+  disabled?: boolean;
+
+  /**
+   * Whether use `<label>` to wrap text
+   *
+   * @default true
+   */
+  label?: boolean;
+}
 ```

@@ -1,5 +1,6 @@
 import { createPage } from "@vuepress/core";
-import { logger, removeLeadingSlash } from "./utils";
+import { removeLeadingSlash } from "@vuepress/shared";
+import { logger } from "./utils";
 
 import type { App, Page } from "@vuepress/core";
 import type { BlogOptions, CategoryMap, PageMap } from "../shared";
@@ -28,7 +29,10 @@ export const prepareCategory = (
   const {
     category = [],
     slugify = (name: string): string =>
-      name.replace(/[ _]/g, "-").toLowerCase(),
+      name
+        .replace(/[ _]/g, "-")
+        .replace(/[:?*|\\/<>]/g, "")
+        .toLowerCase(),
   } = options;
 
   return Promise.all(
@@ -38,10 +42,10 @@ export const prepareCategory = (
           key,
           getter,
           sorter = (): number => -1,
-          path = "",
+          path = "/:key/",
           layout = "Layout",
           frontmatter = (): Record<string, string> => ({}),
-          itemPath = "",
+          itemPath = "/:key/:name/",
           itemLayout = "Layout",
           itemFrontmatter = (): Record<string, string> => ({}),
         },
@@ -69,7 +73,7 @@ export const prepareCategory = (
           typeof itemPath === "function"
             ? itemPath
             : (name: string): string =>
-                itemPath
+                (itemPath || "")
                   .replace(/:key/g, slugify(key))
                   .replace(/:name/g, slugify(name));
 

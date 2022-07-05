@@ -1,7 +1,7 @@
-import { useGitPlugin } from "@mr-hope/vuepress-shared";
 import { path } from "@vuepress/utils";
 import { useReadingTimePlugin } from "vuepress-plugin-reading-time2";
 import { useSassPalettePlugin } from "vuepress-plugin-sass-palette";
+import { useGitPlugin } from "vuepress-shared";
 
 import type { App } from "@vuepress/core";
 import type { HopeThemePluginsOptions } from "../../shared";
@@ -9,14 +9,19 @@ import type { HopeThemePluginsOptions } from "../../shared";
 export const usePlugin = (app: App, plugins: HopeThemePluginsOptions): void => {
   // only use git plugin in production or debug mode
   if (app.env.isDebug || app.env.isBuild)
-    useGitPlugin(app, {
-      createdTime: true,
-      contributors: true,
-      updatedTime: true,
-    });
+    useGitPlugin(
+      app,
+      "git" in plugins
+        ? plugins.git || false
+        : {
+            createdTime: true,
+            contributors: true,
+            updatedTime: true,
+          }
+    );
 
   useReadingTimePlugin(app, {
-    wordPerMinute: plugins.readingTime?.wordPerMinute,
+    wordPerMinute: plugins.readingTime?.wordPerMinute || 300,
   });
 
   useSassPalettePlugin(app, {

@@ -1,8 +1,8 @@
 .flowchart-loading-wrapper {
   display: flex;
-  justify-content: center;
   align-items: center;
-  background: var(--grey15);
+  justify-content: center;
+  background: var(--grey14);
 
   .loading-icon {
     width: 4em;
@@ -13,12 +13,12 @@
 }
 
 .flowchart-wrapper {
+  overflow-x: auto;
   padding: 0.6em 0.4em;
-  transition: all 1s;
   text-align: center;
-  overflow-x: scroll;
+  transition: all 1s;
 
-  @media (max-width: hope-config.$mobile) {
+  @media (max-width: hope-config.$tablet) {
     margin: 0 -1.5rem;
     padding: 0.6em 0;
   }

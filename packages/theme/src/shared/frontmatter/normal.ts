@@ -1,6 +1,6 @@
-import type { ArticleInfo } from "@mr-hope/vuepress-plugin-components";
 import type { HopeThemePageFrontmatter } from "./base";
-import type { AutoLink } from "../navbar";
+import type { PageInfo } from "../info";
+import type { AutoLink } from "../utils";
 
 export interface HopeThemeNormalPageFrontmatter
   extends HopeThemePageFrontmatter {
@@ -12,11 +12,111 @@ export interface HopeThemeNormalPageFrontmatter
   home?: false;
 
   /**
+   * Whether index current page
+   *
+   * 是否索引此页面
+   *
+   * @default true
+   */
+  index?: boolean;
+
+  /**
+   * Page order in sidebar
+   *
+   * 页面在侧边栏的顺序
+   *
+   * @default 0
+   */
+  order?: number | false;
+
+  /**
+   * Dir config
+   *
+   * @description Only available at README.md
+   *
+   * 目录配置
+   *
+   * @description 仅在 README.md 中可用
+   */
+  dir?: {
+    /**
+     * Dir title
+     *
+     * @default title of README.md
+     *
+     * 目录标题
+     *
+     * @default README.md 标题
+     */
+    text?: string;
+
+    /**
+     * Dir icon
+     *
+     * @default icon of README.md
+     *
+     * 目录图标
+     *
+     * @default README.md 图标
+     */
+    icon?: string;
+
+    /**
+     * Whether Dir is collapsable
+     *
+     * 目录是否可折叠
+     *
+     * @default true
+     */
+
+    collapsable?: boolean;
+
+    /**
+     * Whether Dir is clickable
+     *
+     * @description Will set group link to link of README.md
+     *
+     * 目录是否可点击
+     *
+     * @description 将会将目录分组的链接设置为 README.md 对应的链接
+     *
+     * @default false
+     */
+
+    link?: boolean;
+
+    /**
+     * Whether index current dir
+     *
+     * 是否索引此目录
+     *
+     * @default true
+     */
+    index?: boolean;
+
+    /**
+     * Dir order in sidebar
+     *
+     * 目录在侧边栏中的顺序
+     *
+     * @default 0
+     */
+    order?: number;
+  };
+
+  /**
+   * A short title used in navbar, sidebar and breadcrumb
+   *
+   * 用于导航栏，侧边栏和路径导航的短标题
+   */
+  shortTitle?: string;
+
+  /**
    * Page Heading depth
    *
    * 页面标题深度
    */
-  headingDepth?: number;
+  headerDepth?: number;
 
   /**
    * Whether display lastUpdated time
@@ -61,7 +161,7 @@ export interface HopeThemeNormalPageFrontmatter
    *
    * @default ["Author", "Visitor", "Time", "Category", "Tag", "ReadTime"]
    */
-  pageInfo?: ArticleInfo[] | false;
+  pageInfo?: PageInfo[] | false;
 
   /**
    * Whether enable breadcrumb
@@ -92,11 +192,9 @@ export interface HopeThemeNormalPageFrontmatter
   pageview?: boolean;
 
   /**
-   * Whether display socialMedia
-   *
-   * 是否展示社交媒体
+   * Whether this page is an article
    */
-  socialMedia?: false;
+  article?: boolean;
 
   /**
    * Whether the article be sticky in list

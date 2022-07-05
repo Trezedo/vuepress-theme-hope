@@ -1,6 +1,7 @@
 ---
 title: 博客首页
 icon: home
+order: 6
 category:
   - 博客
 tag:
@@ -15,9 +16,10 @@ tag:
 
 <!-- more -->
 
-![首页截图](./assets/blog.png)
+![首页截图](./assets/blog-light.png#light)
+![首页截图](./assets/blog-dark.png#dark)
 
-## Frontmatter 可用参数
+## Frontmatter 选项
 
 ### hero
 
@@ -28,7 +30,7 @@ tag:
 
 ### bgImage
 
-- 类型: `string`
+- 类型: `string | false`
 
 背景图片的地址，需填写绝对路径。如果不填写，会自动应用一张默认的风景图片。
 
@@ -62,4 +64,4 @@ tag:
 - `desc`: 项目描述，选填
 - `icon`: 图标，可填入完整路径或绝对路径的图片链接、图标 FontClass 等。
 
-  同时提供了如下内置图标支持: `'link'`、`'project'`、`'book'`、`'article'`、`'friend'`
+  同时提供了如下内置图标支持: `"link"`、`"project"`、`"book"`、`"article"`、`"friend"`

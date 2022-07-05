@@ -1,4 +1,4 @@
-@use "@mr-hope/vuepress-shared/styles/reset";
+@use "vuepress-shared/styles/reset";
 
 .presentation {
   .md-enhance-presentation {
@@ -6,31 +6,11 @@
     min-height: 100vh;
   }
 
-  .menu-button,
-  .back-button,
-  .home-button {
-    @include reset.button();
-    box-sizing: content-box;
-    position: fixed;
-    bottom: 2rem;
-    width: 1rem;
-    height: 1rem;
-    padding: 0.5rem;
-    border-radius: 50%;
-    background: rgba(127, 127, 127, 0.35);
-    color: var(--white);
-    outline: none;
-
-    &:hover {
-      background: var(--c-brand, #3eaf7c);
-    }
-  }
-
   .menu-button {
     left: 2rem;
-    transition: transform 0.2s ease-in-out;
-    vertical-align: middle;
     z-index: 50;
+    vertical-align: middle;
+    transition: transform 0.2s ease-in-out;
 
     &::before {
       content: " ";
@@ -50,51 +30,85 @@
     &::after,
     .icon {
       display: block;
+
       width: 100%;
       height: 0.2em;
-      transition: transform 0.2s ease-in-out;
       border-radius: 0.05em;
+
       background: var(--white);
-    }
-  }
 
-  .active .menu-button {
-    &::before {
-      transform: translateY(0.4em) rotate(135deg);
-    }
-
-    .icon {
-      transform: scale(0);
-    }
-
-    &::after {
-      transform: translateY(-0.4em) rotate(-135deg);
+      transition: transform 0.2s ease-in-out;
     }
   }
 
   .back-button {
     left: 2rem;
-    opacity: 0;
-    transition: left 0.2s ease-out, opacity 0.2s ease-out;
     z-index: 49;
-    fill: var(--white);
-  }
 
-  .active .back-button {
-    left: 4.5rem;
-    opacity: 1;
+    opacity: 0;
+    fill: var(--white);
+
+    transition: left 0.2s ease-out, opacity 0.2s ease-out;
   }
 
   .home-button {
     left: 2rem;
-    opacity: 0;
-    transition: left 0.2s ease-out, opacity 0.2s ease-out;
     z-index: 48;
+
+    opacity: 0;
     fill: var(--white);
+
+    transition: left 0.2s ease-out, opacity 0.2s ease-out;
   }
 
-  .active .home-button {
-    left: 7rem;
-    opacity: 1;
+  .menu-button,
+  .back-button,
+  .home-button {
+    @include reset.button;
+    position: fixed;
+    bottom: 2rem;
+
+    box-sizing: content-box;
+
+    width: 1rem;
+    height: 1rem;
+    padding: 0.5rem;
+    border-radius: 50%;
+
+    background: rgb(127 127 127 / 35%);
+    color: var(--white);
+    outline: none;
+
+    &:hover {
+      background: var(--c-brand, #3eaf7c);
+    }
+  }
+
+  // stylelint-disable selector-max-compound-selectors
+  .active {
+    .menu-button {
+      &::before {
+        transform: translateY(0.4em) rotate(135deg);
+      }
+
+      .icon {
+        transform: scale(0);
+      }
+
+      &::after {
+        transform: translateY(-0.4em) rotate(-135deg);
+      }
+    }
+    // stylelint-enable selector-max-compound-selectors
+
+    .back-button {
+      left: 4.5rem;
+      opacity: 1;
+    }
+
+    .home-button {
+      left: 7rem;
+      opacity: 1;
+    }
   }
 }

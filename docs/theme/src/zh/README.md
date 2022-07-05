@@ -13,6 +13,9 @@ actions:
   - text: 配置 🛠
     link: /zh/config/
 
+  - text: 在线案例 🪀
+    link: https://stackblitz.com/fork/vuepress-theme-hope
+
 features:
   - title: Markdown 增强
     icon: markdown
@@ -21,7 +24,7 @@ features:
 
   - title: 幻灯片页面
     icon: slides
-    details: 添加幻灯片页面以显示您喜欢的内容
+    details: 添加幻灯片页面以显示你喜欢的内容
     link: /zh/guide/layout/slides
 
   - title: 布局增强
@@ -55,7 +58,7 @@ features:
     link: /zh/guide/interface/darkmode.html
 
   - title: 完整的无障碍支持
-    icon: contrast
+    icon: support
     details: 为你的网站带来完整的无障碍支持
     link: /zh/guide/interface/accessibility.html
 
@@ -65,7 +68,7 @@ features:
     link: /zh/guide/feature/encrypt.html
 
   - title: 复制按钮
-    icon: lock
+    icon: copy
     details: 一键复制代码块中的代码
     link: /zh/guide/feature/copy-code.html
 
@@ -107,17 +110,15 @@ footer: MIT Licensed | Copyright © 2019-present Mr.Hope
 
 在当前项目的 `[dir]` 文件夹内创建 vuepress-theme-hope 项目:
 
-:::: code-group
+::: code-tabs#shell
 
-<!-- ::: code-group-item yarn
+@tab pnpm
 
 ```bash
-yarn create vuepress-theme-hope [dir]
+pnpm create vuepress-theme-hope@next [dir]
 ```
 
-::: -->
-
-::: code-group-item npm
+@tab npm
 
 ```bash
 npm init vuepress-theme-hope@next [dir]
@@ -125,40 +126,64 @@ npm init vuepress-theme-hope@next [dir]
 
 :::
 
-::::
-
 ## 🚀 使用
 
-:::: code-group
+::: code-tabs#language
 
-::: code-group-item TS
+@tab TS
 
-```ts {2,4,6}
+```ts
 // .vuepress/config.ts
-import { defineHopeConfig } from "vuepress-theme-hope";
+import { defineUserConfig } from "vuepress";
+import { hopeTheme } from "vuepress-theme-hope";
 
-export default defineHopeConfig({
-  // 此处放置配置
+export default defineUserConfig({
+  // 站点选项
+  // ...
+
+  theme: hopeTheme({
+    // 主题选项
+    // ...
+  }),
 });
 ```
 
-:::
+@tab JS
 
-::: code-group-item JS
-
-```js {2,4,6}
+```js
 // .vuepress/config.js
-const { defineHopeConfig } = require("vuepress-theme-hope");
+const { hopeTheme } = require("vuepress-theme-hope");
 
-module.exports = defineHopeConfig({
-  // 此处放置配置
-});
+module.exports = {
+  // 站点选项
+  // ...
+
+  theme: hopeTheme({
+    // 主题选项
+    // ...
+  }),
+};
 ```
 
 :::
 
-::::
+## 使用教程
+
+- [详细小白教程](cookbook/tutorial/README.md)
 
 ## 官方 QQ 群
 
 - [点击加入](https://jq.qq.com/?_wv=1027&k=rATJyxGK) (群号: 1003437555)
+
+<!-- markdownlint-disable -->
+
+<a v-if="isNetlify" href="https://www.netlify.com" target="_blank">
+
+![通过 Netlify 部署](https://www.netlify.com/img/global/badges/netlify-light.svg#light)
+![通过 Netlify 部署](https://www.netlify.com/img/global/badges/netlify-dark.svg#dark)
+
+</a>
+
+<script setup lang="ts">
+const isNetlify = IS_NETLIFY;
+</script>

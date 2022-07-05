@@ -9,17 +9,17 @@ icon: check
 
 ## 配置
 
-:::: code-group
+::: code-tabs#language
 
-::: code-group-item TS
+@tab TS
 
 ```ts {8}
 // .vuepress/config.ts
-import { mdEnhance } from "vuepress-plugin-md-enhance";
+import { mdEnhancePlugin } from "vuepress-plugin-md-enhance";
 
 export default {
   plugins: [
-    mdEnhance({
+    mdEnhancePlugin({
       // 启用任务列表
       tasklist: true,
     }),
@@ -27,17 +27,15 @@ export default {
 };
 ```
 
-:::
-
-::: code-group-item JS
+@tab JS
 
 ```js {8}
 // .vuepress/config.js
-const { mdEnhance } = require("vuepress-plugin-md-enhance");
+const { mdEnhancePlugin } = require("vuepress-plugin-md-enhance");
 
 module.exports = {
   plugins: [
-    mdEnhance({
+    mdEnhancePlugin({
       // 启用任务列表
       tasklist: true,
     }),
@@ -46,8 +44,6 @@ module.exports = {
 ```
 
 :::
-
-::::
 
 ## 语法
 
@@ -62,4 +58,26 @@ module.exports = {
 ```md
 - [ ] Plan A
 - [x] Plan B
+```
+
+## 高级
+
+除了在插件选项中设置 `tasklist: true` 之外，你还可以将对象作为选项传递给它。可用选项如下:
+
+```ts
+interface TaskListOptions {
+  /**
+   * 是否禁用 checkbox
+   *
+   * @default true
+   */
+  disabled?: boolean;
+
+  /**
+   * 是否使用 `<label>` 来包裹文字
+   *
+   * @default true
+   */
+  label?: boolean;
+}
 ```

@@ -1,4 +1,5 @@
-import MarkdownIt = require("markdown-it");
+import { describe, it, expect } from "vitest";
+import MarkdownIt from "markdown-it";
 import { mark } from "../../src/node/markdown-it/mark";
 
 describe("mark", () => {
@@ -26,7 +27,7 @@ describe("mark", () => {
     );
   });
 
-  it("Should handle mutiple '='", () => {
+  it("Should handle multiple '='", () => {
     expect(markdownIt.render(`x ===foo===`)).toEqual(
       "<p>x =<mark>foo</mark>=</p>\n"
     );

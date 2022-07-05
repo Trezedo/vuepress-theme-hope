@@ -1,4 +1,5 @@
-import MarkdownIt = require("markdown-it");
+import { describe, it, expect } from "vitest";
+import MarkdownIt from "markdown-it";
 import { sub } from "../../src/node/markdown-it/sub";
 
 describe("subscript", () => {
@@ -26,7 +27,7 @@ describe("subscript", () => {
     );
   });
 
-  it("Should handle mutiple '\\'", () => {
+  it("Should handle multiple '\\'", () => {
     expect(markdownIt.render(`~foo\\\\\\\\\\ bar~`)).toEqual(
       "<p><sub>foo\\\\ bar</sub></p>\n"
     );

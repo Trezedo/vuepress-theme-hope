@@ -1,20 +1,8 @@
-import { defineHopeConfig } from "vuepress-theme-hope";
-import themeConfig from "./themeConfig";
+import { defineUserConfig } from "vuepress";
+import theme from "./theme";
 
-export default defineHopeConfig({
+export default defineUserConfig({
   base: "/",
-
-  dest: "./dist",
-
-  head: [
-    [
-      "link",
-      {
-        rel: "stylesheet",
-        href: "//at.alicdn.com/t/font_2410206_mfj6e1vbwo.css",
-      },
-    ],
-  ],
 
   locales: {
     "/": {
@@ -29,5 +17,5 @@ export default defineHopeConfig({
     },
   },
 
-  themeConfig,
+  theme,
 });

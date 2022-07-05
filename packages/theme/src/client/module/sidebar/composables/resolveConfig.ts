@@ -1,4 +1,10 @@
-import { usePageData, usePageFrontmatter } from "@vuepress/client";
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
+import { sidebarData } from "@temp/theme-hope/sidebar";
+import {
+  usePageData,
+  usePageFrontmatter,
+  useRouteLocale,
+} from "@vuepress/client";
 import {
   isArray,
   isLinkExternal,
@@ -27,7 +33,7 @@ import type {
  */
 export const headerToSidebarItem = (
   header: PageHeader,
-  headingDepth: number
+  headerDepth: number
 ): ResolvedHopeThemeSidebarHeaderItem => {
   const page = usePageData();
 
@@ -35,36 +41,27 @@ export const headerToSidebarItem = (
     type: "heading",
     text: header.title,
     link: `${page.value.path}#${header.slug}`,
-    children: headersToSidebarItemChildren(header.children, headingDepth),
+    children: headersToSidebarItemChildren(header.children, headerDepth),
   };
 };
 
 export const headersToSidebarItemChildren = (
   headers: PageHeader[],
-  headingDepth: number
+  headerDepth: number
 ): ResolvedHopeThemeSidebarHeaderItem[] =>
-  headingDepth > 0
-    ? headers.map((header) => headerToSidebarItem(header, headingDepth - 1))
+  headerDepth > 0
+    ? headers.map((header) => headerToSidebarItem(header, headerDepth - 1))
     : [];
 
 /**
- * Resolve sidebar items if the config is `auto`
+ * Resolve sidebar items if the config is `heading`
  */
-export const resolveAutoSidebarItems = (
-  headingDepth: number
-): ResolvedHopeThemeSidebarPageItem[] => {
-  const frontmatter = usePageFrontmatter<HopeThemeNormalPageFrontmatter>();
+export const resolveHeadingSidebarItems = (
+  headerDepth: number
+): ResolvedHopeThemeSidebarHeaderItem[] => {
   const page = usePageData();
 
-  return [
-    {
-      type: "page",
-      text: page.value.title,
-      icon: frontmatter.value.icon,
-      link: "",
-      children: headersToSidebarItemChildren(page.value.headers, headingDepth),
-    },
-  ];
+  return headersToSidebarItemChildren(page.value.headers, headerDepth);
 };
 
 /**
@@ -72,7 +69,7 @@ export const resolveAutoSidebarItems = (
  */
 export const resolveArraySidebarItems = (
   sidebarConfig: HopeThemeSidebarArrayConfig,
-  headingDepth: number,
+  headerDepth: number,
   prefix = ""
 ): ResolvedSidebarItem[] => {
   const page = usePageData();
@@ -95,12 +92,18 @@ export const resolveArraySidebarItems = (
 
     // resolved group item
     if ("children" in childItem) {
+      const prefix = resolvePrefix(pathPrefix, childItem.prefix);
+
+      const children =
+        childItem.children === "structure"
+          ? sidebarData[prefix]
+          : childItem.children;
+
       return {
         type: "group",
         ...childItem,
-        children: childItem.children.map((item) =>
-          handleChildItem(item, resolvePrefix(pathPrefix, childItem.prefix))
-        ),
+        prefix,
+        children: children.map((item) => handleChildItem(item, prefix)),
       };
     }
 
@@ -116,7 +119,7 @@ export const resolveArraySidebarItems = (
               page.value.headers[0]?.level === 1
                 ? page.value.headers[0].children
                 : page.value.headers,
-              headingDepth
+              headerDepth
             )
           : [],
     };
@@ -130,19 +133,24 @@ export const resolveArraySidebarItems = (
  */
 export const resolveMultiSidebarItems = (
   sidebarConfig: HopeThemeSidebarObjectConfig,
-  headingDepth: number
+  headerDepth: number
 ): ResolvedSidebarItem[] => {
   const route = useRoute();
   const keys = Object.keys(sidebarConfig).sort((x, y) => y.length - x.length);
 
   // find matching config
   for (const base of keys) {
-    if (decodeURI(route.path).startsWith(base))
-      return resolveArraySidebarItems(
-        sidebarConfig[base] ?? [],
-        headingDepth,
-        base
-      );
+    if (decodeURI(route.path).startsWith(base)) {
+      const matchedConfig = sidebarConfig[base];
+
+      return matchedConfig
+        ? resolveArraySidebarItems(
+            matchedConfig === "structure" ? sidebarData[base] : matchedConfig,
+            headerDepth,
+            base
+          )
+        : [];
+    }
   }
 
   console.warn(`${route.path} do not have valid sidebar config`);
@@ -156,24 +164,31 @@ export const resolveMultiSidebarItems = (
  * It should only be resolved and provided once
  */
 export const resolveSidebarItems = (): ResolvedSidebarItem[] => {
+  const routeLocale = useRouteLocale();
   const frontmatter = usePageFrontmatter<HopeThemeNormalPageFrontmatter>();
   const themeLocale = useThemeLocaleData();
 
   // get sidebar config from frontmatter > themeConfig
   const sidebarConfig = frontmatter.value.home
     ? false
-    : frontmatter.value.sidebar ?? themeLocale.value.sidebar ?? "auto";
-  const headingDepth =
-    frontmatter.value.headingDepth ?? themeLocale.value.headingDepth ?? 2;
+    : frontmatter.value.sidebar ?? themeLocale.value.sidebar ?? "structure";
+  const headerDepth =
+    frontmatter.value.headerDepth ?? themeLocale.value.headerDepth ?? 2;
 
   // resolve sidebar items according to the config
   return sidebarConfig === false
     ? []
-    : sidebarConfig === "auto"
-    ? resolveAutoSidebarItems(headingDepth)
+    : sidebarConfig === "heading"
+    ? resolveHeadingSidebarItems(headerDepth)
+    : sidebarConfig === "structure"
+    ? resolveArraySidebarItems(
+        sidebarData[routeLocale.value],
+        headerDepth,
+        routeLocale.value
+      )
     : isArray(sidebarConfig)
-    ? resolveArraySidebarItems(sidebarConfig, headingDepth)
+    ? resolveArraySidebarItems(sidebarConfig, headerDepth)
     : isPlainObject(sidebarConfig)
-    ? resolveMultiSidebarItems(sidebarConfig, headingDepth)
+    ? resolveMultiSidebarItems(sidebarConfig, headerDepth)
     : [];
 };

@@ -40,7 +40,7 @@ We recommend the following settings:
 - Convert the date of creating the feed to ISOString and write it into `channel.pubDate`
 - The update period of the content set in `channel.ttl` (unit: minutes)
 - Set copyright information via `channel.copyright`
-- Set the channel author via `channel.author`, or set `themeConfig.author` to the author name.
+- Set the channel author via `channel.author`.
 
 ::: tip Default channel settings
 
@@ -52,22 +52,28 @@ We recommend the following settings:
 
 For detailed options and their default values, see [Configuration → Channel Settings](./config/channel.md)
 
-## Generation control
+## Generation Control
 
-### Default generation logic
+### Default Generation
 
 By default, all articles are added to the feed stream.
 
 For the content read by default, see [Configuration → Item Control](./config/item.md)
 
-### Custom feed item
+### Customize Feed Item
 
 You can control how feed item is generated in specific article by configuring the `feed` option in frontmatter.
 
 For detailed options and their default values, see [Configuration → Project Settings](./config/item.md).
 
-### Custom Feed Generation
+### Customize Feed Generation
 
 You can take full control of feed items generation by configuring the `getter` in the plugin options.
 
 For detailed options and their default values, see [Configuration → Feed Getter](./config/getter.md).
+
+### I18n Config
+
+The plugin generates separate feeds for each language.
+
+You can provide different settings for different languages via `locales` in the plugin options.

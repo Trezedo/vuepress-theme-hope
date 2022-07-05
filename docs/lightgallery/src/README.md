@@ -21,17 +21,21 @@ copyright: false
 
 ### Install
 
-:::: code-group
+::: code-tabs#shell
 
-::: code-group-item yarn
+@tab pnpm
+
+```bash
+pnpm add -D vuepress-plugin-lightgallery@next
+```
+
+@tab yarn
 
 ```bash
 yarn add -D vuepress-plugin-lightgallery@next
 ```
 
-:::
-
-::: code-group-item npm
+@tab npm
 
 ```bash
 npm i -D vuepress-plugin-lightgallery@next
@@ -39,38 +43,34 @@ npm i -D vuepress-plugin-lightgallery@next
 
 :::
 
-::::
-
 ### Usage
 
-:::: code-group
+::: code-tabs#language
 
-::: code-group-item TS
+@tab TS
 
 ```ts
 // .vuepress/config.ts
-import { lightgallery } from "vuepress-plugin-lightgallery";
+import { lightgalleryPlugin } from "vuepress-plugin-lightgallery";
 
 export default {
   plugins: [
-    lightgallery({
+    lightgalleryPlugin({
       // your options
     }),
   ],
 };
 ```
 
-:::
-
-::: code-group-item JS
+@tab JS
 
 ```js
 // .vuepress/config.js
-const { lightgallery } = require("vuepress-plugin-lightgallery");
+const { lightgalleryPlugin } = require("vuepress-plugin-lightgallery");
 
 module.exports = {
   plugins: [
-    lightgallery({
+    lightgalleryPlugin({
       // your options
     }),
   ],
@@ -79,15 +79,13 @@ module.exports = {
 
 :::
 
-::::
-
 ::: danger LICENSE RESTRICTIONS
 
-Please note that although this plugin release under MIT license, we are currenly making this possiable with a built-in [organization license of lightgallery](https://www.lightgalleryjs.com/license/) of vuepress-theme-hope, and we would like to admit you are a member of our organiztion if you are using it for non-commercial usage.
+Please note that although this plugin release under MIT license, we are currently making this possible with a built-in [organization license of lightgallery](https://www.lightgalleryjs.com/license/) of VuePress Theme Hope, and we would like to admit you are a member of our organization if you are using it for non-commercial usage.
 
 The organization license has no limit for you under non-commercial usage as it supports unlimited developers and unlimited products. You are safe to publish your docs or project with this plugin under ANY License.
 
-But PLEASE DO AWARE that organizational license can only be used on one product. If you want to use this plugin for commercial usage, since lightgallery is under [GNU GPL license v3](https://www.gnu.org/licenses/gpl-3.0.html), you must put your source code under the [GNU GPL license v3](https://www.gnu.org/licenses/gpl-3.0.html) license, or consider [purchasing a license](https://www.lightgalleryjs.com/license/) to avoid troubles.
+But PLEASE DO AWARE that organizational license can only be used on one product. To use this plugin for commercial usage, since lightgallery is under [GNU GPL license v3](https://www.gnu.org/licenses/gpl-3.0.html), you must put your source code under the [GNU GPL license v3](https://www.gnu.org/licenses/gpl-3.0.html) license, or consider [purchasing a license](https://www.lightgalleryjs.com/license/) to avoid troubles.
 
 YOU ARE WARNED!
 

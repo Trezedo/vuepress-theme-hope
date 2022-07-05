@@ -1,6 +1,7 @@
 ---
 title: Sidebar
 icon: sidebar
+order: 2
 category:
   - Layout
 tag:
@@ -12,47 +13,44 @@ The sidebar may contain a list of related documents, document titles, and blogge
 
 <!-- more -->
 
-## Sidebar links
+## Sidebar Links
 
-You should use `themeConfig.sidebar` to control sidebar.
+You should use `sidebar` in theme options to control sidebar.
 
-### String format
+### String Format
 
 Just like navbar, you can fill in an array of multiple file links as the basic configuration of the sidebar:
 
-:::: code-group
+::: code-tabs#language
 
-::: code-group-item TS
+@tab TS
 
 ```ts
 // .vuepress/config.ts
-import { defineHopeConfig } from "vuepress-theme-hope";
+import { defineUserConfig } from "vuepress";
+import { hopeTheme } from "vuepress-theme-hope";
 
-export default defineHopeConfig({
-  themeConfig: {
+export default defineUserConfig({
+  theme: hopeTheme({
     sidebar: ["README.md", "guide/README.md", "config/README.md"],
-  },
-});
+  }),
+};
 ```
 
-:::
-
-::: code-group-item JS
+@tab JS
 
 ```js
 // .vuepress/config.js
-const { defineHopeConfig } = require("vuepress-theme-hope");
+const { hopeTheme } = require("vuepress-theme-hope");
 
-module.exports = defineHopeConfig({
-  themeConfig: {
+module.exports = {
+  theme: hopeTheme({
     sidebar: ["README.md", "guide/README.md", "config/README.md"],
-  },
-});
+  }),
+};
 ```
 
 :::
-
-::::
 
 Each item of the array will be rendered as a sidebar item.
 
@@ -62,7 +60,7 @@ You can omit the `.md` extension, and paths ending with `/` are inferred as `/RE
 
 :::
 
-### Object format
+### Object Format
 
 Just like navbar, if you are not satisfied with the page’s icon or feel that the page title is too long, you can configure an object instead. Available configuration items are:
 
@@ -71,16 +69,17 @@ Just like navbar, if you are not satisfied with the page’s icon or feel that t
 - `icon`: item icon (optional)
 - `activeMatch`: item active math (optional), support regexp strings
 
-:::: code-group
+::: code-tabs#language
 
-::: code-group-item TS
+@tab TS
 
 ```ts
 // .vuepress/config.ts
-import { defineHopeConfig } from "vuepress-theme-hope";
+import { defineUserConfig } from "vuepress";
+import { hopeTheme } from "vuepress-theme-hope";
 
-export default defineHopeConfig({
-  themeConfig: {
+export default defineUserConfig({
+  theme: hopeTheme({
     sidebar: [
       {
         text: "Guide",
@@ -99,20 +98,18 @@ export default defineHopeConfig({
         activeMatch: "^/zh/faq/",
       },
     ],
-  },
+  }),
 });
 ```
 
-:::
-
-::: code-group-item JS
+@tab JS
 
 ```js
 // .vuepress/config.js
-const { defineHopeConfig } = require("vuepress-theme-hope");
+const { hopeTheme } = require("vuepress-theme-hope");
 
-module.exports = defineHopeConfig({
-  themeConfig: {
+module.exports = {
+  theme: hopeTheme({
     sidebar: [
       {
         text: "Guide",
@@ -131,13 +128,11 @@ module.exports = defineHopeConfig({
         activeMatch: "^/zh/faq/",
       },
     ],
-  },
-});
+  }),
+};
 ```
 
 :::
-
-::::
 
 ::: tip Advanced usage of activeMatch
 
@@ -147,7 +142,7 @@ module.exports = defineHopeConfig({
 - `/path/a/`
 - `/path/b/`
 
-But you may have multiple folders with files under `/path/`. To avoid mutiple dropown items been actived under route starting with `/path/a/` or `/path/b/`, you can set `activeMatch` option for the first item with `^/path/(?:(?!a/|b/).*)?$`.
+But you may have multiple folders with files under `/path/`. To avoid multiple dropown items been activated under route starting with `/path/a/` or `/path/b/`, you can set `activeMatch` option for the first item with `^/path/(?:(?!a/|b/).*)?$`.
 
 :::
 
@@ -157,16 +152,17 @@ If you need a sidebar that displays a nested structure, you can group similar li
 
 You should use [object format](#object-format) and provide an additional `children` option to set the list of links. Like navbar, you can use `prefix` in the sidebar to add a default path prefix to each link in the group, and the sidebar additionally supports setting `collapsable: true` to make the menu group collapsible.
 
-:::: code-group
+::: code-tabs#language
 
-::: code-group-item TS
+@tab TS
 
 ```ts
 // .vuepress/config.ts
-import { defineHopeConfig } from "vuepress-theme-hope";
+import { defineUserConfig } from "vuepress";
+import { hopeTheme } from "vuepress-theme-hope";
 
-export default defineHopeConfig({
-  themeConfig: {
+export default defineUserConfig({
+  theme: hopeTheme({
     sidebar: [
       {
         // required, title of group
@@ -195,20 +191,18 @@ export default defineHopeConfig({
         ],
       },
     ],
-  },
+  }),
 });
 ```
 
-:::
-
-::: code-group-item JS
+@tab JS
 
 ```js
 // .vuepress/config.js
-const { defineHopeConfig } = require("vuepress-theme-hope");
+const { hopeTheme } = require("vuepress-theme-hope");
 
-module.exports = defineHopeConfig({
-  themeConfig: {
+module.exports = {
+  theme: hopeTheme({
     sidebar: [
       {
         // required, title of group
@@ -237,26 +231,25 @@ module.exports = defineHopeConfig({
         ],
       },
     ],
-  },
-});
+  }),
+};
 ```
 
 :::
-
-::::
 
 You can also nest Sidebar grouping:
 
-:::: code-group
+::: code-tabs#language
 
-::: code-group-item TS
+@tab TS
 
 ```ts
 // .vuepress/config.ts
-import { defineHopeConfig } from "vuepress-theme-hope";
+import { defineUserConfig } from "vuepress";
+import { hopeTheme } from "vuepress-theme-hope";
 
-export default defineHopeConfig({
-  themeConfig: {
+export default defineUserConfig({
+  theme: hopeTheme({
     sidebar: [
       {
         text: "Group",
@@ -279,20 +272,18 @@ export default defineHopeConfig({
         ],
       },
     ],
-  },
+  }),
 });
 ```
 
-:::
-
-::: code-group-item JS
+@tab JS
 
 ```js
 // .vuepress/config.js
-const { defineHopeConfig } = require("vuepress-theme-hope");
+const { hopeTheme } = require("vuepress-theme-hope");
 
-module.exports = defineHopeConfig({
-  themeConfig: {
+module.exports = {
+  theme: hopeTheme({
     sidebar: [
       {
         text: "Group",
@@ -315,13 +306,11 @@ module.exports = defineHopeConfig({
         ],
       },
     ],
-  },
-});
+  }),
+};
 ```
 
 :::
-
-::::
 
 You may want to use it with `prefix` to restore the structure of the document easily.
 
@@ -344,16 +333,17 @@ For example, suppose you have a following directory structure:
 
 Then you can use the following config:
 
-:::: code-group
+::: code-tabs#language
 
-::: code-group-item TS
+@tab TS
 
 ```ts
 // .vuepress/config.ts
-import { defineHopeConfig } from "vuepress-theme-hope";
+import { defineUserConfig } from "vuepress";
+import { hopeTheme } from "vuepress-theme-hope";
 
-export default defineHopeConfig({
-  themeConfig: {
+export default defineUserConfig({
+  theme: hopeTheme({
     sidebar: [
       "/" /* / */,
       {
@@ -377,20 +367,18 @@ export default defineHopeConfig({
       "/contact" /* /contact.html */,
       "/about" /* /about.html */,
     ],
-  },
+  }),
 });
 ```
 
-:::
-
-::: code-group-item JS
+@tab JS
 
 ```js
 // .vuepress/config.js
-const { defineHopeConfig } = require("vuepress-theme-hope");
+const { hopeTheme } = require("vuepress-theme-hope");
 
-module.exports = defineHopeConfig({
-  themeConfig: {
+module.exports = {
+  theme: hopeTheme({
     sidebar: [
       "/" /* / */,
       {
@@ -414,13 +402,11 @@ module.exports = defineHopeConfig({
       "/contact" /* /contact.html */,
       "/about" /* /about.html */,
     ],
-  },
-});
+  }),
+};
 ```
 
 :::
-
-::::
 
 ### Multiple Sidebars
 
@@ -445,16 +431,17 @@ For example, if you have the following structure:
 
 You can define your sidebar for each section using below configuration:
 
-:::: code-group
+::: code-tabs#language
 
-::: code-group-item TS
+@tab TS
 
 ```ts
 // .vuepress/config.ts
-import { defineHopeConfig } from "vuepress-theme-hope";
+import { defineUserConfig } from "vuepress";
+import { hopeTheme } from "vuepress-theme-hope";
 
-export default defineHopeConfig({
-  themeConfig: {
+export default defineUserConfig({
+  theme: hopeTheme({
     sidebar: {
       "/foo/": [
         "" /* /foo/ */,
@@ -475,20 +462,18 @@ export default defineHopeConfig({
         "about" /* /about.html */,
       ],
     },
-  },
+  }),
 });
 ```
 
-:::
-
-::: code-group-item JS
+@tab JS
 
 ```js
 // .vuepress/config.js
-const { defineHopeConfig } = require("vuepress-theme-hope");
+const { hopeTheme } = require("vuepress-theme-hope");
 
-module.exports = defineHopeConfig({
-  themeConfig: {
+module.exports = {
+  theme: hopeTheme({
     sidebar: {
       "/foo/": [
         "" /* /foo/ */,
@@ -509,13 +494,11 @@ module.exports = defineHopeConfig({
         "about" /* /about.html */,
       ],
     },
-  },
-});
+  }),
+};
 ```
 
 :::
-
-::::
 
 ::: warning
 
@@ -525,53 +508,215 @@ In this case, the fallback sidebar must be defined last for this reason.
 
 :::
 
-### Auto Sidebar for Single Pages
+## Auto Sidebar
+
+### Generate from Headers
 
 To automatically generate a sidebar that contains only the header links for the current page, you can use frontmatter on that page:
 
 ```md
 ---
-sidebar: auto
+sidebar: heading
 ---
 ```
 
 You can also enable it in all pages by using config:
 
-:::: code-group
+::: code-tabs#language
 
-::: code-group-item TS
+@tab TS
 
-```ts {6}
+```ts {7}
 // .vuepress/config.ts
-import { defineHopeConfig } from "vuepress-theme-hope";
+import { defineUserConfig } from "vuepress";
+import { hopeTheme } from "vuepress-theme-hope";
 
-export default defineHopeConfig({
-  themeConfig: {
-    sidebar: "auto",
-  },
+export default defineUserConfig({
+  theme: hopeTheme({
+    sidebar: "heading",
+  }),
 });
 ```
 
-:::
-
-::: code-group-item JS
+@tab JS
 
 ```js {6}
 // .vuepress/config.js
-const { defineHopeConfig } = require("vuepress-theme-hope");
+const { hopeTheme } = require("vuepress-theme-hope");
 
-module.exports = defineHopeConfig({
-  themeConfig: {
-    sidebar: "auto",
-  },
-});
+module.exports = {
+  theme: hopeTheme({
+    sidebar: "heading",
+  }),
+};
 ```
 
 :::
 
-::::
+### Generate from File Structure <Badge text="New" type="tip" />
 
-### Disabling the Sidebar
+You can replace the original "sidebarConfig array" with `"structure"` keyword in any of the above sidebar config. This will allow the theme to automatically read local files, then generate sidebar from file structure for you, to reduce your config workload.
+
+For example, for the following example mentioned earlier in [multiple sidebars](#multiple-sidebars):
+
+```
+.
+├─ README.md
+├─ contact.md
+├─ about.md
+├─ foo/
+│   ├─ README.md
+│   ├─ one.md
+│   └─ two.md
+└─ bar/
+    ├─ README.md
+    ├─ three.md
+    └─ four.md
+```
+
+You can change the original config to:
+
+::: code-tabs#language
+
+@tab TS
+
+```ts {8,10}
+// .vuepress/config.ts
+import { defineUserConfig } from "vuepress";
+import { hopeTheme } from "vuepress-theme-hope";
+
+export default defineUserConfig({
+  theme: hopeTheme({
+    sidebar: {
+      "/foo/": "structure",
+
+      "/bar/": "structure",
+
+      // fallback
+      "/": [
+        "" /* / */,
+        "contact" /* /contact.html */,
+        "about" /* /about.html */,
+      ],
+    },
+  }),
+});
+```
+
+@tab JS
+
+```js {7,9}
+// .vuepress/config.js
+const { hopeTheme } = require("vuepress-theme-hope");
+
+module.exports = {
+  theme: hopeTheme({
+    sidebar: {
+      "/foo/": "structure",
+
+      "/bar/": "structure",
+
+      // fallback
+      "/": [
+        "" /* / */,
+        "contact" /* /contact.html */,
+        "about" /* /about.html */,
+      ],
+    },
+  }),
+};
+```
+
+:::
+
+In the above modification, since the original sidebar array is all files under the relevant path, you can easily replace it with the `"structure"` keyword.
+
+If you use the structure to generate a folder with other folders nested under it and **the folder contains a `README.md` file**, the corresponding folder will be rendered as a group. So you can even be more aggressive, for example setting `sidebar: "structure"` to have your sidebars all auto-generated from the file structure.
+
+#### Advanced Control
+
+During the automatic generation from structure, you can control whether files in the same folder are included through the `index` option in the page Frontmatter, and control how they are sorted through `order`.
+
+When you don't want the page to be included in the sidebar, you need to set `index: false` in Frontmatter.
+
+By default, the sidebar will be sorted according to the current language according to the title text of the file name. You can control how they are sorted by `order`. When you set a positive number, they will appear at the front of the group, the smaller the more forward, when you set a negative number, it will appear at the back of the group, and the larger the more backward:
+
+- page -> order: 1
+- page -> order: 2
+- page -> order: 3
+- ...
+- pages with positive `order` will be sorted by `order` here
+- ...
+- page without `order` option -> title: Axxx
+- ...
+- pages without `order` option will be sorted by title here
+- ...
+- page without `order` option -> title: Zxxx
+- ...
+- pages with negative `order` will be sorted by `order` here
+- ...
+- page -> order: -3
+- page -> order: -2
+- page -> order: -1
+
+::: tip
+
+`README.md` is an exception, as long as you don’t disable it from the sidebar via `index: false` or make it as group link, it will always be the first item after sorting.
+
+:::
+
+For nested folders, the grouping information is controlled by `README.md` under that folder. You can control the behavior of folder grouping through the `dir` option in Frontmatter. The relevant optional items are as follows:
+
+```ts
+interface SidebarDirInfo {
+  /**
+   * Directory title
+   *
+   * @default README.md title
+   */
+  text?: string;
+
+  /**
+   * Directory icon
+   *
+   * @default README.md icon
+   */
+  icon?: string;
+
+  /**
+   * Whether the directory is collapsible
+   *
+   * @default true
+   */
+
+  collapsable?: boolean;
+
+  /**
+   * Whether the directory is clickable
+   *
+   * @description will set the link of the directory grouping to the link corresponding to README.md
+   *
+   * @default false
+   */
+
+  link?: boolean;
+  /**
+   * Whether index current dir
+   *
+   * @default true
+   */
+  index?: boolean;
+
+  /**
+   * Dir order in sidebar
+   *
+   * @default 0
+   */
+  order?: number | false;
+}
+```
+
+### Disabling Sidebar
 
 You can disable the sidebar on a specific page with `YAML front matter`:
 
@@ -587,15 +732,15 @@ Sidebar is disabled by default in home page.
 
 :::
 
-## Nested header links
+## Header Links Depths
 
-The sidebar automatically displays links for headers in the current active page, nested under the link for the page itself. You can customize this behavior using `themeConfig.headingDepth`. The default depth(the max value) is `2`, which extracts both `h2` and `h3` headers. Setting it to `0` disables the header links.
+The sidebar automatically displays links for headers in the current active page, nested under the link for the page itself. You can customize this behavior using `headerDepth` in theme options. The default depth(the max value) is `2`, which extracts both `h2` and `h3` headers. Setting it to `0` disables the header links.
 
 A page can also override this value via frontmatter:
 
 ```md
 ---
-headingDepth: 2
+headerDepth: 2
 ---
 ```
 
@@ -603,7 +748,7 @@ headingDepth: 2
 
 The valid maximum value depends on which levels of headers you have extracted via [markdown.extractHeaders.level](https://v2.vuepress.vuejs.org/reference/config.html#markdown-extractheaders).
 
-Since the default value of [markdown.extractHeaders.level](https://v2.vuepress.vuejs.org/reference/config.html#markdown-extractheaders) is `[2, 3]`, so The default maximum value for `headingDepth` is `2`.
+Since the default value of [markdown.extractHeaders.level](https://v2.vuepress.vuejs.org/reference/config.html#markdown-extractheaders) is `[2, 3]`, so The default maximum value for `headerDepth` is `2`.
 
 :::
 
@@ -611,64 +756,62 @@ Since the default value of [markdown.extractHeaders.level](https://v2.vuepress.v
 
 By default, the nested header links and the hash in the URL are updated as the user scrolls to view the different sections of the page. This behavior can be disabled with the following theme config:
 
-:::: code-group
+::: code-tabs#language
 
-::: code-group-item TS
+@tab TS
 
 ```ts {8}
 // .vuepress/config.ts
-import { defineHopeConfig } from "vuepress-theme-hope";
+import { defineUserConfig } from "vuepress";
+import { hopeTheme } from "vuepress-theme-hope";
 
-export default defineHopeConfig({
-  themeConfig: {
+export default defineUserConfig({
+  theme: hopeTheme({
     plugins: {
       // Default: true
       activeHeaderLinks: false,
     },
-  },
+  }),
 });
 ```
 
-:::
-
-::: code-group-item JS
+@tab JS
 
 ```js {8}
 // .vuepress/config.js
-const { defineHopeConfig } = require("vuepress-theme-hope");
+const { hopeTheme } = require("vuepress-theme-hope");
 
-module.exports = defineHopeConfig({
-  themeConfig: {
+module.exports = {
+  theme: hopeTheme({
     plugins: {
       // Default: true
       activeHeaderLinks: false,
     },
-  },
-});
+  }),
+};
 ```
 
 :::
 
-::::
-
 ## Icon Support
 
-Icon support is enabled in the sidebar by default, and the icon of the page will be displayed before the link in the sidebar (by reading `icon` field in frontmatter). It can be disabled by setting `sidebarIcon` to `false` in `themeConfig`.
+Icon support is enabled in the sidebar by default, and the icon of the page will be displayed before the link in the sidebar (by reading `icon` field in frontmatter). It can be disabled by setting `sidebarIcon` to `false` in theme options.
 
 ## I18n Support
 
 The theme’s navbar supports [I18n](https://v2.vuepress.vuejs.org/guide/i18n.html), so you can set sidebar individually in each language:
 
-:::: code-group
+::: code-tabs#language
 
-::: code-group-item TS
+@tab TS
 
 ```ts
 // .vuepress/config.ts
-import { defineHopeConfig } from "vuepress-theme-hope";
+import { defineUserConfig } from "vuepress";
+import { hopeTheme } from "vuepress-theme-hope";
 
-export default defineHopeConfig({
-  themeConfig: {
+export default defineUserConfig({
+  theme: hopeTheme({
     locales: {
       "/": {
         sidebar: [
@@ -681,20 +824,18 @@ export default defineHopeConfig({
         ],
       },
     },
-  },
+  }),
 });
 ```
 
-:::
-
-::: code-group-item JS
+@tab JS
 
 ```js
 // .vuepress/config.js
-const { defineHopeConfig } = require("vuepress-theme-hope");
+const { hopeTheme } = require("vuepress-theme-hope");
 
-module.exports = defineHopeConfig({
-  themeConfig: {
+module.exports = {
+  theme: hopeTheme({
     locales: {
       "/": {
         sidebar: [
@@ -707,38 +848,34 @@ module.exports = defineHopeConfig({
         ],
       },
     },
-  },
-});
+  }),
+};
 ```
 
 :::
-
-::::
 
 ## Types and Helpers
 
-`vuepress-theme-hope` exports the type of sidebar as `HopeThemeSideConfig`, and provides a `defineSidebarConfig` helper function. They can provide validation and autocompletion of sidebar configuration in TS and JS.
+`vuepress-theme-hope` exports the type of sidebar as `HopeThemeSideConfig`, and provides a `sidebar` helper function. They can provide validation and autocompletion of sidebar configuration in TS and JS.
 
 ::: tip
 
-In order to deal with the situation when you split [multi-sidebar configuration](#multiple-sidebars) into multiple parts, we also provide `HopeThemeSidebarArrayConfig` `HopeThemeSidebarObjectConfig` type and `defineSidebarArrayConfig` and `defineSidebarObjectConfig` Helper function.
+To deal with the situation when you split [multi-sidebar configuration](#multiple-sidebars) into multiple parts, we also provide `HopeThemeSidebarArrayConfig` `HopeThemeSidebarObjectConfig` type and `arraySidebar` and `objectSidebar` Helper function.
 
 :::
 
-:::: code-group
+::: code-tabs#language
 
-::: code-group-item TS Helper
+@tab TS Helper
 
 ```ts {6}
 // .vuepress/sidebar.ts
-import { defineSidebarConfig } from "vuepress-theme-hope";
+import { sidebar } from "vuepress-theme-hope";
 
-export default defineSidebarConfig(/* Your sidebar configuration */);
+export default sidebar(/* Your sidebar configuration */);
 ```
 
-:::
-
-::: code-group-item TS Types
+@tab TS Types
 
 ```ts {4}
 // .vuepress/navbar.ts
@@ -751,173 +888,36 @@ const sidebarConfig: HopeThemeSidebarConfig = [
 export default sidebarConfig;
 ```
 
-:::
-
-::: code-group-item JS
+@tab JS
 
 ```js
 // .vuepress/sidebar.js
-const { defineSidebarConfig } = require("vuepress-theme-hope");
+const { sidebar } = require("vuepress-theme-hope");
 
-module.exports = defineSidebarConfig(/* Your sidebar configuration */);
+module.exports = sidebar(/* Your sidebar configuration */);
 ```
 
 :::
 
-::::
-
 ## Demo
 
-::::: details Configuration of this documentation
+:::: details Configuration of this documentation
 
-:::: code-group
+::: code-tabs#language
 
-::: code-group-item TS
+@tab TS
 
-@[code](../../.vuepress/sidebar/en.ts)
+```ts
+@include(../../.vuepress/sidebar/en.ts)
+```
 
-:::
-
-::: code-group-item JS
+@tab JS
 
 ```js
 // .vuepress/config.js
-const { defineSidebarConfig } = require("vuepress-theme-hope");
+const { sidebar } = require("vuepress-theme-hope");
 
-module.exports = defineSidebarConfig({
-  "/guide/": [
-    {
-      text: "Get Started",
-      icon: "creative",
-      prefix: "get-started/",
-      collapsable: true,
-      children: ["intro", "install", "markdown"],
-    },
-    {
-      text: "Interface",
-      icon: "palette",
-      prefix: "interface/",
-      collapsable: true,
-      children: ["darkmode", "theme-color", "icon", "accessibility", "others"],
-    },
-    {
-      text: "Layout",
-      icon: "layout",
-      prefix: "layout/",
-      collapsable: true,
-      children: [
-        "navbar",
-        "sidebar",
-        "page",
-        "breadcrumb",
-        "footer",
-        "home",
-        "slides",
-      ],
-    },
-    {
-      text: "Markdown enhance",
-      icon: "markdown",
-      prefix: "markdown/",
-      collapsable: true,
-      children: [
-        "intro",
-        "container",
-        "components",
-        "code-group",
-        "align",
-        "sup-sub",
-        "footnote",
-        "mark",
-        "tasklist",
-        "tex",
-        "flowchart",
-        "mermaid",
-        "demo",
-        "presentation",
-        "external",
-      ],
-    },
-    {
-      text: "Features",
-      icon: "discover",
-      prefix: "feature/",
-      collapsable: true,
-      children: [
-        "page-info",
-        "comment",
-        "copy-code",
-        "photo-swipe",
-        "meta",
-        "encrypt",
-        "pwa",
-        "feed",
-        "seo",
-        "sitemap",
-      ],
-    },
-    {
-      text: "Blog",
-      icon: "blog",
-      prefix: "blog/",
-      collapsable: true,
-      children: ["intro", "article", "category-and-tags", "timeline", "home"],
-    },
-  ],
-
-  "/config/": [
-    "intro",
-    "i18n",
-    {
-      text: "Theme Config",
-      icon: "config",
-      prefix: "theme/",
-      children: ["", "basic", "feature", "layout", "apperance"],
-    },
-    {
-      text: "Plugin Config",
-      icon: "plugin",
-      prefix: "plugins/",
-      children: [
-        "intro",
-        "blog",
-        "comment",
-        "feed",
-        "md-enhance",
-        "pwa",
-        "others",
-      ],
-    },
-    "page",
-    "style",
-  ],
-
-  "/cookbook/": [
-    "tutorial",
-    {
-      text: "Markdown",
-      icon: "markdown",
-      prefix: "markdown/",
-      children: [
-        "",
-        "demo",
-        {
-          text: "Emoji",
-          icon: "emoji",
-          link: "emoji/",
-          prefix: "emoji/",
-          children: ["people", "nature", "object", "place", "symbol"],
-        },
-      ],
-    },
-    {
-      text: "VuePress",
-      icon: "vue",
-      prefix: "vuepress/",
-      children: ["", "page", "markdown", "file", "config", "plugin", "theme"],
-    },
-  ],
-
+module.exports = sidebar({
   "/": [
     "",
     {
@@ -931,30 +931,96 @@ module.exports = defineSidebarConfig({
         "markdown/",
         "feature/",
         "blog/",
+        "advanced/",
       ],
     },
     {
       text: "Config",
       icon: "config",
       prefix: "config/",
-      children: ["intro", "i18n", "theme/", "plugins/", "page", "style"],
+      children: [
+        "intro",
+        "i18n",
+        "theme/",
+        "plugins/",
+        "frontmatter/",
+        "style",
+      ],
     },
     {
       text: "Cookbook",
       icon: "guide",
       prefix: "cookbook/",
-      children: ["tutorial", "markdown/", "vuepress/"],
+      children: ["tutorial/", "markdown/", "vuepress/", "advanced/"],
     },
     {
       text: "Migration",
       icon: "change",
-      prefix: "migration",
+      prefix: "migration/",
       children: ["config", "page", "style"],
     },
+    {
+      text: "FAQ",
+      icon: "question",
+      prefix: "faq/",
+      children: ["", "troubleshooting", "common-error", "vite", "safari"],
+    },
+    "demo",
     "changelog",
-    "faq",
-    "demo/",
     "contribution",
+  ],
+
+  "/guide/": "structure",
+
+  "/config/": "structure",
+
+  "/cookbook/": [
+    {
+      text: "Tutorial",
+      icon: "guide",
+      prefix: "tutorial/",
+      children: [
+        "env",
+        "create",
+        "command",
+        "content",
+        "config",
+        "structure",
+        "deploy",
+      ],
+    },
+    {
+      text: "Markdown",
+      icon: "markdown",
+      prefix: "markdown/",
+      collapsable: true,
+      children: [
+        "",
+        "demo",
+        {
+          text: "Emoji",
+          icon: "emoji",
+          link: "emoji/",
+          prefix: "emoji/",
+          collapsable: true,
+          children: "structure",
+        },
+      ],
+    },
+    {
+      text: "VuePress",
+      icon: "vue",
+      prefix: "vuepress/",
+      collapsable: true,
+      children: ["", "page", "markdown", "file", "config", "plugin", "theme"],
+    },
+    {
+      text: "Advanced",
+      icon: "advance",
+      prefix: "advanced/",
+      collapsable: true,
+      children: ["component", "style", "replace", "extend"],
+    },
   ],
 });
 ```
@@ -962,5 +1028,3 @@ module.exports = defineSidebarConfig({
 :::
 
 ::::
-
-:::::

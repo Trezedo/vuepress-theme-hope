@@ -1,90 +1,46 @@
 import type { LocaleConfig } from "@vuepress/core";
-import type {
-  ArticleInfoLocaleData,
-  BackToTopLocaleData,
-  PaginationLocaleData,
-  TOCLocaleData,
-} from "./locales";
+import type { BackToTopLocaleData } from "./locales";
+
+export type AvailableComponent =
+  | "Badge"
+  | "CodePen"
+  | "FontIcon"
+  | "PDF"
+  | "StackBlitz"
+  | "YouTube";
 
 export interface ComponentOptions {
   /**
-   * Whether register article info component
+   * Components to be registered
    *
-   * 是否注册文章信息
+   * 需要被注册的组件
+   *
+   * @default []
+   */
+  components: AvailableComponent[];
+
+  /**
+   * Add This 的公开 ID
+   *
+   * Public ID for add this
    *
    * @default false
    */
-  articleInfo?: boolean;
+  addThis?: string | false;
 
   /**
    * Whether enabling backToTop button
    *
+   *
+   * @description When setting a number, it will be used as backToTop button threshold distance (in pixels)
+   *
    * 是否启用返回顶部按钮
    *
-   * @default false
-   */
-  backToTop?: boolean;
-
-  /**
-   * backToTop button threshold distance (in pixels)
-   *
-   * 返回顶部按钮触发距离 (单位：像素)
-   *
-   * @default 300
-   */
-  backToTopThreshold?: number;
-
-  /**
-   * Whether register breadcrumb component
-   *
-   * 是否注册路径导航
+   * @description 当设置为数字时，将会作为返回顶部按钮距离阈值 (单位: 像素)
    *
    * @default false
    */
-  breadcrumb?: boolean;
-
-  /**
-   * Whether register badge component
-   *
-   * 是否注册徽章组件
-   *
-   * @default false
-   */
-  badge?: boolean;
-
-  /**
-   * Whether register scrennfull button component
-   *
-   * 是否注册全屏按钮
-   *
-   * @default false
-   */
-  fullScreen?: boolean;
-
-  /**
-   * Whether register pagination component
-   *
-   * 是否注册分页组件
-   *
-   * @default false
-   */
-  pagination?: boolean;
-
-  /**
-   * Whether register toc component
-   *
-   * 是否注册 TOC 组件
-   *
-   * @default false
-   */
-  toc?: boolean;
-
-  /**
-   * Locales config for articleInfo
-   *
-   * 文章信息的国际化配置
-   */
-  articleInfoLocales?: LocaleConfig<ArticleInfoLocaleData>;
+  backToTop?: number | boolean;
 
   /**
    * backToTop button Locales config
@@ -94,16 +50,20 @@ export interface ComponentOptions {
   backToTopLocales?: LocaleConfig<BackToTopLocaleData>;
 
   /**
-   * Locales config for TOC
+   * Link of font icon asset
    *
-   * 标题列表的国际化配置
+   * 字体图标资源链接
+   *
+   * @description `'iconfont'` and `'font-awesome'` keywords are supported
    */
-  tocLocales?: LocaleConfig<TOCLocaleData>;
+  iconAssets?: string;
 
   /**
-   * Locales config for pagination
+   * Class prefix of font icon
    *
-   * 分页的国际化配置
+   * 字体图标的 Class 前缀
+   *
+   * @default ''
    */
-  paginationLocales?: LocaleConfig<PaginationLocaleData>;
+  iconPrefix?: string;
 }

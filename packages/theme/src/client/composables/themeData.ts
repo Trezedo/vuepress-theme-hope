@@ -1,11 +1,11 @@
-import { getAuthor } from "@mr-hope/vuepress-shared/lib/client";
 import {
   useThemeData as _useThemeData,
   useThemeLocaleData as _useThemeLocaleData,
 } from "@vuepress/plugin-theme-data/lib/client";
 import { computed } from "vue";
+import { getAuthor } from "vuepress-shared/lib/client";
 
-import type { AuthorInfo } from "@mr-hope/vuepress-shared";
+import type { AuthorInfo } from "vuepress-shared";
 import type {
   ThemeDataRef,
   ThemeLocaleDataRef,
@@ -20,13 +20,10 @@ export const useThemeLocaleData =
     _useThemeLocaleData<HopeThemeLocaleConfig>();
 
 export const useThemeAuthor = (): ComputedRef<AuthorInfo[]> => {
-  const themeData = useThemeData();
+  const themeLocale = useThemeLocaleData();
 
-  return computed(() => getAuthor(themeData.value.author, false));
+  return computed(() => getAuthor(themeLocale.value.author, false));
 };
-
-export const useIconPrefix = (): ComputedRef<string> =>
-  computed(() => useThemeData().value.iconPrefix);
 
 export const usePure = (): ComputedRef<boolean> =>
   computed(() => Boolean(useThemeData().value.pure));

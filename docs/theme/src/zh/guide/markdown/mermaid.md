@@ -14,47 +14,44 @@ tag:
 
 ## 配置
 
-:::: code-group
+::: code-tabs#language
 
-::: code-group-item TS
+@tab TS
 
-```ts {7-9}
+```ts {8-10}
 // .vuepress/config.ts
-import { defineHopeConfig } from "vuepress-theme-hope";
+import { defineUserConfig } from "vuepress";
+import { hopeTheme } from "vuepress-theme-hope";
 
-export default defineHopeConfig({
-  themeConfig: {
+export default defineUserConfig({
+  theme: hopeTheme({
     plugins: {
       mdEnhance: {
         mermaid: true,
       },
     },
-  },
+  }),
 });
 ```
 
-:::
-
-::: code-group-item JS
+@tab JS
 
 ```js {7-9}
 // .vuepress/config.js
-const { defineHopeConfig } = require("vuepress-theme-hope");
+const { hopeTheme } = require("vuepress-theme-hope");
 
-module.exports = defineHopeConfig({
-  themeConfig: {
+module.exports = {
+  theme: hopeTheme({
     plugins: {
       mdEnhance: {
         mermaid: true,
       },
     },
-  },
-});
+  }),
+};
 ```
 
 :::
-
-::::
 
 ## 语法
 
@@ -377,6 +374,176 @@ title What Voldemort doesn’t have?
   "FRIENDS" : 2
   "FAMILY" : 3
   "NOSE" : 45
+```
+````
+
+:::
+
+### Git 图表
+
+```git-graph
+commit
+branch hotfix
+checkout hotfix
+commit
+branch develop
+checkout develop
+commit id:"ash" tag:"abc"
+branch featureB
+checkout featureB
+commit type:HIGHLIGHT
+checkout main
+checkout hotfix
+commit type:NORMAL
+checkout develop
+commit type:REVERSE
+checkout featureB
+commit
+checkout main
+merge hotfix
+checkout featureB
+commit
+checkout develop
+branch featureA
+commit
+checkout develop
+merge hotfix
+checkout featureA
+commit
+checkout featureB
+commit
+checkout develop
+merge featureA
+branch release
+checkout release
+commit
+checkout main
+commit
+checkout release
+merge main
+checkout develop
+merge release
+```
+
+::: details Code
+
+```git-graph
+commit
+branch hotfix
+checkout hotfix
+commit
+branch develop
+checkout develop
+commit id:"ash" tag:"abc"
+branch featureB
+checkout featureB
+commit type:HIGHLIGHT
+checkout main
+checkout hotfix
+commit type:NORMAL
+checkout develop
+commit type:REVERSE
+checkout featureB
+commit
+checkout main
+merge hotfix
+checkout featureB
+commit
+checkout develop
+branch featureA
+commit
+checkout develop
+merge hotfix
+checkout featureA
+commit
+checkout featureB
+commit
+checkout develop
+merge featureA
+branch release
+checkout release
+commit
+checkout main
+commit
+checkout release
+merge main
+checkout develop
+merge release
+```
+
+:::
+
+### C4C 图表
+
+```c4c
+title System Context diagram for Internet Banking System
+
+Person(customerA, "Banking Customer A", "A customer of the bank, with personal bank accounts.")
+Person(customerB, "Banking Customer B")
+Person_Ext(customerC, "Banking Customer C")
+System(SystemAA, "Internet Banking System", "Allows customers to view information about their bank accounts, and make payments.")
+
+Person(customerD, "Banking Customer D", "A customer of the bank, <br/> with personal bank accounts.")
+
+Enterprise_Boundary(b1, "BankBoundary") {
+
+  SystemDb_Ext(SystemE, "Mainframe Banking System", "Stores all of the core banking information about customers, accounts, transactions, etc.")
+
+  System_Boundary(b2, "BankBoundary2") {
+    System(SystemA, "Banking System A")
+    System(SystemB, "Banking System B", "A system of the bank, with personal bank accounts.")
+  }
+
+  System_Ext(SystemC, "E-mail system", "The internal Microsoft Exchange e-mail system.")
+  SystemDb(SystemD, "Banking System D Database", "A system of the bank, with personal bank accounts.")
+
+  Boundary(b3, "BankBoundary3", "boundary") {
+    SystemQueue(SystemF, "Banking System F Queue", "A system of the bank, with personal bank accounts.")
+    SystemQueue_Ext(SystemG, "Banking System G Queue", "A system of the bank, with personal bank accounts.")
+  }
+}
+
+BiRel(customerA, SystemAA, "Uses")
+BiRel(SystemAA, SystemE, "Uses")
+Rel(SystemAA, SystemC, "Sends e-mails", "SMTP")
+Rel(SystemC, customerA, "Sends e-mails to")
+```
+
+::: details Code
+
+````md
+```c4c
+title System Context diagram for Internet Banking System
+
+Person(customerA, "Banking Customer A", "A customer of the bank, with personal bank accounts.")
+Person(customerB, "Banking Customer B")
+Person_Ext(customerC, "Banking Customer C")
+System(SystemAA, "Internet Banking System", "Allows customers to view information about their bank accounts, and make payments.")
+
+Person(customerD, "Banking Customer D", "A customer of the bank, <br/> with personal bank accounts.")
+
+Enterprise_Boundary(b1, "BankBoundary") {
+
+  SystemDb_Ext(SystemE, "Mainframe Banking System", "Stores all of the core banking information about customers, accounts, transactions, etc.")
+
+  System_Boundary(b2, "BankBoundary2") {
+    System(SystemA, "Banking System A")
+    System(SystemB, "Banking System B", "A system of the bank, with personal bank accounts.")
+  }
+
+  System_Ext(SystemC, "E-mail system", "The internal Microsoft Exchange e-mail system.")
+  SystemDb(SystemD, "Banking System D Database", "A system of the bank, with personal bank accounts.")
+
+  Boundary(b3, "BankBoundary3", "boundary") {
+    SystemQueue(SystemF, "Banking System F Queue", "A system of the bank, with personal bank accounts.")
+    SystemQueue_Ext(SystemG, "Banking System G Queue", "A system of the bank, with personal bank accounts.")
+  }
+}
+
+BiRel(customerA, SystemAA, "Uses")
+BiRel(SystemAA, SystemE, "Uses")
+Rel(SystemAA, SystemC, "Sends e-mails", "SMTP")
+Rel(SystemC, customerA, "Sends e-mails to")
 ```
 ````
 

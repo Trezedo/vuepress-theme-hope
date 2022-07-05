@@ -5,19 +5,19 @@ icon: slides
 
 Let the Markdown file in your VuePress site support presentation.
 
-## Configuration
+## Config
 
-:::: code-group
+::: code-tabs#language
 
-::: code-group-item TS
+@tab TS
 
 ```ts {8}
 // .vuepress/config.ts
-import { mdEnhance } from "vuepress-plugin-md-enhance";
+import { mdEnhancePlugin } from "vuepress-plugin-md-enhance";
 
 export default {
   plugins: [
-    mdEnhance({
+    mdEnhancePlugin({
       // Enable presentation
       presentation: true,
     }),
@@ -25,17 +25,15 @@ export default {
 };
 ```
 
-:::
-
-::: code-group-item JS
+@tab JS
 
 ```js {8}
 // .vuepress/config.js
-const { mdEnhance } = require("vuepress-plugin-md-enhance");
+const { mdEnhancePlugin } = require("vuepress-plugin-md-enhance");
 
 module.exports = {
   plugins: [
-    mdEnhance({
+    mdEnhancePlugin({
       // Enable presentation
       presentation: true,
     }),
@@ -44,10 +42,6 @@ module.exports = {
 ```
 
 :::
-
-::::
-
-This plugin is using [reveal.js](https://revealjs.com/) to support this feature.
 
 You can also pass an object for configuration.
 

@@ -16,18 +16,28 @@ actions:
 features:
   - title: Custom Container
     icon: box
-    details: Decorate markdown content with styles
+    details: Decorate Markdown content with styles
     link: /guide/container.html
 
-  - title: CodeGroup
+  - title: Tabs
+    icon: tab
+    details: Group similar content with tabs and switch them together
+    link: /guide/tabs.html
+
+  - title: Code Tabs
     icon: code
     details: Group similar codes with tabs
-    link: /guide/code-group.html
+    link: /guide/code-tabs.html
 
   - title: Custom Align
     icon: align
     details: Let you decide to align paragraphs in the way you like
     link: /guide/align.html
+
+  - title: Attrs support
+    icon: code
+    details: Allow you to add attributes for markdown content
+    link: /guide/atts.html
 
   - title: Superscript and subscript support
     icon: superscript
@@ -49,6 +59,16 @@ features:
     details: Use tasklist in Markdown
     link: /guide/tasklist.html
 
+  - title: image syntax
+    icon: pic
+    details: improve syntax to specify size and color scheme
+    link: /guide/image.html
+
+  - title: Chart Support
+    icon: rank
+    details: Display charts in Markdown
+    link: /guide/chart.html
+
   - title: Flowchart Support
     icon: tree
     details: Create your flowchart in Markdown
@@ -63,6 +83,11 @@ features:
     icon: tex
     details: Markdown now have Tex Support so you can write your formula
     link: /guide/tex.html
+
+  - title: Include snippet Support
+    icon: markdown
+    details: split your docs with different parts and import them in Markdown
+    link: /guide/include.html
 
   - title: Code Demo Support
     icon: discover
@@ -80,17 +105,21 @@ copyright: false
 
 ### Install
 
-:::: code-group
+::: code-tabs#shell
 
-::: code-group-item yarn
+@tab pnpm
+
+```bash
+pnpm add -D vuepress-plugin-md-enhance@next
+```
+
+@tab yarn
 
 ```bash
 yarn add -D vuepress-plugin-md-enhance@next
 ```
 
-:::
-
-::: code-group-item npm
+@tab npm
 
 ```bash
 npm i -D vuepress-plugin-md-enhance@next
@@ -98,38 +127,34 @@ npm i -D vuepress-plugin-md-enhance@next
 
 :::
 
-::::
-
 ### Usage
 
-:::: code-group
+::: code-tabs#language
 
-::: code-group-item TS
+@tab TS
 
 ```ts
 // .vuepress/config.ts
-import { mdEnhance } from "vuepress-plugin-md-enhance";
+import { mdEnhancePlugin } from "vuepress-plugin-md-enhance";
 
 export default {
   plugins: [
-    mdEnhance({
+    mdEnhancePlugin({
       // your options
     }),
   ],
 };
 ```
 
-:::
-
-::: code-group-item JS
+@tab JS
 
 ```js
 // .vuepress/config.js
-const { mdEnhance } = require("vuepress-plugin-md-enhance");
+const { mdEnhancePlugin } = require("vuepress-plugin-md-enhance");
 
 module.exports = {
   plugins: [
-    mdEnhance({
+    mdEnhancePlugin({
       // your options
     }),
   ],
@@ -137,9 +162,26 @@ module.exports = {
 ```
 
 :::
-
-::::
 
 ## Migrating from V1
 
 For details, see [Migration Guide](./migration.md).
+
+## Advanced
+
+This plugin exports the following markdown-it plugin, and you can use them in other projects.
+
+- align
+- attrs
+- container
+- footnote
+- imageMark
+- include
+- katex
+- lazyload
+- mark
+- stylize
+- sub
+- sup
+- tasklist
+- uml

@@ -21,43 +21,43 @@ tag:
 
 移动至 `config.scss`。
 
-- `$MQWide` 重命名为 `$wide`
-- `$MQNormal` 重命名为 `$desktop`
+- `$MQWide` 重命名为 `$pc`
+- `$MQNormal` 重命名为 `$laptop`
 - `$MQNarrow` 重命名为 `$pad`
-- `$MQMobile` 重命名为 `$mobile`
-- `$MQMobileNarrow` 重命名为 `$mobileS`
+- `$MQMobile` 重命名为 `$tablet`
+- `$MQMobileNarrow` 重命名为 `$mobile`
 
 ### 布局
 
 移动至 `palette.scss`。
 
-- `$mobileSidebarWidth` 重命名为 `$sidebarMobileWidth`
-- `$lineNumbersWrapperWidth` 重命名为 `$lineNumbersWidth`
+- `$mobileidebarWidth` 重命名为 `$sidebar-mobile-width`
+- `$lineNumbersWrapperWidth` 重命名为 `$line-numbers-width`
 
 ### 颜色
 
 移动至 `palette.scss`。
 
-- `$accentColor` 重命名为 `$themeColor`
-- `$textColor`, `$darkTextColor` 合并为 `$textColor`
-- `$bgColor`, `$darkBgColor` 合并为 `$bgColor`
-- `$bgColorLight`, `$darkBgColorLight` 合并为 `$bgColorLight`
-- `$bgColorBlur`, `$darkBgColorBlur` 合并为 `$bgColorBlur`
-- `$cardShadowColor`, `$darkCardShadowColor` 合并为 `$cardShadow`
-- `$boxShadowColor`, `$darkBoxShadowColor` 合并为 `$boxShadow`
+- `$accentColor` 重命名为 `$theme-color`
+- `$textColor`, `$darkTextColor` 合并为 `$text-color`
+- `$bgColor`, `$darkBgColor` 合并为 `$bg-color`
+- `$bgColorLight`, `$darkBgColorLight` 合并为 `$bg-color-light`
+- `$bg-color-blur`, `$darkBgColorBlur` 合并为 `$bg-color-blur`
+- `$cardShadowColor`, `$darkCardShadowColor` 合并为 `$card-shadow`
+- `$boxShadowColor`, `$darkBoxShadowColor` 合并为 `$box-shadow`
 
 - `$arrowBgColor` 移除
 
 - `$colorPicker` 移除
 
-  现在你只需要在 `themeConfig` 中设置主题色
+  现在你只需要在主题选项中设置主题色
 
-- `$codeBgColor`, `$darkCodeBgColor` 移除，请在 `config.scss` 中配置 `$codeLightTheme` 和 `$codeDarkTheme`。
+- `$codeBgColor`, `$darkCodeBgColor` 移除，请在 `config.scss` 中配置 `$code-light-theme` 和 `$code-dark-theme`。
 
 ### 字体
 
-- 新增 `$fontFamily`, `$fontFamilyFancy` 和 `$fontFamilyCode`
+- 新增 `$font-family`, `$font-family-fancy` 和 `$font-family-code`
 
 ### 动画
 
-- 新增 `$colorTransition` 和 `$transformTransition`
+- 新增 `$color-transition` 和 `$transform-transition`

@@ -1,6 +1,7 @@
 import { usePageFrontmatter } from "@vuepress/client";
 import { computed, defineComponent, h } from "vue";
 import { RouterLink } from "vue-router";
+import { generateIndexfromHash } from "vuepress-shared/lib/client";
 
 import { useTagMap } from "@theme-hope/module/blog/composables";
 
@@ -17,9 +18,9 @@ export default defineComponent({
     const tagMap = useTagMap();
 
     const tagList = computed(() =>
-      Object.keys(tagMap.value.map).map((tag) => ({
-        name: tag,
-        path: tagMap.value.map[tag].path,
+      Object.entries(tagMap.value.map).map(([name, { path }]) => ({
+        name,
+        path,
       }))
     );
 
@@ -30,11 +31,16 @@ export default defineComponent({
       h(
         "ul",
         { class: "tag-list-wrapper" },
-        tagList.value.map(({ name, path }, index) =>
+        tagList.value.map(({ name, path }) =>
           h(
             "li",
             {
-              class: ["tag", `tag${index % 9}`, { active: isActive(name) }],
+              class: [
+                "tag",
+                // TODO: magic number 9 is tricky here
+                `tag${generateIndexfromHash(name, 9)}`,
+                { active: isActive(name) },
+              ],
             },
             h(RouterLink, { to: path }, () =>
               h("div", { class: "tag-name" }, name)

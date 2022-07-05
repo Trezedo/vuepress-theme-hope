@@ -1,6 +1,6 @@
-import { encodeCDATA, encodeXML, isUrl } from "@mr-hope/vuepress-shared";
-import * as convert from "xml-js";
-import { generator } from "../utils";
+import { encodeCDATA, encodeXML, isUrl, stripTags } from "vuepress-shared";
+import { js2xml } from "xml-js";
+import { FEED_GENERATOR } from "../utils";
 
 import type { Feed } from "../feed";
 import type { FeedCategory, FeedEnclosure, FeedItemOption } from "../../shared";
@@ -64,12 +64,14 @@ export const renderRSS = (feed: Feed): string => {
     rss: {
       _attributes: {
         version: "2.0",
+        // eslint-disable-next-line @typescript-eslint/naming-convention
         "xmlns:atom": "http://www.w3.org/2005/Atom",
       },
       channel: {
         /**
          * @see http://validator.w3.org/feed/docs/warning/MissingAtomSelfLink.html
          */
+        // eslint-disable-next-line @typescript-eslint/naming-convention
         "atom:link": {
           _attributes: {
             href: links.rss,
@@ -91,7 +93,7 @@ export const renderRSS = (feed: Feed): string => {
             ? channel.lastUpdated.toUTCString()
             : new Date().toUTCString(),
         },
-        generator: { _text: generator },
+        generator: { _text: FEED_GENERATOR },
         docs: {
           _text: "https://validator.w3.org/feed/docs/rss2.html",
         },
@@ -137,22 +139,22 @@ export const renderRSS = (feed: Feed): string => {
     };
 
     if (entry.description)
-      item.description = { _text: encodeXML(entry.description) };
+      item.description = {
+        _text: entry.description.startsWith("html:")
+          ? stripTags(entry.description.substring(5))
+          : entry.description,
+      };
 
     /**
      * Item Author
      */
-    if (Array.isArray(entry.author)) {
+    if (entry.author) {
       const author = entry.author.find((author) => author.email && author.name);
 
       if (author)
         item.author = {
           _text: `${author.email as string} (${author.name as string})`,
         };
-    } else if (typeof entry.author === "object") {
-      const { name, email } = entry.author;
-
-      if (email && name) item.author = { _text: `${email} (${name})` };
     }
 
     /**
@@ -160,12 +162,10 @@ export const renderRSS = (feed: Feed): string => {
      *
      * @see https://validator.w3.org/feed/docs/rss2.html#ltcategorygtSubelementOfLtitemgt
      */
-    if (Array.isArray(entry.category)) {
+    if (entry.category)
       item.category = entry.category
         .filter((category) => category.name)
         .map((category) => genCategory(category));
-    } else if (typeof entry.category === "object" && entry.category.name)
-      item.category = [genCategory(entry.category)];
 
     if (entry.comments) item.comments = { _text: encodeXML(entry.link) };
 
@@ -192,7 +192,7 @@ export const renderRSS = (feed: Feed): string => {
     content.rss._attributes["xmlns:dc"] = "http://purl.org/dc/elements/1.1/";
   }
 
-  return convert.js2xml(content, {
+  return js2xml(content, {
     compact: true,
     ignoreComment: true,
     spaces: 2,

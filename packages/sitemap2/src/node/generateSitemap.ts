@@ -1,5 +1,11 @@
-import { chalk, fs, logger, withSpinner } from "@vuepress/utils";
+import {
+  isLinkHttp,
+  removeEndingSlash,
+  removeLeadingSlash,
+} from "@vuepress/shared";
+import { chalk, fs, withSpinner } from "@vuepress/utils";
 import { SitemapStream } from "sitemap";
+import { logger } from "./utils";
 
 import type { App, Page } from "@vuepress/core";
 import type { GitData } from "@vuepress/plugin-git";
@@ -42,7 +48,7 @@ const generatePageMap = (
   options: SitemapOptions
 ): Map<string, SitemapPageInfo> => {
   const {
-    changefreq = "daily",
+    changefreq,
     excludeUrls = ["/404.html"],
     modifyTimeGetter = ((page: Page<{ git: GitData }>): string =>
       page.data.git?.updatedTime
@@ -59,6 +65,7 @@ const generatePageMap = (
     (map, page) => {
       const { defaultPath, pathLocale } = stripLocalePrefix(page);
       const pathLocales = map.get(defaultPath) || [];
+
       pathLocales.push(pathLocale);
 
       return map.set(defaultPath, pathLocales);
@@ -71,20 +78,20 @@ const generatePageMap = (
 
   pages.forEach((page) => {
     const frontmatterOptions: SitemapFrontmatterOption =
-      (page.frontmatter.sitemap as SitemapFrontmatterOption) || {};
+      (page.frontmatter["sitemap"] as SitemapFrontmatterOption) || {};
 
     const metaRobotTags = (page.frontmatter.head || []).find(
-      (head) => head[1].name === "robots"
+      (head) => head[1]["name"] === "robots"
     );
 
     const excludePage = metaRobotTags
-      ? ((metaRobotTags[1].content as string) || "")
+      ? ((metaRobotTags[1]["content"] as string) || "")
           .split(/,/u)
           .map((content) => content.trim())
           .includes("noindex")
       : frontmatterOptions.exclude;
 
-    if (excludePage) excludeUrls.push(page.path);
+    if (excludePage || excludeUrls.includes(page.path)) return;
 
     const lastmodifyTime = modifyTimeGetter(page);
     const { defaultPath } = stripLocalePrefix(page);
@@ -100,24 +107,21 @@ const generatePageMap = (
             !locales[localePrefix].lang &&
             !reportedLocales.includes(localePrefix)
           ) {
-            logger.warn(
-              `[@vuepress/plugin-sitemap] 'lang' option for ${localePrefix} is missing`
-            );
+            logger.warn(`'lang' option for ${localePrefix} is missing`);
             reportedLocales.push(localePrefix);
           }
         });
 
       links = relatedLocales.map((localePrefix) => ({
-        lang: locales[localePrefix].lang || "en",
-        url: `${base.replace(/\/$/, "")}${defaultPath.replace(
-          /^\//u,
-          localePrefix
+        lang: locales[localePrefix]?.lang || "en",
+        url: `${base}${removeLeadingSlash(
+          defaultPath.replace(/^\//u, localePrefix)
         )}`,
       }));
     }
 
     const sitemapInfo: SitemapPageInfo = {
-      changefreq,
+      ...(changefreq ? { changefreq } : {}),
       links,
       ...(lastmodifyTime ? { lastmod: lastmodifyTime } : {}),
       ...frontmatterOptions,
@@ -126,15 +130,16 @@ const generatePageMap = (
     // log sitemap info in debug mode
     if (app.env.isDebug) {
       logger.info(
-        `[@vuepress/plugin-sitemap] sitemap option for ${page.path}`,
-        sitemapInfo
+        `sitemap option for ${page.path}: ${JSON.stringify(
+          sitemapInfo,
+          null,
+          2
+        )}`
       );
     }
 
     pagesMap.set(page.path, sitemapInfo);
   });
-
-  options.excludeUrls = excludeUrls;
 
   return pagesMap;
 };
@@ -143,10 +148,12 @@ export const generateSiteMap = async (
   app: App,
   options: SitemapOptions
 ): Promise<void> => {
-  const { excludeUrls = [], extraUrls = [], xmlNameSpace: xmlns } = options;
-  const hostname = options.hostname.replace(/\/$/u, "");
+  const { extraUrls = [], xmlNameSpace: xmlns } = options;
+  const hostname = isLinkHttp(options.hostname)
+    ? removeEndingSlash(options.hostname)
+    : `https://${removeEndingSlash(options.hostname)}`;
   const sitemapFilename = options.sitemapFilename
-    ? options.sitemapFilename.replace(/^\//u, "")
+    ? removeLeadingSlash(options.sitemapFilename)
     : "sitemap.xml";
   const {
     dir,
@@ -158,7 +165,7 @@ export const generateSiteMap = async (
       new Promise<void>((resolve) => {
         const sitemap = new SitemapStream({
           hostname,
-          xmlns,
+          ...(xmlns ? { xmlns } : {}),
         });
         const pagesMap = generatePageMap(app, options);
         const sitemapXMLPath = dir.dest(sitemapFilename);
@@ -166,16 +173,15 @@ export const generateSiteMap = async (
 
         sitemap.pipe(writeStream);
 
-        pagesMap.forEach((page, path) => {
-          if (!excludeUrls.includes(path))
-            sitemap.write({
-              url: `${base}${path.replace(/^\//u, "")}`,
-              ...page,
-            });
-        });
+        pagesMap.forEach((page, path) =>
+          sitemap.write({
+            url: `${base}${removeLeadingSlash(path)}`,
+            ...page,
+          })
+        );
 
         extraUrls.forEach((item) =>
-          sitemap.write({ url: `${base}${item.replace(/^\//u, "")}` })
+          sitemap.write({ url: `${base}${removeLeadingSlash(item)}` })
         );
         sitemap.end(() => {
           resolve();

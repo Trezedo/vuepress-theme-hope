@@ -1,5 +1,5 @@
 ---
-title: Custom alignment
+title: Alignment
 icon: align
 ---
 
@@ -21,17 +21,17 @@ To customize your paragraph alignment.
 
 ## Config
 
-:::: code-group
+::: code-tabs#language
 
-::: code-group-item TS
+@tab TS
 
 ```ts {8}
 // .vuepress/config.ts
-import { mdEnhance } from "vuepress-plugin-md-enhance";
+import { mdEnhancePlugin } from "vuepress-plugin-md-enhance";
 
 export default {
   plugins: [
-    mdEnhance({
+    mdEnhancePlugin({
       // Enable Align
       align: true,
     }),
@@ -39,17 +39,15 @@ export default {
 };
 ```
 
-:::
-
-::: code-group-item JS
+@tab JS
 
 ```js {8}
 // .vuepress/config.js
-const { mdEnhance } = require("vuepress-plugin-md-enhance");
+const { mdEnhancePlugin } = require("vuepress-plugin-md-enhance");
 
 module.exports = {
   plugins: [
-    mdEnhance({
+    mdEnhancePlugin({
       // Enable Align
       align: true,
     }),
@@ -58,13 +56,11 @@ module.exports = {
 ```
 
 :::
-
-::::
 
 ## Demo
 
 :::: danger
-vuepress-theme-hope v2 is still in W.I.P, the API may have
+VuePress Theme Hope V2 version is still in W.I.P, the API may have
 
 ::: center
 Significant changes.
@@ -73,13 +69,13 @@ Significant changes.
 If you meet a bug during usage, you can
 
 ::: right
-[Mention an issue](https://github.com/vuepress-theme-hope/vuepress-theme-hope/issues).
+[open an issue](https://github.com/vuepress-theme-hope/vuepress-theme-hope/issues).
 :::
 ::::
 
 ```md
 :::: danger
-vuepress-theme-hope v2 is still in W.I.P, the API may have
+VuePress Theme Hope V2 version is still in W.I.P, the API may have
 
 ::: center
 Significant changes.
@@ -88,7 +84,7 @@ Significant changes.
 If you meet a bug during usage, you can
 
 ::: right
-[Mention an issue](https://github.com/vuepress-theme-hope/vuepress-theme-hope/issues).
+[open an issue](https://github.com/vuepress-theme-hope/vuepress-theme-hope/issues).
 :::
 ::::
 ```

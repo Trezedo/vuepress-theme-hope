@@ -28,12 +28,33 @@ type AuthorInfo = {
 type Author = string | string[] | AuthorInfo | AuthorInfo[];
 ```
 
+### autoDescription
+
+- 类型: `boolean`
+- 默认值: `true`
+
+是否自动生成描述
+
+## canonical
+
+- 类型: `string | ((page: Page) => string | null)`
+- 必填: 否
+
+首选连接
+
+### fallBackImage
+
+- 类型: `string`
+- 必填: 否
+
+当找不到图片时的回退图片链接
+
 ### restrictions
 
 - 类型: `string`
 - 必填: 否
 
-内容的年龄分级，格式为 `[int]+`，如 `'13+'`
+内容的年龄分级，格式为 `[int]+`，如 `"13+"`
 
 ### twitterID
 
@@ -51,7 +72,16 @@ type Author = string | string[] | AuthorInfo | AuthorInfo[];
 
 ### ogp
 
-- 类型: `<ExtendObject = Record<string, unknown>>(ogp: SeoContent, info: PageSeoInfo<ExtendObject>) => SeoContent`
+- 类型:
+
+  ```ts
+  function ogp<ExtendObject = Record<string, unknown>>(
+    ogp: SeoContent,
+    page: ExtendPage<ExtendObject>,
+    app: App
+  ) => SeoContent;
+  ```
+
 - 必填: 否
 
 自定义 OGP 生成器
@@ -60,7 +90,16 @@ type Author = string | string[] | AuthorInfo | AuthorInfo[];
 
 ### jsonLd
 
-- 类型: `<ExtendObject = Record<string, unknown>>(jsonLD: ArticleJSONLD | null, info: PageSeoInfo<ExtendObject>) => ArticleJSONLD | null`
+- 类型:
+
+  ```ts
+  function jsonLd: <ExtendObject = Record<string, unknown>>(
+    jsonLD: ArticleJSONLD | null,
+    page: ExtendPage<ExtendObject>,
+    app: App
+  ) => ArticleJSONLD | null;
+  ```
+
 - 必填: 否
 
 自定义 JSON-LD 生成器
@@ -69,22 +108,16 @@ type Author = string | string[] | AuthorInfo | AuthorInfo[];
 
 ### customHead
 
-- 类型: `<ExtendObject = Record<string, unknown>>(head: HeadConfig[], info: PageSeoInfo<ExtendObject>) => void`
+- 类型:
+
+  ```ts
+  function customHead<ExtendObject = Record<string, unknown>>(
+    head: HeadConfig[],
+    page: ExtendPage<ExtendObject>,
+    app: App
+  ) => void
+  ```
+
 - 必填: 否
 
 你可以使用此选项来直接注入任意格式的标签到 `<head>`。
-
-## 相关接口
-
-`PageSeoInfo` 的结构如下:
-
-```ts
-interface PageSeoInfo {
-  /** 当前 VuePress App */
-  app: App;
-  /** 当前页面对象 */
-  page: Page;
-  /** 当前页面的永久链接 */
-  permalink: string | null;
-}
-```

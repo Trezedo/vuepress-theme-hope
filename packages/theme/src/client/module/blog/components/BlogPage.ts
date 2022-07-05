@@ -7,7 +7,7 @@ import ArticleType from "@theme-hope/module/blog/components/ArticleType";
 import CategoryList from "@theme-hope/module/blog/components/CategoryList";
 import TagList from "@theme-hope/module/blog/components/TagList";
 import TimelineItems from "@theme-hope/module/blog/components/TimelineItems";
-import { DropTransition } from "@theme-hope/components/transitions";
+import DropTransition from "@theme-hope/components/transitions/DropTransition";
 import {
   useArticles,
   useCategoryMap,
@@ -76,8 +76,6 @@ export default defineComponent({
         ? name
           ? tagMap.value.map[name].items
           : []
-        : key === "timeline"
-        ? []
         : articles.value.items;
     });
 
@@ -86,7 +84,7 @@ export default defineComponent({
         h(DropTransition, () =>
           componentName.value ? h(resolveComponent(componentName.value)) : null
         ),
-        h(DropTransition, { delay: 0.24 }, () =>
+        h(DropTransition, { appear: true, delay: 0.24 }, () =>
           frontmatter.value.blog?.key === "timeline"
             ? h(TimelineItems)
             : h(ArticleList, { key: route.path, items: items.value })

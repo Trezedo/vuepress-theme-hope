@@ -1,21 +1,18 @@
-import type { Author } from "@mr-hope/vuepress-shared";
 import type { ThemeData } from "@vuepress/plugin-theme-data";
+import type { Author } from "vuepress-shared";
 import type {
-  HopeThemeAppearanceConfig,
-  HopeThemeAppearanceOptions,
+  HopeThemeAppearanceRootConfig,
+  HopeThemeAppearanceRootOptions,
 } from "./appearance";
 import type {
-  HopeThemeFeatureConfig,
-  HopeThemeFeatureOptions,
+  HopeThemeFeatureRootConfig,
+  HopeThemeFeatureRootOptions,
 } from "./feature";
-import type { HopeThemeLayoutOptions } from "./layout";
+import type { HopeThemeLayoutRootOptions } from "./layout";
 import type { HopeThemeLocaleConfig, HopeThemeLocaleOptions } from "./locales";
 import type { HopeThemePluginsOptions } from "./plugins";
 
-export interface HopeThemeRootOptions
-  extends HopeThemeAppearanceOptions,
-    HopeThemeFeatureOptions,
-    HopeThemeLayoutOptions {
+export interface HopeThemeRootInfoOptions {
   /**
    * Global default author
    *
@@ -31,24 +28,15 @@ export interface HopeThemeRootOptions
   hostname?: string;
 }
 
-export interface HopeThemeRootConfig
-  extends HopeThemeAppearanceConfig,
-    HopeThemeFeatureConfig,
-    HopeThemeLayoutOptions {
-  /**
-   * Global default author
-   *
-   * 全局默认作者
-   */
-  author?: Author;
+export type HopeThemeRootOptions = HopeThemeAppearanceRootOptions &
+  HopeThemeFeatureRootOptions &
+  HopeThemeLayoutRootOptions &
+  HopeThemeRootInfoOptions;
 
-  /**
-   * domain which to be deployed to
-   *
-   * 网站部署域名
-   */
-  hostname?: string;
-}
+export type HopeThemeRootConfig = HopeThemeAppearanceRootConfig &
+  HopeThemeFeatureRootConfig &
+  HopeThemeLayoutRootOptions &
+  HopeThemeRootInfoOptions;
 
 export interface HopeThemeOptions
   extends HopeThemeRootOptions,

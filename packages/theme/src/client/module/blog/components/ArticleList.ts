@@ -1,16 +1,9 @@
-import {
-  computed,
-  defineComponent,
-  h,
-  onMounted,
-  ref,
-  resolveComponent,
-  watch,
-} from "vue";
+import { computed, defineComponent, h, onMounted, ref, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
 
 import ArticleItem from "@theme-hope/module/blog/components/ArticleItem";
-import { DropTransition } from "@theme-hope/components/transitions";
+import Pagination from "@theme-hope/module/blog/components/Pagination";
+import DropTransition from "@theme-hope/components/transitions/DropTransition";
 import { EmptyIcon } from "@theme-hope/module/blog/components/icons";
 import { useBlogOptions } from "@theme-hope/module/blog/composables";
 
@@ -37,7 +30,9 @@ export default defineComponent({
 
     const currentPage = ref(1);
 
-    const articlePerPage = computed(() => blogOptions.value.articlePerPage);
+    const articlePerPage = computed(
+      () => blogOptions.value.articlePerPage || 10
+    );
 
     const currentArticles = computed(() =>
       props.items.slice(
@@ -51,9 +46,10 @@ export default defineComponent({
 
       const query = { ...route.query };
 
-      if (query.page === page.toString() || (page === 1 && !query.page)) return;
-      if (page === 1) delete query.page;
-      else query.page = page.toString();
+      if (query["page"] === page.toString() || (page === 1 && !query["page"]))
+        return;
+      if (page === 1) delete query["page"];
+      else query["page"] = page.toString();
 
       void router.push({ path: route.path, query });
     };
@@ -83,11 +79,11 @@ export default defineComponent({
         currentArticles.value.length
           ? [
               ...currentArticles.value.map(({ info, path }, index) =>
-                h(DropTransition, { delay: index * 0.04 }, () =>
+                h(DropTransition, { appear: true, delay: index * 0.04 }, () =>
                   h(ArticleItem, { key: path, info, path })
                 )
               ),
-              h(resolveComponent("Pagination"), {
+              h(Pagination, {
                 currentPage: currentPage.value,
                 perPage: articlePerPage.value,
                 total: props.items.length,

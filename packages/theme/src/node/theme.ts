@@ -1,82 +1,112 @@
 import { path } from "@vuepress/utils";
 
-import { getAlias } from "./alias";
-import { updateBundlerOptions } from "./bundler";
-import { handleThemeData } from "./handleThemeData";
-import { extendsPage } from "./extends";
+import { resolveAlias } from "./alias";
+import { updateBundlerConfig } from "./bundler";
+import { extendsPage } from "./extendsPage";
+import { checkStyle, covertFrontmatter, covertThemeConfig } from "./compact";
 import { getLayoutConfig } from "./layout";
 import { getPluginConfig, usePlugin } from "./plugins";
+import {
+  prepareConfigFile,
+  prepareSidebarData,
+  prepareSocialMediaIcons,
+} from "./prepare";
 import { checkSocialMediaIcons } from "./socialMedia";
-import { writeThemeColorScss } from "./themeColor";
+import { getStatus } from "./status";
+import { getThemeConfig } from "./themeConfig";
+import { prepareThemeColorScss } from "./themeColor";
 
-import type { Page, Theme } from "@vuepress/core";
-import type {
-  HopeThemeConfig,
-  HopeThemeOptions,
-  HopeThemePageData,
-} from "../shared";
+import type { Page, ThemeFunction } from "@vuepress/core";
+import type { HopeThemeOptions, HopeThemePageData } from "../shared";
 
-export const themeHope: Theme<HopeThemeOptions> = (
-  { plugins = {}, ...themeOptions },
-  app
-) => {
-  const enableBlog = Boolean(plugins.blog);
+export const hopeTheme =
+  (
+    options: HopeThemeOptions,
+    // TODO: remove this option in stable release
+    legacy = false
+  ): ThemeFunction =>
+  (app) => {
+    const {
+      plugins = {},
+      hostname,
+      iconAssets,
+      iconPrefix,
+      addThis,
+      backToTop,
+      ...themeOptions
+    } = legacy
+      ? covertThemeConfig(options as HopeThemeOptions & Record<string, unknown>)
+      : options;
 
-  handleThemeData(app, themeOptions);
-  usePlugin(app, plugins);
+    if (legacy) checkStyle(app);
 
-  if (enableBlog) {
-    const icons = checkSocialMediaIcons(themeOptions as HopeThemeConfig);
+    const status = getStatus(options);
+    const themeConfig = getThemeConfig(app, themeOptions, status);
+    const icons = status.enableBlog ? checkSocialMediaIcons(themeConfig) : {};
 
-    void app.writeTemp(
-      `theme-hope/socialMedia.js`,
-      `export const icons = ${JSON.stringify(icons)}`
-    );
-  }
+    usePlugin(app, plugins);
 
-  return {
-    name: "vuepress-theme-hope",
+    if (app.env.isDebug) console.log("Theme plugin options:", plugins);
 
-    alias: getAlias(app),
+    return {
+      name: "vuepress-theme-hope",
 
-    define: () => ({
-      ENABLE_BLOG: enableBlog,
-    }),
+      alias: resolveAlias(app.env.isDebug),
 
-    extendsPage: (page) =>
-      extendsPage(
-        themeOptions as HopeThemeConfig,
+      define: () => ({
+        ENABLE_BLOG: status.enableBlog,
+        ENABLE_VISITOR: status.enableVisitor,
+      }),
+
+      extendsBundlerOptions: (config: unknown, app): void =>
+        updateBundlerConfig(config, app),
+
+      extendsPage: (page): void => {
+        if (legacy)
+          page.frontmatter = covertFrontmatter(
+            page.frontmatter,
+            page.filePathRelative || ""
+          );
+
+        extendsPage(
+          themeConfig,
+          plugins,
+          page as Page<HopeThemePageData>,
+          app.env.isDev
+        );
+      },
+
+      onPrepared: (): Promise<void> =>
+        Promise.all([
+          prepareSidebarData(app, themeConfig),
+          prepareThemeColorScss(app, themeConfig),
+          prepareSocialMediaIcons(app, icons),
+        ]).then(() => void 0),
+
+      plugins: getPluginConfig(
         plugins,
-        page as Page<HopeThemePageData>,
-        app.env.isDev
+        themeConfig,
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        {
+          addThis,
+          backToTop,
+          hostname,
+          iconAssets,
+          iconPrefix,
+        },
+        legacy
       ),
 
-    onInitialized: (app): void => updateBundlerOptions(app),
+      layouts: getLayoutConfig(app, plugins),
 
-    onPrepared: (): Promise<void> =>
-      writeThemeColorScss(app, themeOptions as HopeThemeConfig),
+      templateBuild: path.resolve(
+        __dirname,
+        "../../templates/index.build.html"
+      ),
 
-    plugins: getPluginConfig(app, plugins, themeOptions as HopeThemeConfig),
-
-    layouts: getLayoutConfig(app, plugins),
-
-    templateBuild: path.resolve(__dirname, "../../templates/index.build.html"),
-
-    clientAppEnhanceFiles: [
-      path.resolve(__dirname, "../client/appEnhance.js"),
-      path.resolve(__dirname, "../client/module/navbar/appEnhance.js"),
-      path.resolve(__dirname, "../client/module/sidebar/appEnhance.js"),
-      ...(enableBlog
-        ? [path.resolve(__dirname, "../client/module/blog/appEnhance.js")]
-        : []),
-    ],
-
-    clientAppSetupFiles: [
-      ...(enableBlog
-        ? [path.resolve(__dirname, "../client/module/blog/appSetup.js")]
-        : []),
-      path.resolve(__dirname, "../client/module/outlook/appSetup.js"),
-      path.resolve(__dirname, "../client/module/sidebar/appSetup.js"),
-    ],
+      clientConfigFile: (app) => prepareConfigFile(app, status),
+    };
   };
-};
+
+export const hope = hopeTheme;

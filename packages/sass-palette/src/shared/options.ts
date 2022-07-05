@@ -1,6 +1,6 @@
 export interface SassPaletteOptions {
   /**
-   * Identifier for palette, used to avoid duplicate registion.
+   * Identifier for palette, used to avoid duplicate registration.
    *
    * 调色板的唯一 ID，用于避免重复注册。
    */
@@ -35,7 +35,7 @@ export interface SassPaletteOptions {
   /**
    * User palette file path, relative to source dir.
    *
-   * @description This is the file where user control injected css varbiale. All the variable will be converted in to kebab-case and injected.
+   * @description This is the file where user control injected css variables. All the variables will be converted in to kebab-case and injected.
    *
    * 用户的调色板文件路径，相对于源文件夹。
    *
@@ -62,7 +62,7 @@ export interface SassPaletteOptions {
   /**
    * Custom generator, used to generate derivative values with palette config
    *
-   * e.g: You may want to provide a `$themeColorLight` based on `$themeColor`.
+   * e.g: You may want to provide a `$theme-color-light` based on `$themeColor`.
    *
    * 自定义的生成器，用于生成调色板配置的衍生值。
    *

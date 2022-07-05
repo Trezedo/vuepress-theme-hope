@@ -7,11 +7,11 @@ heroText: 项目名称
 tagline: 你可以在这里放置或是整个项目的描述。
 actions:
   - text: 使用指南 💡
-    link: /zh/guide/
+    link: /guide/
+    type: primary
 
   - text: 博客主页 🏠
-    link: /zh/
-    type: secondary
+    link: /
 
 features:
   - title: Markdown 增强
@@ -21,7 +21,7 @@ features:
 
   - title: 幻灯片页面
     icon: slides
-    details: 添加幻灯片页面以显示您喜欢的内容
+    details: 添加幻灯片页面以显示你喜欢的内容
     link: https://vuepress-theme-hope.github.io/v2/zh/guide/layout/slides
 
   - title: 布局增强
@@ -55,7 +55,7 @@ features:
     link: https://vuepress-theme-hope.github.io/v2/zh/guide/interface/darkmode.html
 
   - title: 完整的无障碍支持
-    icon: contrast
+    icon: support
     details: 为你的网站带来完整的无障碍支持
     link: https://vuepress-theme-hope.github.io/v2/zh/guide/interface/accessibility.html
 
@@ -65,7 +65,7 @@ features:
     link: https://vuepress-theme-hope.github.io/v2/zh/guide/feature/encrypt.html
 
   - title: 复制按钮
-    icon: lock
+    icon: copy
     details: 一键复制代码块中的代码
     link: https://vuepress-theme-hope.github.io/v2/zh/guide/feature/copy-code.html
 
@@ -102,7 +102,7 @@ copyright: false
 footer: MIT Licensed | Copyright © 2019-present Mr.Hope
 ---
 
-这是普通主页的案例。你可以在这里放置你的主体内容。
+这是项目主页的案例。你可以在这里放置你的主体内容。
 
 想要使用此布局，你需要在页面 front matter 中设置 `home: true`。
 

@@ -1,6 +1,6 @@
 <!-- markdownlint-disable -->
 <p align="center">
-  <img width="240" src="https://vuepress-theme.mrhope.site/logo.svg" style="text-align: center;"/>
+  <img width="240" src="https://vuepress-theme.mrhope.site/logo.svg" style="text-align: center;">
 </p>
 <h1 align="center">vuepress-plugin-md-enhance</h1>
 <h4 align="center">Markdown enhancement plugin📄 / Markdown 增强插件📄</h4>
@@ -13,21 +13,20 @@
 
 Markdown enhancement plugin📄 / Markdown 增强插件 📄
 
-## [Official Docs](https://vuepress-theme-hope.github.io/md-enhance/) | [官方文档](https://vuepress-theme-hope.gitee.io/md-enhance/zh/)
+## [Official Docs](https://vuepress-theme-hope.github.io/v2/md-enhance/) | [官方文档](https://vuepress-theme-hope.gitee.io/v2/md-enhance/zh/)
 
 ## Install
 
 ```bash
-npm i -D vuepress-plugin-md-enhance
+# pnpm
+pnpm add -D vuepress-plugin-md-enhance@next
+# npm
+npm i -D vuepress-plugin-md-enhance@next
+# yarn
+yarn add -D vuepress-plugin-md-enhance@next
 ```
 
-Or
-
-```bash
-yarn add -D vuepress-plugin-md-enhance
-```
-
-## Migration from V1
+## Migrating from V1
 
 - drop flowchart support ![removed](https://img.shields.io/badge/-removed-red)
 
@@ -54,13 +53,12 @@ yarn add -D vuepress-plugin-md-enhance
 ## 安装
 
 ```bash
-npm i -D vuepress-plugin-md-enhance
-```
-
-或
-
-```bash
-yarn add -D vuepress-plugin-md-enhance
+# pnpm
+pnpm add -D vuepress-plugin-md-enhance@next
+# npm
+npm i -D vuepress-plugin-md-enhance@next
+# yarn
+yarn add -D vuepress-plugin-md-enhance@next
 ```
 
 ## 从 V1 迁移

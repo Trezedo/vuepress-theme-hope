@@ -21,17 +21,21 @@ copyright: false
 
 ### Install
 
-:::: code-group
+::: code-tabs#shell
 
-::: code-group-item yarn
+@tab pnpm
+
+```bash
+pnpm add -D vuepress-plugin-blog2@next
+```
+
+@tab yarn
 
 ```bash
 yarn add -D vuepress-plugin-blog2@next
 ```
 
-:::
-
-::: code-group-item npm
+@tab npm
 
 ```bash
 npm i -D vuepress-plugin-blog2@next
@@ -39,38 +43,34 @@ npm i -D vuepress-plugin-blog2@next
 
 :::
 
-::::
-
 ### Usage
 
-:::: code-group
+::: code-tabs#language
 
-::: code-group-item TS
+@tab TS
 
 ```ts
 // .vuepress/config.ts
-import { blog } from "vuepress-plugin-blog2";
+import { blogPlugin } from "vuepress-plugin-blog2";
 
 export default {
   plugins: [
-    blog({
+    blogPlugin({
       // your options
     }),
   ],
 };
 ```
 
-:::
-
-::: code-group-item JS
+@tab JS
 
 ```js
 // .vuepress/config.js
-const { blog } = require("vuepress-plugin-blog2");
+const { blogPlugin } = require("vuepress-plugin-blog2");
 
 module.exports = {
   plugins: [
-    blog({
+    blogPlugin({
       // your options
     }),
   ],
@@ -78,9 +78,17 @@ module.exports = {
 ```
 
 :::
-
-::::
 
 ## Migrating from V1
 
 This plugin wasn’t released in V1.
+
+If you were using `@vuepress/plugin-blog` in VuePress1, you should know that this plugin is targeting a total different level with `@vuepress/plugin-blog`.
+
+- `@vuepress/plugin-blog` is more like a blogging utils collection targeting users.
+
+  It gives you detailed options to filter with frontmatter, dir and other conditions. Also, it's combined with feed, sitemap, mailchimp, panigation and other blog related features. Mainly, you get collections you want using compicated options, and the results are mixined globally with panigation.
+
+- `vuepress-plugin-blog2` however, is targeting theme developers, and only have < 1kb gzipped client chunk size.
+
+  Since `siteData.pages` is no longer available in VuePress2 for scalability reasons, the plugin is only injecting them to routeMeta on node side and provide compoistion apis for you to get them on client side. While it does not provide any related features such as panigation, feed, sitemap. Mainly, you will get collections through functions returning values from page objects, and you will need to use other plugins to provide other features, and handle panigation yourself.

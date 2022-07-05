@@ -1,7 +1,14 @@
-import type { BasePageFrontMatter } from "@mr-hope/vuepress-shared";
-import type { HopeThemeSidebarConfig } from "../sidebar";
+import type { BasePageFrontMatter } from "vuepress-shared";
 
 export interface HopeThemePageFrontmatter extends BasePageFrontMatter {
+  /**
+   * Whether is home page
+   *
+   * 是否是主页
+   */
+
+  home?: boolean;
+
   /**
    * Whether enable navbar
    *
@@ -14,10 +21,10 @@ export interface HopeThemePageFrontmatter extends BasePageFrontMatter {
    *
    * 侧边栏配置
    */
-  sidebar?: "auto" | false | HopeThemeSidebarConfig;
+  sidebar?: "heading" | false;
 
   /**
-   * Addtional Class for Page container
+   * Additional Class for Page container
    *
    * 页面容器的额外类名
    */

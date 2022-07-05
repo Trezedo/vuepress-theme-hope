@@ -14,47 +14,44 @@ tag:
 
 ## 配置
 
-:::: code-group
+::: code-tabs#language
 
-::: code-group-item TS
+@tab TS
 
-```ts {7-9}
+```ts {8-10}
 // .vuepress/config.ts
-import { defineHopeConfig } from "vuepress-theme-hope";
+import { defineUserConfig } from "vuepress";
+import { hopeTheme } from "vuepress-theme-hope";
 
-export default defineHopeConfig({
-  themeConfig: {
+export default defineUserConfig({
+  theme: hopeTheme({
     plugins: {
       mdEnhance: {
         tex: true,
       },
     },
-  },
+  }),
 });
 ```
 
-:::
-
-::: code-group-item JS
+@tab JS
 
 ```js {7-9}
 // .vuepress/config.js
-const { defineHopeConfig } = require("vuepress-theme-hope");
+const { hopeTheme } = require("vuepress-theme-hope");
 
-module.exports = defineHopeConfig({
-  themeConfig: {
+module.exports = {
+  theme: hopeTheme({
     plugins: {
       mdEnhance: {
         tex: true,
       },
     },
-  },
-});
+  }),
+};
 ```
 
 :::
-
-::::
 
 ## 语法
 
@@ -318,12 +315,6 @@ A small matix: $( \begin{smallmatrix} a&b\\c&d \end{smallmatrix} )$.
   d+e+f+g
   $$
   ```
-
-  ::: tip
-
-  请注意，由于 $\KaTeX$ 支持自动换行，所以如果你手动指定换行会在控制台输出一个警告。
-
-  :::
 
 - **对齐**
 

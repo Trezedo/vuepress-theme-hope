@@ -11,42 +11,42 @@ tag:
 
 <!-- markdownlint-disable -->
 
-# First Heading
+# Heading 1
 
 <!-- markdownlint-restore -->
 
 ```md
-# First Heading
+# Heading 1
 ```
 
-## Second Heading
+## Heading 2
 
 ```md
-## Second Heading
+## Heading 2
 ```
 
-### Third Heading
+### Heading 3
 
 ```md
-### Third Heading
+### Heading 3
 ```
 
-#### Fourth Heading
+#### Heading 4
 
 ```md
-#### Fourth Heading
+#### Heading 4
 ```
 
-##### Fifth Heading
+##### Heading 5
 
 ```md
-##### Fifth Heading
+##### Heading 5
 ```
 
-###### Sixth Heading
+###### Heading 6
 
 ```md
-###### Sixth Heading
+###### Heading 6
 ```
 
 ## Text
@@ -163,42 +163,34 @@ In codes above, two spaces are behind `at`.
 
 [Home page using absolute path](/)
 
-[Home page using relative path](../README.md)
-
-[About page using absolute path](/about)
-
-[About page using relative path](../about.md)
+[Home page using relative path](../../README.md)
 
 ```md
 [Home page using absolute path](/)
 
-[Home page using relative path](../README.md)
-
-[About page using absolute path](/about)
-
-[About page using relative path](../about.md)
+[Home page using relative path](../../README.md)
 ```
 
 ::: tip
 
 You can also use these in VuePress:
 
-- [Home page-Can route when editing Markdown file](../README.md)
+- [Home page-Can route when editing Markdown file](../../README.md)
 
 - [Home page using absolute path 2](/README.md)
 
-- [Visit in HTML](../index.html)
+- [Visit in HTML](../../index.html)
 
 To be able to jump to each other when editing the Markdown using the editor, you need to use the **relative path**, also you must place `README.md` in **every folder**.
 
 代码:
 
 ```md
-- [Home page-Can route when editing Markdown file](../README.md)
+- [Home page-Can route when editing Markdown file](../../README.md)
 
 - [Home page using absolute path 2](/README.md)
 
-- [Visit in HTML](../index.html)
+- [Visit in HTML](../../index.html)
 ```
 
 :::

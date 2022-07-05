@@ -1,19 +1,19 @@
-import { seo as seoPlugin } from "vuepress-plugin-seo2";
+import { seoPlugin } from "vuepress-plugin-seo2";
 import { getBlogOptions } from "./blog";
 
-import type { Page, PluginConfig } from "@vuepress/core";
-import type { SeoOptions } from "vuepress-plugin-seo2";
+import type { Page, Plugin } from "@vuepress/core";
 import type { HopeThemeConfig, HopeThemePluginsOptions } from "../../shared";
 
-export const resolveSEOPlugin = (
+export const getSEOPlugin = (
   themeConfig: HopeThemeConfig,
-  { blog, seo }: HopeThemePluginsOptions
-): PluginConfig => {
-  if (seo === false) return ["", false];
+  { blog, seo }: HopeThemePluginsOptions,
+  hostname = "",
+  legacy = false
+): Plugin | null => {
+  if (seo === false) return null;
 
   // disable seo if `hostname` is not set and no options for seo plugin
-  if (!Object.keys(seo || {}).length && !themeConfig.hostname)
-    return ["", false];
+  if (!Object.keys(seo || {}).length && !hostname) return null;
 
   const blogOptions = getBlogOptions(blog);
 
@@ -23,18 +23,24 @@ export const resolveSEOPlugin = (
     pathLocale,
     path,
   }: Page): boolean => {
-    if (!filePathRelative || frontmatter.home) return false;
+    if (!filePathRelative || frontmatter["home"]) return false;
 
     const localePath = path.replace(new RegExp(`^${pathLocale}`), "/");
 
-    return Object.keys(blogOptions).every(
-      (path) => !localePath.startsWith(path)
-    );
+    return Object.entries(blogOptions)
+      .filter<[string, string]>(
+        (item): item is [string, string] => typeof item[1] === "string"
+      )
+      .every(([, value]) => !localePath.startsWith(value));
   };
 
-  return seoPlugin({
-    hostname: themeConfig.hostname,
-    isArticle,
-    ...(seo || {}),
-  } as SeoOptions);
+  return seoPlugin(
+    {
+      hostname,
+      ...(themeConfig.author ? { author: themeConfig.author } : {}),
+      isArticle,
+      ...(seo || {}),
+    },
+    legacy
+  );
 };

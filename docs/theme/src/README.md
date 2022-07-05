@@ -13,10 +13,13 @@ actions:
   - text: Config 🛠
     link: /config/
 
+  - text: Online Demo 🪀
+    link: https://stackblitz.com/fork/vuepress-theme-hope
+
 features:
   - title: Markdown Enhance
     icon: markdown
-    details: Add align, sup/sub script, footnote, tasklist, tex, flowchart, diagram, mark and presentation support in markdown
+    details: Add align, sup/sub script, footnote, tasklist, tex, flowchart, diagram, mark and presentation support in Markdown
     link: /guide/markdown/
 
   - title: Slide page
@@ -61,11 +64,11 @@ features:
 
   - title: Article Encryption
     icon: lock
-    details: Encrypt you article based on path and folders, so that only the one you want could see them
+    details: Encrypt you articles based on page links, so that only the one you want could see them
     link: /guide/feature/encrypt.html
 
   - title: Copy button
-    icon: lock
+    icon: copy
     details: Copy codes with one click in code blocks
     link: /guide/feature/copy-code.html
 
@@ -81,17 +84,17 @@ features:
 
   - title: Sitemap
     icon: sitemap
-    details: Generate a Sitemap for your website
+    details: Generate a Sitemap for your site
     link: /guide/advanced/sitemap.html
 
   - title: Feed support
     icon: rss
-    details: Generate feed to allow users to subcribe it
+    details: Generate feed to allow users to subscribe it
     link: /guide/advanced/feed.html
 
   - title: PWA support
     icon: mobile
-    details: Make your website more like an APP
+    details: Make your site more like an APP
     link: /guide/advanced/pwa.html
 
   - title: More new features
@@ -105,19 +108,17 @@ footer: MIT Licensed | Copyright © 2019-present Mr.Hope
 
 ## 🛠Install
 
-Create a vuepress-theme-hope project in `[dir]` folder under the current project:
+Create a vuepress-theme-hope project in `[dir]` directory under the current project:
 
-:::: code-group
+::: code-tabs#shell
 
-<!-- ::: code-group-item yarn
+@tab pnpm
 
 ```bash
-yarn create vuepress-theme-hope [dir]
+pnpm create vuepress-theme-hope@next [dir]
 ```
 
-::: -->
-
-::: code-group-item npm
+@tab npm
 
 ```bash
 npm init vuepress-theme-hope@next [dir]
@@ -125,40 +126,56 @@ npm init vuepress-theme-hope@next [dir]
 
 :::
 
-::::
-
 ## 🚀Usage
 
-:::: code-group
+::: code-tabs#language
 
-::: code-group-item TS
+@tab TS
 
-```ts {2,4,6}
+```ts
 // .vuepress/config.ts
-import { defineHopeConfig } from "vuepress-theme-hope";
+import { defineUserConfig } from "vuepress";
+import { hopeTheme } from "vuepress-theme-hope";
 
-export default defineHopeConfig({
-  // your config here
+export default defineUserConfig({
+  theme: hopeTheme({
+    // your theme config here
+  }),
 });
 ```
 
-:::
+@tab JS
 
-::: code-group-item JS
-
-```js {2,4,6}
+```js
 // .vuepress/config.js
-const { defineHopeConfig } = require("vuepress-theme-hope");
+const { hopeTheme } = require("vuepress-theme-hope");
 
-module.exports = defineHopeConfig({
-  // your config here
-});
+module.exports = {
+  theme: hopeTheme({
+    // your theme config here
+  }),
+};
 ```
 
 :::
 
-::::
+## Step by Step Tutorial
+
+- [Tutorial](cookbook/tutorial/README.md)
 
 ## Telegram Group
 
 - [vuepressthemehope](https://t.me/vuepressthemehope)
+
+<!-- markdownlint-disable -->
+
+<a v-if="isNetlify " href="https://www.netlify.com" target="_blank">
+
+![Deploys by Netlify](https://www.netlify.com/img/global/badges/netlify-light.svg#light)
+![Deploys by Netlify](https://www.netlify.com/img/global/badges/netlify-dark.svg#dark)
+
+</a>
+
+<script setup lang="ts">
+const isNetlify = IS_NETLIFY;
+</script>

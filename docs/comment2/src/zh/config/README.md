@@ -3,10 +3,10 @@ title: 插件选项
 icon: config
 ---
 
-## type
+## provider
 
-- 类型: `'waline' | 'none'`
-- 默认: `'none'`
+- 类型: `"Giscus" | "Twikoo" | "Waline" | "None"`
+- 默认: `"None"`
 
 评论服务提供者。
 
@@ -17,11 +17,14 @@ icon: config
 
 是否默认启用评论功能。
 
+## Giscus 选项
+
+- [点击查看](giscus.md)
+
 ## Waline 选项
 
 - [点击查看](waline.md)
-<!--
 
-## Vssue 选项
+## Twikoo 选项
 
-- [点击查看](vssue.md) -->
+- [点击查看](twikoo.md)

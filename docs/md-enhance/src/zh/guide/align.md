@@ -21,17 +21,17 @@ icon: align
 
 ## 配置
 
-:::: code-group
+::: code-tabs#language
 
-::: code-group-item TS
+@tab TS
 
 ```ts {8}
 // .vuepress/config.ts
-import { mdEnhance } from "vuepress-plugin-md-enhance";
+import { mdEnhancePlugin } from "vuepress-plugin-md-enhance";
 
 export default {
   plugins: [
-    mdEnhance({
+    mdEnhancePlugin({
       // 启用自定义对齐
       align: true,
     }),
@@ -39,17 +39,15 @@ export default {
 };
 ```
 
-:::
-
-::: code-group-item JS
+@tab JS
 
 ```js {8}
 // .vuepress/config.js
-const { mdEnhance } = require("vuepress-plugin-md-enhance");
+const { mdEnhancePlugin } = require("vuepress-plugin-md-enhance");
 
 module.exports = {
   plugins: [
-    mdEnhance({
+    mdEnhancePlugin({
       // 启用自定义对齐
       align: true,
     }),
@@ -58,13 +56,11 @@ module.exports = {
 ```
 
 :::
-
-::::
 
 ## 演示
 
 :::: danger W.I.P
-vuepress-theme-hope v2 仍在制作中，API 可能会有
+VuePress Theme Hope V2 版本仍在制作中，API 可能会有
 
 ::: center
 重大的变动。
@@ -80,7 +76,7 @@ vuepress-theme-hope v2 仍在制作中，API 可能会有
 
 ```md
 :::: danger W.I.P
-vuepress-theme-hope v2 仍在制作中，API 可能会有
+VuePress Theme Hope V2 版本仍在制作中，API 可能会有
 
 ::: center
 重大的变动。

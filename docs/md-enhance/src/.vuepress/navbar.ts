@@ -1,11 +1,12 @@
-import { defineNavbarConfig } from "vuepress-theme-hope";
-import { version } from "../../../../lerna.json";
+import { navbar } from "docs-shared";
+import { version } from "vuepress-plugin-md-enhance/package.json";
 
-export const enNavbarConfig = defineNavbarConfig([
+export const enNavbarConfig = navbar([
   "/",
   "/guide/",
   "/config",
   "/migration",
+  "/demo",
   {
     text: version,
     icon: "note",
@@ -18,11 +19,12 @@ export const enNavbarConfig = defineNavbarConfig([
   },
 ]);
 
-export const zhNavbarConfig = defineNavbarConfig([
+export const zhNavbarConfig = navbar([
   "/zh/",
   "/zh/guide/",
   "/zh/config",
   "/zh/migration",
+  "/zh/demo",
   {
     text: version,
     icon: "note",

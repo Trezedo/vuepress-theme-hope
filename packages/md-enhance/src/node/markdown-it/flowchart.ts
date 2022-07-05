@@ -1,7 +1,6 @@
-/* eslint-disable max-statements */
 import { hash } from "@vuepress/utils";
 import type { PluginSimple } from "markdown-it";
-import type Token from "markdown-it/lib/token";
+import type { default as Token } from "markdown-it/lib/token";
 
 const flowchartRender = (tokens: Token[], idx: number): string => {
   const token = tokens[idx];
@@ -10,7 +9,7 @@ const flowchartRender = (tokens: Token[], idx: number): string => {
 
   return `<FlowChart id="${key}" code="${encodeURIComponent(
     content
-  )}" preset="${info.trim().split(":")[1] || "vue"}"></FlowChart>`;
+  )}" preset="${info.trim().split(":", 2)[1] || "vue"}"></FlowChart>`;
 };
 
 export const flowchart: PluginSimple = (md) => {
@@ -18,16 +17,15 @@ export const flowchart: PluginSimple = (md) => {
   const fence = md.renderer.rules.fence;
 
   md.renderer.rules.fence = (...args): string => {
-    const [tokens, idx] = args;
-    const { info } = tokens[idx];
-    const realInfo = info.trim().split(":")[0];
+    const [tokens, index] = args;
+    const { info } = tokens[index];
+    const realInfo = info.split(":", 2)[0];
 
     if (realInfo === "flow" || realInfo === "flowchart")
-      return flowchartRender(tokens, idx);
+      return flowchartRender(tokens, index);
 
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     return fence!(...args);
   };
 
-  md.renderer.rules.flowchart = flowchartRender;
+  md.renderer.rules["flowchart"] = flowchartRender;
 };

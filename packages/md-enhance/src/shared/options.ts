@@ -1,14 +1,27 @@
 import type { LocaleConfig } from "@vuepress/core";
 import type { KatexOptions } from "katex";
-import type { CodeDemoOptions } from "./code-demo";
+import type { AttrsOptions } from "./attrs";
+import type { CodeDemoOptions } from "./codeDemo";
+import type { ImageMarkOptions } from "./imageMark";
+import type { IncludeOptions } from "./include";
 import type { MarkdownEnhanceLocaleData } from "./locales";
 import type { PresentationOptions } from "./presentation";
 import type { TaskListOptions } from "./tasklist";
+import type { StylizeOptions } from "./stylize";
 
 /**
  * md-enhance plugin configuration
  */
 export interface MarkdownEnhanceOptions {
+  /**
+   * Whether check dead links in markdown
+   *
+   * @description `true` equals to `'always'`, `false` equals to `'never'`
+   *
+   * @default 'dev'
+   */
+  linkCheck?: "always" | "dev" | "build" | "never" | boolean;
+
   /**
    * Whether enable standard GFM support
    *
@@ -28,7 +41,7 @@ export interface MarkdownEnhanceOptions {
    * - danger
    * - details
    *
-   * ⚠ The last 4 items conflict with default theme and will overide it's style.
+   * ⚠ The last 4 items conflict with default theme and will override it’s style.
    *
    * 是否启用自定义容器
    *
@@ -55,13 +68,22 @@ export interface MarkdownEnhanceOptions {
   vpre?: boolean;
 
   /**
-   * Whether to enable codegroup.
+   * Whether to enable tabs.
+   *
+   * 是否启用标签页分组。
+   *
+   * @default false
+   */
+  tabs?: boolean;
+
+  /**
+   * Whether to enable codetabs.
    *
    * 是否启用代码组。
    *
    * @default false
    */
-  codegroup?: boolean;
+  codetabs?: boolean;
 
   /**
    * Whether to enable align support
@@ -71,6 +93,15 @@ export interface MarkdownEnhanceOptions {
    * @default false
    */
   align?: boolean;
+
+  /**
+   * Whether to enable attr support
+   *
+   * 是否启用属性支持。
+   *
+   * @default false
+   */
+  attrs?: AttrsOptions | boolean;
 
   /**
    * Whether to enable superscript format support
@@ -115,7 +146,16 @@ export interface MarkdownEnhanceOptions {
    *
    * @default false
    */
-  imageMark?: boolean;
+  imageMark?: ImageMarkOptions | boolean;
+
+  /**
+   * Whether to enable image size mark support
+   *
+   * 是否启用图片大小标记支持。
+   *
+   * @default false
+   */
+  imageSize?: ImageMarkOptions | boolean;
 
   /**
    * Whether to enable mark format support
@@ -136,6 +176,15 @@ export interface MarkdownEnhanceOptions {
   tasklist?: TaskListOptions | boolean;
 
   /**
+   * Whether to enable include syntax support
+   *
+   * 是否启用导入语法支持
+   *
+   * @default false
+   */
+  include?: IncludeOptions;
+
+  /**
    * Whether to enable TeX syntax support
    *
    * @see https://katex.org/docs/options.html
@@ -147,6 +196,24 @@ export interface MarkdownEnhanceOptions {
    * @default false
    */
   tex?: KatexOptions | boolean;
+
+  /**
+   * Whether to enable chart support
+   *
+   * 是否启用 chart 图表支持
+   *
+   * @default false
+   */
+  chart?: boolean;
+
+  /**
+   * Whether to enable echarts support
+   *
+   * 是否启用 echarts 图表支持
+   *
+   * @default false
+   */
+  echarts?: boolean;
 
   /**
    * Whether to enable flowchart support
@@ -185,7 +252,18 @@ export interface MarkdownEnhanceOptions {
   presentation?: PresentationOptions | boolean;
 
   /**
+   * Keyword enhancement
+   *
+   * 关键词显示增强选项
+   */
+  stylize?: StylizeOptions;
+
+  /**
+   * @deprecated This option is for demo only, please enable options you need in production.
+   *
    * Whether to enable all features.
+   *
+   * @deprecated 此选项仅用于案例，请在生产环境中启用你需要的选项
    *
    * 是否启用全部增强语法
    *

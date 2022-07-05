@@ -1,51 +1,31 @@
 .sidebar {
   position: fixed;
-  z-index: 150;
-  top: var(--navbar-height);
-  left: 0;
+  top: 0;
   bottom: 0;
+  left: 0;
+  z-index: 125;
+
+  overflow-y: auto;
   box-sizing: border-box;
+
   width: var(--sidebar-width);
   margin: 0;
-  background: var(--sidebar-bg-color);
-  box-shadow: 2px 0 4px var(--card-shadow);
-  backdrop-filter: saturate(150%) blur(12px);
-  font-size: 16px;
-  overflow-y: auto;
-  // compatable with non Chrome browsers
-  overflow-y: scroll;
-  // only works on Chrome
-  overflow-y: overlay;
-  transition: background-color var(--color-transition),
-    box-shadow var(--color-transition);
 
-  scrollbar-width: thin;
+  background: var(--sidebar-bg-color);
+
+  font-size: 16px;
+
+  transition: background-color var(--color-transition),
+    box-shadow var(--color-transition), transform var(--transform-transition);
+  transform: translateX(-100%);
+
+  backdrop-filter: saturate(150%) blur(12px);
   scrollbar-color: var(--theme-color) var(--border-color);
 
+  scrollbar-width: thin;
+
   @media (max-width: hope-config.$pad) {
-    top: var(--navbar-mobile-height);
-    width: var(--sidebar-mobile-width);
     font-size: 15px;
-  }
-
-  // wide mobile
-  @media (max-width: hope-config.$mobile) {
-    transform: translateX(-100%);
-    transition: transform 0.2s ease;
-    box-shadow: none;
-
-    .theme-container.hide-navbar & {
-      top: 0;
-    }
-
-    .theme-container.sidebar-open & {
-      transform: translateX(0);
-      box-shadow: 2px 0 8px var(--card-shadow);
-    }
-  }
-
-  &.hide-icon .icon {
-    display: none !important;
   }
 
   a {
@@ -58,17 +38,21 @@
     margin-right: 0.25em;
   }
 
+  &.hide-icon .icon {
+    display: none !important;
+  }
+
   .blogger-info.mobile {
     display: none;
 
-    @media (max-width: hope-config.$mobile) {
+    @media (max-width: hope-config.$tablet) {
       display: block;
     }
 
     + hr {
       display: none;
 
-      @media (max-width: hope-config.$mobile) {
+      @media (max-width: hope-config.$tablet) {
         display: block;
         margin-top: 16px;
       }
@@ -78,12 +62,14 @@
 
 .sidebar-mask {
   position: fixed;
-  z-index: 9;
   top: 0;
   left: 0;
+  z-index: 9;
+
   width: 100vw;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 0.15);
+
+  background-color: rgb(0 0 0 / 15%);
 
   &.fade-enter-active,
   &.fade-leave-active {

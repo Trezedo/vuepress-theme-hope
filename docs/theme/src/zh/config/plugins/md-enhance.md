@@ -1,6 +1,7 @@
 ---
 title: MdEnhance 插件配置
 icon: markdown
+order: 6
 category:
   - 配置
 tag:
@@ -13,7 +14,7 @@ tag:
 
 `vuepress-plugin-md-enhance` 插件默认启用，提供 Markdown 增强功能。
 
-`vuepress-theme-hope` 将 `themeConfig.plugins.mdEnhance` 作为插件选项传递给 `vuepress-plugin-md-enhance` 插件。
+`vuepress-theme-hope` 将主题选项中的 `plugins.mdEnhance` 作为插件选项传递给 `vuepress-plugin-md-enhance` 插件。
 
 ::: tip
 
@@ -31,28 +32,7 @@ tag:
 
 ## 插件选项
 
-### enableAll
-
-- 类型: `boolean`
-- 默认值: `false`
-
-启用全部功能。
-
-::: danger
-
-请仅将此选项用于体验或测试。
-
-随着时间的增长，`vupress-plugin-md-enhance` 变得越来越强大。它为 Markdown 解析器添加了更多语法，并输出了更多代码。
-
-启用不需要的功能将增加开发和构建时间。 (`markdown-it` 必须检查额外的语法)
-
-同样，幻灯片演示功能将在输出中添加 700KB 大小的代码 (主要是 `reveal.js`)。
-
-因此，请使用下面的选项，仅启用需要的功能。
-
-:::
-
-## gfm
+### gfm
 
 - 类型: `boolean`
 - 默认值: `false`
@@ -83,6 +63,20 @@ tag:
 - danger
 - details
 
+### linkCheck
+
+- 类型: `"always" | "dev" | "build" | "never" | boolean`
+- 默认值: `"dev"`
+
+是否启用链接检查。
+
+::: note
+
+- `true` 等同于 `'always'`
+- `false` 等同于 `'never'`
+
+:::
+
 ### vpre
 
 - 类型: `boolean`
@@ -90,7 +84,14 @@ tag:
 
 是否启用 v-pre 容器。
 
-### codegroup
+### tabs
+
+- 类型: `boolean`
+- 默认值: `false`
+
+是否启用选项卡。
+
+### codetabs
 
 - 类型: `boolean`
 - 默认值: `false`
@@ -139,7 +140,7 @@ tag:
 
 是否启用标记格式支持。
 
-## imageMark
+### imageMark
 
 - 类型: `ImageMarkOptions | boolean`
 - 默认值: `false`
@@ -148,9 +149,9 @@ tag:
 
 ```ts
 interface ImageMarkOptions {
-  /** lightmode only ids */
+  /** lightmode only IDs */
   light?: string[];
-  /** darkmode only ids */
+  /** darkmode only IDs */
   dark?: string[];
 }
 ```
@@ -165,17 +166,18 @@ interface ImageMarkOptions {
 ```ts
 interface TaskListOptions {
   /**
+   * 是否禁用 checkbox
+   *
+   * @default true
+   */
+  disabled?: boolean;
+
+  /**
    * 是否使用 `<label>` 来包裹文字
    *
    * @default true
    */
   label?: boolean;
-  /**
-   * 是否将 `<label>` 放置在 `<input>` 后还是包裹住 `<input>`
-   *
-   * @default true
-   */
-  labelAfter?: boolean;
 }
 ```
 
@@ -201,6 +203,52 @@ interface TaskListOptions {
 - 默认值: `false`
 
 是否启用 [Mermaid](https://mermaid-js.github.io/mermaid/#/) 支持。
+
+### stylize
+
+- 类型: `StylizeOptions | false`
+
+  ```ts
+  interface StylizeResult {
+    /**
+     * 渲染的标签名称
+     */
+    tag: string;
+
+    /**
+     * 属性设置
+     */
+    attrs: Record<string, string>;
+
+    /**
+     * 标签内容
+     */
+    content: string;
+  }
+
+  interface StylizeItem {
+    /**
+     * 字符匹配
+     */
+    matcher: string | RegExp;
+
+    /**
+     * 内容替换
+     */
+    replacer: (options: {
+      tag: string;
+      content: string;
+      attrs: Record<string, string>;
+      env?: MarkdownEnv;
+    }) => StylizeResult | void;
+  }
+
+  type StylizeOptions = StylizeItem[];
+  ```
+
+- 默认值: `false`
+
+对行内语法进行样式化以创建代码片段
 
 ### demo
 
@@ -266,23 +314,23 @@ CodePen 编辑器显示情况，第一位代表 HTML ，第二位代表 JS，第
 
 #### 其他
 
-以下是第三方代码演示使用的库地址，除非你的环境无法访问 jsdelivr 或访问缓慢，否则无需覆盖默认设置。
+以下是第三方代码演示使用的库地址，除非你的环境无法访问 unpkg 或访问缓慢，否则无需覆盖默认设置。
 
 ##### demo.babel
 
-默认值: `"https://cdn.jsdelivr.net/npm/@babel/standalone/babel.min.js"`
+默认值: `"https://unpkg.com/@babel/standalone/babel.min.js"`
 
 ##### demo.vue
 
-默认值: `"https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js"`
+默认值: `"https://unpkg.com/vue/dist/vue.global.prod.js"`
 
 ##### demo.react
 
-默认值: `"https://cdn.jsdelivr.net/npm/react/umd/react.production.min.js"`
+默认值: `"https://unpkg.com/react/umd/react.production.min.js"`
 
 ##### demo.reactDOM
 
-默认值: `"https://cdn.jsdelivr.net/npm/react-dom/umd/react-dom.production.min.js"`
+默认值: `"https://unpkg.com/react-dom/umd/react-dom.production.min.js"`
 
 ### presentation
 
@@ -295,8 +343,13 @@ CodePen 编辑器显示情况，第一位代表 HTML ，第二位代表 JS，第
 
 #### presentation.plugins
 
-- 类型: `string[]`
-- 必填: No
+- 类型: `RevealPlugin[]`
+
+  ```ts
+  type RevealPlugin = "highlight" | "math" | "search" | "notes" | "zoom";
+  ```
+
+- 必填: 否
 
 你想启用的 Reveal.js 插件
 
@@ -315,7 +368,7 @@ CodePen 编辑器显示情况，第一位代表 HTML ，第二位代表 JS，第
 #### presentation.revealConfig
 
 - 类型: `Partial<RevealOptions>`
-- 必填: No
+- 必填: 否
 
 你想要传递给 Reveal.js 的配置选项
 
@@ -329,6 +382,25 @@ CodePen 编辑器显示情况，第一位代表 HTML ，第二位代表 JS，第
 ::: tip
 
 如果你使用的主题有切换动画，建议配置此选项为 `切换动画时长 + 200`。
+
+:::
+
+### enableAll <Badge text="仅限示例" type="danger" />
+
+- 类型: `boolean`
+- 默认值: `false`
+
+启用全部功能。
+
+::: danger
+
+请仅将此选项用于体验或测试。
+
+插件完全支持代码分割，所以你应该使用下方选项并**仅**启用你需要的功能。
+
+启用不需要的功能将增加开发和构建时间。 (`markdown-it` 必须检查额外的语法)
+
+同时，一些功能会输出体积较大的文件到输出结果。(可高达 2MB)
 
 :::
 

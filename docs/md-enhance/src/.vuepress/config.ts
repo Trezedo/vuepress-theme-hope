@@ -1,24 +1,11 @@
-import { addViteOptimizeDepsInclude } from "@mr-hope/vuepress-shared";
 import { path } from "@vuepress/utils";
-import { defineHopeConfig } from "vuepress-theme-hope";
-import themeConfig from "./themeConfig";
+import { config } from "docs-shared";
+import theme from "./theme";
 
-const base = process.env.BASE || "/";
+const base = (process.env.BASE || "/") as "/" | `/${string}/`;
 
-export default defineHopeConfig({
-  base: `/${base.replace(/^\//, "")}md-enhance/`,
-
-  dest: "./dist",
-
-  head: [
-    [
-      "link",
-      {
-        rel: "stylesheet",
-        href: "//at.alicdn.com/t/font_2410206_mfj6e1vbwo.css",
-      },
-    ],
-  ],
+export default config({
+  base: `${base}md-enhance/`,
 
   locales: {
     "/": {
@@ -34,40 +21,11 @@ export default defineHopeConfig({
     },
   },
 
-  theme: "hope",
+  theme,
 
-  themeConfig,
+  pagePatterns: ["**/*.md", "!**/*.snippet.md", "!.vuepress", "!node_modules"],
 
-  plugins: [
-    {
-      name: "theme-enhance",
-      alias: {
-        "@KatexPlayground": path.resolve(
-          __dirname,
-          "./components/KatexPlayground"
-        ),
-        "@theme-hope/components/HomeHero": path.resolve(
-          __dirname,
-          "./components/HopeHero"
-        ),
-      },
-      onInitialized: (app) => {
-        if (app.env.isDev)
-          addViteOptimizeDepsInclude(app, [
-            "@mr-hope/vuepress-shared/lib/client",
-            "dayjs",
-            "dayjs/plugin/localizedFormat",
-            "dayjs/plugin/objectSupport",
-            "dayjs/plugin/timezone",
-            "dayjs/plugin/utc",
-          ]);
-
-        addViteOptimizeDepsInclude(app, [
-          "three",
-          "three/examples/jsm/controls/OrbitControls",
-          "three/examples/jsm/loaders/STLLoader",
-        ]);
-      },
-    },
-  ],
+  alias: {
+    "@KatexPlayground": path.resolve(__dirname, "./components/KatexPlayground"),
+  },
 });

@@ -11,6 +11,8 @@ import { useNavbarRepo } from "@theme-hope/module/navbar/composables";
 
 import type { VNode } from "vue";
 
+import "../styles/repo-link.scss";
+
 export default defineComponent({
   name: "RepoLink",
 
@@ -31,6 +33,7 @@ export default defineComponent({
                 href: repo.value.link,
                 target: "_blank",
                 rel: "noopener noreferrer",
+                "aria-label": repo.value.label,
               },
               // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
               h(resolveComponent(`${repo.value.type}Icon`), {

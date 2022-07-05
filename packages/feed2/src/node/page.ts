@@ -1,12 +1,7 @@
-import {
-  getAuthor,
-  getCategory,
-  isAbsoluteUrl,
-  isUrl,
-} from "@mr-hope/vuepress-shared";
+import { getAuthor, getCategory, isAbsoluteUrl, isUrl } from "vuepress-shared";
 import { getImageMineType, resolveHTML, resolveUrl } from "./utils";
 
-import type { AuthorInfo } from "@mr-hope/vuepress-shared";
+import type { AuthorInfo } from "vuepress-shared";
 import type { App, Page, PageFrontmatter } from "@vuepress/core";
 import type { GitData } from "@vuepress/plugin-git";
 import type { Feed } from "./feed";
@@ -31,12 +26,11 @@ export class FeedPage {
   constructor(
     private app: App,
     private options: FeedOptions,
-    private page: Page & { git?: GitData },
+    private page: Page<{ git?: GitData }, FeedPluginFrontmatter>,
     private feed: Feed
   ) {
     this.base = this.app.options.base;
-    this.frontmatter =
-      page.frontmatter as PageFrontmatter<FeedPluginFrontmatter>;
+    this.frontmatter = page.frontmatter;
     this.getter = options.getter || {};
     this.pageFeedOptions = this.frontmatter.feed || {};
   }
@@ -56,7 +50,7 @@ export class FeedPage {
     return resolveUrl(this.options.hostname, this.base, this.page.path);
   }
 
-  get description(): string | undefined {
+  get description(): string | null {
     if (typeof this.getter.description === "function")
       return this.getter.description(this.page);
 
@@ -66,9 +60,12 @@ export class FeedPage {
     if (this.frontmatter.description) return this.frontmatter.description;
 
     if (this.page.excerpt)
-      return resolveHTML(this.app.markdown.render(this.page.excerpt));
+      return `html:${resolveHTML(
+        this.app.markdown.render(this.page.excerpt),
+        this.options.customElements
+      )}`;
 
-    return undefined;
+    return null;
   }
 
   get author(): FeedAuthor[] {
@@ -90,7 +87,7 @@ export class FeedPage {
       : [];
   }
 
-  get category(): FeedCategory[] | undefined {
+  get category(): FeedCategory[] | null {
     if (typeof this.getter.category === "function")
       return this.getter.category(this.page);
 
@@ -105,7 +102,7 @@ export class FeedPage {
     return getCategory(category).map((item) => ({ name: item }));
   }
 
-  get enclosure(): FeedEnclosure | undefined {
+  get enclosure(): FeedEnclosure | null {
     if (typeof this.getter.enclosure === "function")
       return this.getter.enclosure(this.page);
 
@@ -115,33 +112,33 @@ export class FeedPage {
         type: getImageMineType(this.image.split(".").pop() as string),
       };
 
-    return undefined;
+    return null;
   }
 
   get guid(): string {
     return this.pageFeedOptions.guid || this.link;
   }
 
-  get pubDate(): Date | undefined {
+  get pubDate(): Date | null {
     if (typeof this.getter.publishDate === "function")
       return this.getter.publishDate(this.page);
 
     const { time, date = time } = this.page.frontmatter;
 
-    const { createdTime } = this.page.git || {};
+    const { createdTime } = this.page.data.git || {};
 
     return date && date instanceof Date
       ? date
       : createdTime
       ? new Date(createdTime)
-      : undefined;
+      : null;
   }
 
   get lastUpdated(): Date {
     if (typeof this.getter.lastUpdateDate === "function")
       return this.getter.lastUpdateDate(this.page);
 
-    const { updatedTime } = this.page.git || {};
+    const { updatedTime } = this.page.data.git || {};
 
     return updatedTime ? new Date(updatedTime) : new Date();
   }
@@ -152,10 +149,10 @@ export class FeedPage {
 
     if (this.pageFeedOptions.content) return this.pageFeedOptions.content;
 
-    return resolveHTML(this.page.contentRendered);
+    return resolveHTML(this.page.contentRendered, this.options.customElements);
   }
 
-  get image(): string | undefined {
+  get image(): string | null {
     if (typeof this.getter.image === "function")
       return this.getter.image(this.page);
 
@@ -188,7 +185,7 @@ export class FeedPage {
       if (isUrl(result[1])) return result[1];
     }
 
-    return undefined;
+    return null;
   }
 
   get contributor(): FeedContributor[] {
@@ -204,17 +201,16 @@ export class FeedPage {
     return this.author;
   }
 
-  get copyright(): string | undefined {
+  get copyright(): string | null {
     if (typeof this.getter.copyright === "function")
       return this.getter.copyright(this.page);
 
     if (this.frontmatter.copyright) return this.frontmatter.copyright;
     const firstAuthor = this.author[0];
 
-    if (firstAuthor && firstAuthor.name)
-      return `Copyright by ${firstAuthor.name}`;
+    if (firstAuthor?.name) return `Copyright by ${firstAuthor.name}`;
 
-    return undefined;
+    return null;
   }
 
   getFeedItem(): FeedItemOption | null {
@@ -247,17 +243,17 @@ export class FeedPage {
     return {
       title,
       link,
-      description,
-      author,
-      category,
-      enclosure,
       guid,
-      pubDate,
       lastUpdated,
       content,
-      image,
+      author,
       contributor,
-      copyright,
+      ...(description ? { description } : {}),
+      ...(category ? { category } : {}),
+      ...(enclosure ? { enclosure } : {}),
+      ...(pubDate ? { pubDate } : {}),
+      ...(image ? { image } : {}),
+      ...(copyright ? { copyright } : {}),
     };
   }
 }

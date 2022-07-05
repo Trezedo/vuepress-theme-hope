@@ -1,6 +1,7 @@
 ---
 title: 主题色
 icon: palette
+order: 2
 category:
   - 界面
 tag:
@@ -8,62 +9,87 @@ tag:
   - 主题色
 ---
 
-这是一个开箱即用的功能，除了你的主题色之外，还提供 “红、蓝、绿、橙、紫” 五种颜色主题。你也可以定制自己的主题色选择列表。
+主题允许您自定义主题颜色，甚至提供选择器。
 
 <!-- more -->
 
-## 禁用功能
+## 设置默认主题色
 
-你可以将 `themeConfig` 的 `themeColor` 设置为 `false` 来禁用它。
+您应该在 `.vuepress/styles/palette.scss` 中设置站点的默认主题颜色：
 
-## 自定义主题色
+```scss
+$theme-color: #f00;
+```
 
-你需要按照 `{ 颜色名1: 颜色值, 颜色名2: 颜色值, ... }` 的格式来配置 `themeConfig.themeColor`:
+## 主题色选择器
 
-::::: details 例子
+你需要按照 `{ 颜色名1: 颜色值, 颜色名2: 颜色值, ... }` 的格式在主题选项中配置 `themeColor`:
 
-:::: code-group
+第一个颜色为上方设置的默认主题色。
 
-::: code-group-item TS
+:::: details 例子
 
-```ts {6-11}
+::: code-tabs#language
+
+@tab TS
+
+```ts {7-12}
 // .vuepress/config.ts
-import { defineHopeConfig } from "vuepress-theme-hope";
+import { defineUserConfig } from "vuepress";
+import { hopeTheme } from "vuepress-theme-hope";
 
-export default defineHopeConfig({
-  themeConfig: {
+export default defineUserConfig({
+  theme: hopeTheme({
     themeColor: {
       blue: "#2196f3",
       red: "#f26d6d",
       green: "#3eaf7c",
       orange: "#fb9b5f",
     },
-  },
+  }),
 });
 ```
 
-:::
-
-::: code-group-item JS
+@tab JS
 
 ```js {6-11}
 // .vuepress/config.js
-const { defineHopeConfig } = require("vuepress-theme-hope");
+const { hopeTheme } = require("vuepress-theme-hope");
 
-module.exports = defineHopeConfig({
-  themeConfig: {
+module.exports = {
+  theme: hopeTheme({
     themeColor: {
       blue: "#2196f3",
       red: "#f26d6d",
       green: "#3eaf7c",
       orange: "#fb9b5f",
     },
-  },
-});
+  }),
+};
 ```
 
 :::
 
 ::::
 
-:::::
+### 尝试
+
+<!-- markdownlint-disable-->
+
+<ThemeColorPicker :themeColor="themeColor" />
+
+<!-- markdownlint-restore -->
+
+<script setup lang="ts">
+import { computed } from 'vue';
+import { useThemeData } from '@theme-hope/composables';
+import ThemeColorPicker from '@theme-hope/module/outlook/components/ThemeColorPicker';
+
+const themeData = useThemeData();
+
+const themeColor = computed(() => {
+  const { themeColor } = themeData.value;
+
+  return themeColor === false ? null : themeColor;
+});
+</script>

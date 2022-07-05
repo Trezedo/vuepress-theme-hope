@@ -1,12 +1,13 @@
-import { computed, onMounted, ref } from "vue";
+import { useStorage, useSessionStorage } from "@vueuse/core";
+import { computed } from "vue";
 import { useRoute } from "vue-router";
 
-import { useEncryptOptions } from "./utils";
+import { useEncryptData } from "./utils";
 import { checkToken } from "@theme-hope/module/encrypt/utils";
 
 import type { ComputedRef } from "vue";
 
-const STORAGE_KEY = "vuepress-theme-hope-path-token";
+const STORAGE_KEY = "VUEPRESS_HOPE_PATH_TOKEN";
 
 export interface PathEncrypt {
   isEncrypted: ComputedRef<boolean>;
@@ -14,17 +15,20 @@ export interface PathEncrypt {
   validateToken: (token: string, keep?: boolean) => void;
 }
 
-const localConfig = ref<Record<string, string>>({});
-const sessionConfig = ref<Record<string, string>>({});
-
 export const usePathEncrypt = (): PathEncrypt => {
   const route = useRoute();
-  const options = useEncryptOptions();
+  const encryptData = useEncryptData();
+
+  const localToken = useStorage<Record<string, string>>(STORAGE_KEY, {});
+  const sessionToken = useSessionStorage<Record<string, string>>(
+    STORAGE_KEY,
+    {}
+  );
 
   const getPathMatchedKeys = (path: string): string[] =>
-    typeof options.value.config === "object"
-      ? Object.keys(options.value.config)
-          .filter((key) => path.startsWith(key))
+    typeof encryptData.value.config === "object"
+      ? Object.keys(encryptData.value.config)
+          .filter((key) => decodeURI(path).startsWith(key))
           .sort((a, b) => b.length - a.length)
       : [];
 
@@ -32,19 +36,19 @@ export const usePathEncrypt = (): PathEncrypt => {
     const matchedKeys = getPathMatchedKeys(path);
 
     if (matchedKeys.length !== 0) {
-      const { config = {} } = options.value;
+      const { config = {} } = encryptData.value;
 
-      return !matchedKeys.some((key) => {
-        const keyConfig = config[key];
-        const hitTokens =
-          typeof keyConfig === "string" ? [keyConfig] : keyConfig;
-
-        return hitTokens.some(
-          (token) =>
-            checkToken(localConfig.value[key], token) ||
-            checkToken(sessionConfig.value[key], token)
-        );
-      });
+      return !matchedKeys.some(
+        (key) =>
+          (localToken.value[key] &&
+            config[key].some((token) =>
+              checkToken(localToken.value[key], token)
+            )) ||
+          (sessionToken.value[key] &&
+            config[key].some((token) =>
+              checkToken(sessionToken.value[key], token)
+            ))
+      );
     }
 
     return false;
@@ -53,47 +57,18 @@ export const usePathEncrypt = (): PathEncrypt => {
   const isEncrypted = computed(() => getPathEncryptStatus(route.path));
 
   const validateToken = (inputToken: string, keep = false): void => {
-    const { config = {} } = options.value;
+    const { config = {} } = encryptData.value;
     const matchedKeys = getPathMatchedKeys(route.path);
 
     for (const hitKey of matchedKeys) {
-      const hitConfig = config[hitKey];
-      const hitTokens = typeof hitConfig === "string" ? [hitConfig] : hitConfig;
-
       // some of the tokens matches
-      if (hitTokens.filter((token) => checkToken(inputToken, token))) {
-        (keep ? localConfig : sessionConfig).value[hitKey] = inputToken;
-
-        if (keep)
-          localStorage.setItem(STORAGE_KEY, JSON.stringify(localConfig.value));
-        else
-          sessionStorage.setItem(
-            STORAGE_KEY,
-            JSON.stringify(sessionConfig.value)
-          );
+      if (config[hitKey].filter((token) => checkToken(inputToken, token))) {
+        (keep ? localToken : sessionToken).value[hitKey] = inputToken;
 
         break;
       }
     }
   };
-
-  onMounted(() => {
-    try {
-      localConfig.value = JSON.parse(
-        localStorage.getItem(STORAGE_KEY) || "{}"
-      ) as Record<string, string>;
-    } catch (err) {
-      // do nothing
-    }
-
-    try {
-      sessionConfig.value = JSON.parse(
-        sessionStorage.getItem(STORAGE_KEY) || "{}"
-      ) as Record<string, string>;
-    } catch (err) {
-      // do nothing
-    }
-  });
 
   return {
     isEncrypted,

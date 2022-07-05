@@ -1,6 +1,6 @@
-import { defineSidebarConfig } from "vuepress-theme-hope";
+import { sidebar } from "docs-shared";
 
-export const enSidebarConfig = defineSidebarConfig({
+export const enSidebarConfig = sidebar({
   "/": [
     "",
     {
@@ -10,12 +10,18 @@ export const enSidebarConfig = defineSidebarConfig({
       children: [
         "",
         "container",
-        "code-group",
+        "tabs",
+        "code-tabs",
         "sup-sub",
         "align",
+        "attrs",
         "footnote",
         "mark",
         "tasklist",
+        "image",
+        "include",
+        "chart",
+        "echarts",
         "flowchart",
         "mermaid",
         "tex",
@@ -33,22 +39,30 @@ export const enSidebarConfig = defineSidebarConfig({
           collapsable: true,
           children: ["", "demo", "themes"],
         },
+        "stylize",
         "others",
       ],
     },
     "config",
     "migration",
+    "demo",
   ],
 
   "/guide/": [
     "",
     "container",
-    "code-group",
+    "tabs",
+    "code-tabs",
     "sup-sub",
     "align",
+    "attrs",
     "footnote",
     "mark",
     "tasklist",
+    "image",
+    "include",
+    "chart",
+    "echarts",
     "flowchart",
     "mermaid",
     "tex",
@@ -66,10 +80,12 @@ export const enSidebarConfig = defineSidebarConfig({
       collapsable: true,
       children: ["", "demo", "themes"],
     },
+    "stylize",
+    "others",
   ],
 });
 
-export const zhSidebarConfig = defineSidebarConfig({
+export const zhSidebarConfig = sidebar({
   "/zh/": [
     "",
     {
@@ -79,12 +95,18 @@ export const zhSidebarConfig = defineSidebarConfig({
       children: [
         "",
         "container",
-        "code-group",
+        "tabs",
+        "code-tabs",
         "sup-sub",
         "align",
+        "attrs",
         "footnote",
         "mark",
         "tasklist",
+        "image",
+        "include",
+        "chart",
+        "echarts",
         "flowchart",
         "mermaid",
         "tex",
@@ -102,21 +124,30 @@ export const zhSidebarConfig = defineSidebarConfig({
           collapsable: true,
           children: ["", "demo", "themes"],
         },
+        "stylize",
+        "others",
       ],
     },
     "config",
     "migration",
+    "demo",
   ],
 
   "/zh/guide/": [
     "",
     "container",
-    "code-group",
+    "tabs",
+    "code-tabs",
     "sup-sub",
     "align",
+    "attrs",
     "footnote",
     "mark",
     "tasklist",
+    "image",
+    "include",
+    "chart",
+    "echarts",
     "flowchart",
     "mermaid",
     "tex",
@@ -134,6 +165,7 @@ export const zhSidebarConfig = defineSidebarConfig({
       collapsable: true,
       children: ["", "demo", "themes"],
     },
+    "stylize",
     "others",
   ],
 });

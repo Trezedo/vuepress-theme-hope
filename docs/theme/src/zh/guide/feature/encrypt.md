@@ -22,20 +22,21 @@ tag:
 
 ## 局部加密
 
-你可以在 `themeConfig.encrypt` 通过 `config` 字段配置加密选项。
+你可以在主题选项中通过 `encrypt.config` 字段配置加密选项。
 
 字段的键名是路径，值支持填入一个或多个数组格式的密码。
 
-:::: code-group
+::: code-tabs#language
 
-::: code-group-item TS
+@tab TS
 
-```ts {2,4,6}
+```ts
 // .vuepress/config.ts
-import { defineHopeConfig } from "vuepress-theme-hope";
+import { defineUserConfig } from "vuepress";
+import { hopeTheme } from "vuepress-theme-hope";
 
-export default defineHopeConfig({
-  themeConfig: {
+export default defineUserConfig({
+  theme: hopeTheme({
     encrypt: {
       config: {
         // 这会加密整个 guide 目录，并且两个密码都是可用的
@@ -44,20 +45,18 @@ export default defineHopeConfig({
         "/config/page.html": "1234",
       },
     },
-  },
+  }),
 });
 ```
 
-:::
+@tab JS
 
-::: code-group-item JS
-
-```js {2,4,6}
+```js
 // .vuepress/config.js
-const { defineHopeConfig } = require("vuepress-theme-hope");
+const { hopeTheme } = require("vuepress-theme-hope");
 
-module.exports = defineHopeConfig({
-  themeConfig: {
+module.exports = {
+  theme: hopeTheme({
     encrypt: {
       config: {
         // 这会加密整个 guide 目录，并且两个密码都是可用的
@@ -66,27 +65,25 @@ module.exports = defineHopeConfig({
         "/config/page.html": "1234",
       },
     },
-  },
-});
+  }),
+};
 ```
 
 :::
-
-::::
 
 ::: warning
 
 请注意，你只能使用字符串格式的密码。
 
-数字 `1234` 和 字符串 `'1234'` 的混淆值是不同的! 而网站只能通过输入框输入字符串格式的内容。
+数字 `1234` 和 字符串 `"1234"` 的混淆值是不同的! 而网站只能通过输入框输入字符串格式的内容。
 
 :::
 
 ## 全局加密
 
-有些情况下，你可能想加密整个站点，你可以设置 `themeConfig.encrypt.status` 为 `global` 来实现它。
+有些情况下，你可能想加密整个站点，你可以在主题选项中设置 `encrypt.global: true` 来实现它。
 
-全局加密时，你可以在 `themeConfig.encrypt.global` 中以字符串或字符串数组的格式设置一个或多个密码。
+全局加密时，你可以在主题选项中通过 `encrypt.admin` 选项以字符串或字符串数组的格式设置一个或多个密码。
 
 ::: tip
 

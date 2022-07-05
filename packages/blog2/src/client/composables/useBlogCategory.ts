@@ -1,8 +1,8 @@
-import { resolveRouteWithRedirect } from "@mr-hope/vuepress-shared/lib/client";
 import { categoryMap } from "@temp/blog/category";
 import { usePageFrontmatter, useRouteLocale } from "@vuepress/client";
 import { computed, ref } from "vue";
 import { useRouter, useRoute } from "vue-router";
+import { resolveRouteWithRedirect } from "vuepress-shared/lib/client";
 
 import type { ComputedRef } from "vue";
 import type {
@@ -34,6 +34,16 @@ export const useBlogCategory = <
       "";
 
     const routes = router.getRoutes();
+
+    if (!blogCategoryMap.value[mapKey])
+      throw new Error(
+        `useBlogCategory: ${
+          key
+            ? `key ${key} is invalid`
+            : "can not bind to an exisiting key on non blog pages"
+        }`
+      );
+
     const currentMap = blogCategoryMap.value[mapKey][routeLocale.value];
     const result: BlogCategoryData<T> = {
       path: currentMap.path,
@@ -72,7 +82,7 @@ export const useBlogCategory = <
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 if (import.meta.webpackHot || import.meta.hot) {
-  __VUE_HMR_RUNTIME__.updateBlogCategory = (
+  __VUE_HMR_RUNTIME__["updateBlogCategory"] = (
     map: Record<string, CategoryMap>
   ): void => {
     blogCategoryMap.value = map;

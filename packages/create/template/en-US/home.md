@@ -8,10 +8,10 @@ tagline: You can place the description of the project here.
 actions:
   - text: How to Use 💡
     link: /guide/
+    type: primary
 
   - text: Blog homepage 🏠
     link: /
-    type: secondary
 
 features:
   - title: Markdown Enhance
@@ -61,11 +61,11 @@ features:
 
   - title: Article Encryption
     icon: lock
-    details: Encrypt you article based on path and folders, so that only the one you want could see them
+    details: Encrypt you articles based on page links, so that only the one you want could see them
     link: https://vuepress-theme-hope.github.io/v2/guide/feature/encrypt.html
 
   - title: Copy button
-    icon: lock
+    icon: copy
     details: Copy codes with one click in code blocks
     link: https://vuepress-theme-hope.github.io/v2/guide/feature/copy-code.html
 
@@ -81,17 +81,17 @@ features:
 
   - title: Sitemap
     icon: sitemap
-    details: Generate a Sitemap for your website
+    details: Generate a Sitemap for your site
     link: https://vuepress-theme-hope.github.io/v2/guide/advanced/sitemap.html
 
   - title: Feed support
     icon: rss
-    details: Generate feed to allow users to subcribe it
+    details: Generate feed to allow users to subscribe it
     link: https://vuepress-theme-hope.github.io/v2/guide/advanced/feed.html
 
   - title: PWA support
     icon: mobile
-    details: Make your website more like an APP
+    details: Make your site more like an APP
     link: https://vuepress-theme-hope.github.io/v2/guide/advanced/pwa.html
 
   - title: More new features
@@ -103,7 +103,7 @@ copyright: false
 footer: MIT Licensed | Copyright © 2019-present Mr.Hope
 ---
 
-This is an example of a normal homepage. You can place your main content here.
+This is an example of a project homepage. You can place your main content here.
 
 To use this layout, you need to set `home: true` in the page front matter.
 

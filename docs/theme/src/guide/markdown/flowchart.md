@@ -1,7 +1,6 @@
 ---
 title: Flowchart
 icon: tree
-category:
   - Markdown
 tag:
   - Flowchart
@@ -12,49 +11,46 @@ Let the Markdown file support flow chart in your VuePress site
 
 <!-- more -->
 
-## Configuration
+## Config
 
-:::: code-group
+::: code-tabs#language
 
-::: code-group-item TS
+@tab TS
 
-```ts {7-9}
+```ts {8-10}
 // .vuepress/config.ts
-import { defineHopeConfig } from "vuepress-theme-hope";
+import { defineUserConfig } from "vuepress";
+import { hopeTheme } from "vuepress-theme-hope";
 
-export default defineHopeConfig({
-  themeConfig: {
+export default defineUserConfig({
+  theme: hopeTheme({
     plugins: {
       mdEnhance: {
         flowchart: true,
       },
     },
-  },
+  }),
 });
 ```
 
-:::
-
-::: code-group-item JS
+@tab JS
 
 ```js {7-9}
 // .vuepress/config.js
-const { defineHopeConfig } = require("vuepress-theme-hope");
+const { hopeTheme } = require("vuepress-theme-hope");
 
-module.exports = defineHopeConfig({
-  themeConfig: {
+module.exports = {
+  theme: hopeTheme({
     plugins: {
       mdEnhance: {
         flowchart: true,
       },
     },
-  },
-});
+  }),
+};
 ```
 
 :::
-
-::::
 
 ## Syntax
 
@@ -156,7 +152,7 @@ c2(no)->op2->e
 
 Defines the shape that the node will take.
 
-### start & end
+### Start & End
 
 Used as the first node where flows start from.
 Default text is `Start`.
@@ -184,7 +180,7 @@ e=>end: End
 st->e
 ```
 
-### operation
+### Operation
 
 Indicates that an operation needs to happen in the flow.
 
@@ -206,7 +202,7 @@ e=>end: End
 process->e
 ```
 
-### inputoutput
+### Input / Output
 
 Indicates that IO happens in a flow.
 
@@ -228,7 +224,7 @@ e=>end: End
 process->e
 ```
 
-### subroutine
+### Subroutine
 
 Indicates that a subroutine happens in the flow and that there should be another flowchart that documents this subroutine.
 
@@ -250,7 +246,7 @@ e=>end: End
 process->e
 ```
 
-### condition
+### Condition
 
 Allows for a conditional or logical statement to direct the flow into one of two or more paths.
 
@@ -279,7 +275,7 @@ cond(yes)->process->e
 cond(no)->e
 ```
 
-### parallel
+### Parallel
 
 Allows for multiple flows to happen simultaneously.
 

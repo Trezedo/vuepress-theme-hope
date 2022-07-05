@@ -25,9 +25,9 @@ Service Worker [^service-worker] (简称 SW) 主要用于获取并托管网站�
 
     1. 每当你想要通过浏览器发起访问请求后，Service Worker 将会查看其是否存在与自身缓存列表中，若存在则直接返回缓存好的结果，否则调用自身的 fetch 方法进行获取。你可以通过自定义 fetch 方法，来完全控制网页内资源获取请求的结果，比如在离线时提供一个 fallback 的网页。
 
-    1. 每次用户重新打开网站时，Service Worker 会向自身注册时的地址发出校验命令，如果检测到新版本的 Service Woker，则会更新自身，并开始缓存注册在新 Service Worker 中的资源列表。成功获取内容更新后，Service Worker 将会触发 `update` 事件。可以通过此事件提示用户，比如将在右下角显示一个弹出窗口，提示用户新内容可用并允许用户触发更新。
+    1. 每次用户重新打开网站时，Service Worker 会向自身注册时的地址发出校验命令，如果检测到新版本的 Service Worker，则会更新自身，并开始缓存注册在新 Service Worker 中的资源列表。成功获取内容更新后，Service Worker 将会触发 `update` 事件。可以通过此事件提示用户，比如将在右下角显示一个弹出窗口，提示用户新内容可用并允许用户触发更新。
 
-本插件会自动通过 `workbox-build` 注册 Service Woker。为了更好地控制 Service Worker 可以预缓存的内容，插件提供了下列设置。
+本插件会自动通过 `workbox-build` 注册 Service Worker。为了更好地控制 Service Worker 可以预缓存的内容，插件提供了下列设置。
 
 ::: tip
 
@@ -49,7 +49,7 @@ Service Worker [^service-worker] (简称 SW) 主要用于获取并托管网站�
 
     ::: note
 
-    从 Chrome 93 起 Service Woker 必须含有有效的控制离线请求的 fetch 事件，才符合可安装性标准。
+    从 Chrome 93 起 Service Worker 必须含有有效的控制离线请求的 fetch 事件，才符合可安装性标准。
 
     但是插件目前并没有默认包含相关处理逻辑，所以在 Chrome 93 或更高版本的安卓设备上，网站不会弹出安装提示。
 
@@ -65,7 +65,7 @@ Service Worker [^service-worker] (简称 SW) 主要用于获取并托管网站�
 
 你可以通过设置 `cachePic` 选项为 `true` 来缓存站点图片。
 
-如果您的站点体积不大，且配图大多为关键性说明，希望可以在离线模式下显示，建议将此项设置为 `true`。
+如果你的站点体积不大，且配图大多为关键性说明，希望可以在离线模式下显示，建议将此项设置为 `true`。
 
 ::: info 图片识别
 
@@ -106,13 +106,13 @@ VuePress 本质上是一个 SPA。这意味着你只需要缓存主页并从主�
 
 我们提供 `update` 选项控制用户如何接收更新。
 
-`update` 选项的默认值是 `'available'`，这意味着当网站内容更新后，新的 SW 会在后台静默安装，并在安装结束后弹窗提示用户新内容就绪。用户可以自主选择是否立即刷新查看新内容。
+`update` 选项的默认值是 `"available"`，这意味着当网站内容更新后，新的 SW 会在后台静默安装，并在安装结束后弹窗提示用户新内容就绪。用户可以自主选择是否立即刷新查看新内容。
 
-由于默认行为下，用户访问途中在 SW 就绪前都会阅读旧版本文档并且得不到相关提示。如果你的文档仍在建设期，希望尽早提示用户他可能在阅读已过时的内容，你可以将其设置为 `'hint'`。这样用户在进入文档后数秒内就可以收到新内容已发布的提示。但这样做的负面效果是如果用户在新 SW 就绪前选择更新，那么他将在新 SW 安装并接管页面前，需要从互联网获取页面的全部资源。
+由于默认行为下，用户访问途中在 SW 就绪前都会阅读旧版本文档并且得不到相关提示。如果你的文档仍在建设期，希望尽早提示用户他可能在阅读已过时的内容，你可以将其设置为 `"hint"`。这样用户在进入文档后数秒内就可以收到新内容已发布的提示。但这样做的负面效果是如果用户在新 SW 就绪前选择更新，那么他将在新 SW 安装并接管页面前，需要从互联网获取页面的全部资源。
 
-如果你的文档很稳定，或者你在托管博客，不太关心用户立即接收到最新版本，你可以将其设置为 `'disabled'`，这意味着新的 SW 将在后台完全静默安装并在安装后等待，当旧版本 SW 控制的页面全部关闭后，用户下一次访问时，新 SW 将开始接管并提供用户新内容。此设置可以避免用户在访问途中被右下角的弹窗所打扰。
+如果你的文档很稳定，或者你在托管博客，不太关心用户立即接收到最新版本，你可以将其设置为 `"disabled"`，这意味着新的 SW 将在后台完全静默安装并在安装后等待，当旧版本 SW 控制的页面全部关闭后，用户下一次访问时，新 SW 将开始接管并提供用户新内容。此设置可以避免用户在访问途中被右下角的弹窗所打扰。
 
-如果你希望通过 SW 来加速用户在弱网或无网条件下的访问，但同时希望用户时刻访问新内容，你可以将此选项设置为 `'force'`。此选项的行为是在检测到新 SW 后立即注销旧 SW 并刷新页面以确保用户浏览最新内容。但我们强烈推荐除非必要不适用此选项，因为这会导致新 SW 发布后，用户在进入网站后的几秒内会遇到预期之外的突然刷新，并且他们将必须通过互联网访问文档并完全重新安装最新的 SW。
+如果你希望通过 SW 来加速用户在弱网或无网条件下的访问，但同时希望用户时刻访问新内容，你可以将此选项设置为 `"force"`。此选项的行为是在检测到新 SW 后立即注销旧 SW 并刷新页面以确保用户浏览最新内容。但我们强烈推荐除非必要不适用此选项，因为这会导致新 SW 发布后，用户在进入网站后的几秒内会遇到预期之外的突然刷新，并且他们将必须通过互联网访问文档并完全重新安装最新的 SW。
 
 ### 更新提示弹窗
 
@@ -136,7 +136,7 @@ VuePress 本质上是一个 SPA。这意味着你只需要缓存主页并从主�
 
 ## 清单文件生成
 
-为了保证 PWA 的可安装性，网站需要生成清单文件，并通过 `link` 声明有效的 manifest 清单文件地址[^manifest]。
+为了保证 PWA 的可安装性，网站需要生成清单文件，并通过 `<link>` 声明有效的 manifest 清单文件地址[^manifest]。
 
 [^manifest]: **清单文件**
 
@@ -162,16 +162,16 @@ VuePress 本质上是一个 SPA。这意味着你只需要缓存主页并从主�
 
 | 选项                        | 默认值                                                                                                  |
 | --------------------------- | ------------------------------------------------------------------------------------------------------- |
-| name                        | `siteConfig.title` \|\| `siteConfig.locales['/'].title` \|\| `'Site'`                                   |
-| short_name                  | `siteConfig.title` \|\| `siteConfig.locales['/'].title` \|\| `'Site'`                                   |
-| description                 | `siteConfig.description` \|\| `siteConfig.locales['/'].description` \|\| `'A site built with vuepress'` |
-| lang                        | `siteConfig.locales['/'].lang` \|\| `themeConfig.locales['/'].lang` \|\| `"en-US"`                      |
+| name                        | `siteConfig.title` \|\| `siteConfig.locales['/'].title` \|\| `"Site"`                                   |
+| short_name                  | `siteConfig.title` \|\| `siteConfig.locales['/'].title` \|\| `"Site"`                                   |
+| description                 | `siteConfig.description` \|\| `siteConfig.locales['/'].description` \|\| `"A site built with vuepress"` |
+| lang                        | `siteConfig.locales['/'].lang` \|\| `"en-US"`                                                           |
 | start_url                   | `siteConfig.base`                                                                                       |
 | scope                       | `siteConfig.base`                                                                                       |
 | display                     | `"standalone"`                                                                                          |
 | theme_color                 | `"#46bd87"`                                                                                             |
-| background_color            | `'#ffffff'`                                                                                             |
-| orientation                 | `'portrait-primary'`                                                                                    |
+| background_color            | `"#ffffff"`                                                                                             |
+| orientation                 | `"portrait-primary"`                                                                                    |
 | prefer_related_applications | `false`                                                                                                 |
 
 完整的配置项详见 [Manifest 类型定义文件](https://github.com/vuepress-theme-hope/vuepress-theme-hope/blob/main/packages/pwa2/src/shared/manifest.ts)。
@@ -194,7 +194,7 @@ VuePress 本质上是一个 SPA。这意味着你只需要缓存主页并从主�
 
 所以如果你不配置 `manifest.icons`，访问者只能享受到 Service Worker 缓存带来的离线可访问性，而并不能作为 PWA 进行安装。
 
-此外，该插件默认不处理清单中的任何内容，而是按原样输出。 这意味着，如果您计划部署到子目录，则应自行将 url 前缀附加到自己的清单 Urls 中。
+此外，该插件默认不处理清单中的任何内容，而是按原样输出。 这意味着，如果你计划部署到子目录，则应自行将 URL 前缀附加到自己的清单 Urls 中。
 
 但是，如果你需要的所有东西都在 base 文件夹下，你可以在插件选项中设置 `appendBase: true` 让插件将 `base` 自动附加到任何地址。
 

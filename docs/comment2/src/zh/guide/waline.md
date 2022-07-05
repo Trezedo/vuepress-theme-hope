@@ -43,7 +43,7 @@ icon: waline
 
    ![创建项目](./assets/vercel-1.png)
 
-1. 此时会让你创建 Team 账号，这里选择 `Skip` 即可：
+1. 此时会让你创建 Team 账号，这里选择 `Skip` 即可:
 
    ![skip team](./assets/vercel-2.png)
 
@@ -77,9 +77,9 @@ icon: waline
 
 ### 使用插件
 
-在插件选项中设置 `type: 'waline'`，同时设置服务端地址 `serverURL` 为上一步获取到的值。
+在插件选项中设置 `type: "waline"`，同时设置服务端地址 `serverURL` 为上一步获取到的值。
 
-此时，将 `<Comment>` 组件放置在你网站中合适的位置 (通常是页面的底部)，即可使用 Waline 评论功能。
+此时，将 `<CommentService>` 组件放置在你网站中合适的位置 (通常是页面的底部)，即可使用 Waline 评论功能。
 
 ::: tip
 

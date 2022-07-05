@@ -3,10 +3,10 @@ title: Options
 icon: config
 ---
 
-## type
+## provider
 
-- Type: `'waline' | 'none'`
-- Default: `'none'`
+- Type: `"Giscus" | "Twikoo" | "Waline" | "None"`
+- Default: `"None"`
 
 Comment service provider.
 
@@ -17,11 +17,14 @@ Comment service provider.
 
 Whether to enable comment feature by default.
 
+## Giscus config
+
+- [See here](giscus.md)
+
 ## Waline config
 
 - [See here](waline.md)
-<!--
 
-## Vssue config
+## Twikoo config
 
-- [See here](vssue.md) -->
+- [See here](twikoo.md)

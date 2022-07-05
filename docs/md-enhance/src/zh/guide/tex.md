@@ -9,17 +9,17 @@ icon: tex
 
 ## 配置
 
-:::: code-group
+::: code-tabs#language
 
-::: code-group-item TS
+@tab TS
 
 ```ts {8}
 // .vuepress/config.ts
-import { mdEnhance } from "vuepress-plugin-md-enhance";
+import { mdEnhancePlugin } from "vuepress-plugin-md-enhance";
 
 export default {
   plugins: [
-    mdEnhance({
+    mdEnhancePlugin({
       // 启用 TeX 支持
       tex: true,
     }),
@@ -27,17 +27,15 @@ export default {
 };
 ```
 
-:::
-
-::: code-group-item JS
+@tab JS
 
 ```js {8}
 // .vuepress/config.js
-const { mdEnhance } = require("vuepress-plugin-md-enhance");
+const { mdEnhancePlugin } = require("vuepress-plugin-md-enhance");
 
 module.exports = {
   plugins: [
-    mdEnhance({
+    mdEnhancePlugin({
       // 启用 TeX 支持
       tex: true,
     }),
@@ -46,8 +44,6 @@ module.exports = {
 ```
 
 :::
-
-::::
 
 ## 语法
 
@@ -84,6 +80,10 @@ $$
 <KatexPlayground />
 
 <!-- markdownlint-restore -->
+
+## 高级
+
+除了在插件选项中设置 `tex: true` 之外，你还可以将对象作为 `KatexOptions` 传递给它。 它将被传递给 katex。 有关可用选项，请参阅 [Katex 文档](https://katex.org/docs/options.html)。
 
 ## 教程
 
@@ -315,12 +315,6 @@ A small matix: $( \begin{smallmatrix} a&b\\c&d \end{smallmatrix} )$.
   d+e+f+g
   $$
   ```
-
-  ::: tip
-
-  请注意，由于 $\KaTeX$ 支持自动换行，所以如果你手动指定换行会在控制台输出一个警告。
-
-  :::
 
 - **对齐**
 

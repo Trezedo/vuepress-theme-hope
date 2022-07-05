@@ -1,14 +1,7 @@
 import type { Page } from "@vuepress/core";
 import type { FeedChannelOption, FeedGetter } from "./feed";
 
-export interface FeedOptions {
-  /**
-   * Deploy hostname
-   *
-   * 部署的域名
-   */
-  hostname: string;
-
+export interface BaseFeedOptions {
   /**
    * Whether to output Atom syntax files.
    *
@@ -60,18 +53,58 @@ export interface FeedOptions {
   count?: number;
 
   /**
+   * Custom component or element which needs to be removed
+   *
+   * 需要移除的自定义组件或元素
+   *
+   * @default ['ExternalLinkIcon']
+   */
+  customElements?: string[];
+
+  /**
    * A custom filter funciton, used to filter feed items.
    *
    * Feed 项目过滤器
    */
-  filter?: (page: Page) => boolean;
+  filter?: <
+    ExtraPageData extends Record<string | number | symbol, unknown> = Record<
+      never,
+      never
+    >,
+    ExtraPageFrontmatter extends Record<
+      string | number | symbol,
+      unknown
+    > = Record<string, unknown>,
+    ExtraPageFields extends Record<string | number | symbol, unknown> = Record<
+      never,
+      never
+    >
+  >(
+    page: Page<ExtraPageData, ExtraPageFrontmatter, ExtraPageFields>
+  ) => boolean;
 
   /**
    * A custom sort function, used to sort feed items.
    *
    * Feed 项目排序器
    */
-  sorter?: (pageA: Page, pageB: Page) => number;
+  sorter?: <
+    ExtraPageData extends Record<string | number | symbol, unknown> = Record<
+      never,
+      never
+    >,
+    ExtraPageFrontmatter extends Record<
+      string | number | symbol,
+      unknown
+    > = Record<string, unknown>,
+    ExtraPageFields extends Record<string | number | symbol, unknown> = Record<
+      never,
+      never
+    >
+  >(
+    pageA: Page<ExtraPageData, ExtraPageFrontmatter, ExtraPageFields>,
+    pageB: Page<ExtraPageData, ExtraPageFrontmatter, ExtraPageFields>
+  ) => number;
 
   /**
    * Options to init feed channel
@@ -110,11 +143,23 @@ export interface FeedOptions {
   /**
    * Feed generation controller
    *
-   * @description The plugin is providing a resonable getter by default, if you want full control of feed generating, you can set this field.
+   * @description The plugin is providing a reasonable getter by default, if you want full control of feed generating, you can set this field.
    *
    * Feed 生成控制器
    *
    * @description 插件已经在默认情况下提供了合理的获取器，如果你需要完全控制 Feed 生成，你可以设置此项。
    */
   getter?: FeedGetter;
+}
+
+export interface FeedOptions extends BaseFeedOptions {
+  /**
+   * Deploy hostname
+   *
+   * 部署的域名
+   */
+  hostname: string;
+
+  /** Locales for feed */
+  locales?: Record<string, BaseFeedOptions>;
 }

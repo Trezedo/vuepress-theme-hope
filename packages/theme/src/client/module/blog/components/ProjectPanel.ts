@@ -8,7 +8,7 @@ import {
   LinkIcon,
   ProjectIcon,
 } from "@theme-hope/module/blog/components/icons";
-import { useIconPrefix, useNavigate, usePure } from "@theme-hope/composables";
+import { useNavigate, usePure } from "@theme-hope/composables";
 
 import type { VNode } from "vue";
 import type { HopeThemeBlogHomePageFrontmatter } from "../../../../shared";
@@ -30,25 +30,24 @@ export default defineComponent({
 
   setup() {
     const frontmatter = usePageFrontmatter<HopeThemeBlogHomePageFrontmatter>();
-    const iconPrefix = useIconPrefix();
     const pure = usePure();
     const navigate = useNavigate();
 
-    const renderIcon = (icon = ""): VNode | null => {
+    const renderIcon = (icon = "", alt = "icon"): VNode | null => {
       // built in icon
       if (AVAILABLE_PROJECT_TYPES.includes(icon))
         return h(resolveComponent(`${icon}-icon`));
 
-      // it's a full image link
+      // it’s a full image link
       if (icon.match(/^https?:\/\//))
-        return h("img", { src: icon, class: "image" });
+        return h("img", { src: icon, alt, class: "image" });
 
-      // it's an absolute image link
+      // it’s an absolute image link
       if (icon.startsWith("/"))
-        return h("img", { src: withBase(icon), class: "image" });
+        return h("img", { src: withBase(icon), alt, class: "image" });
 
       // render as icon font
-      return h("span", { class: ["icon", `${iconPrefix.value}${icon}`] });
+      return h(resolveComponent("FontIcon"), { icon });
     };
 
     return (): VNode | null =>
@@ -63,12 +62,13 @@ export default defineComponent({
                   {
                     class: [
                       "project",
+                      // TODO: magic number 9 is tricky here
                       { [`project${index % 9}`]: !pure.value },
                     ],
                     onClick: () => navigate(link),
                   },
                   [
-                    renderIcon(icon),
+                    renderIcon(icon, name),
                     h("div", { class: "name" }, name),
                     h("div", { class: "desc" }, desc),
                   ]

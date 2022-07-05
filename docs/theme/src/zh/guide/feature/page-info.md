@@ -8,7 +8,7 @@ tag:
   - 页面信息
 ---
 
-通过引入 [`@mr-hope/vuepress-plugin-components`][components]，`vuepress-theme-hope` 实现了文章信息展示。
+`vuepress-theme-hope` 实现了文章信息展示。
 
 <!-- more -->
 
@@ -16,7 +16,7 @@ tag:
 
 页面信息默认全局启用，同时支持页面配置[^supportpageconfig]。你可以在特定页面的 front matter 中设置 `pageInfo: false` 来局部禁用它。
 
-如果你需要保持全局禁用，请设置 `themeConfig.pageInfo` 为 `false`。这样你可以在特定页面的 front matter 中设置 `pageInfo` 来局部启用它。
+如果你需要保持全局禁用，请在主题选项中设置 `pageInfo: false`。这样你可以在特定页面的 front matter 中设置 `pageInfo` 来局部启用它。
 
 ## 参数 <Badge text="支持页面配置" />
 
@@ -24,16 +24,16 @@ tag:
 
 条目可选的值和对应内容如下:
 
-| 条目            | 对应内容     | 页面 frontmatter 值     | 主题设置的配置项        |
-| --------------- | ------------ | ----------------------- | ----------------------- |
-| `'Author'`      | 作者         | author                  | author                  |
-| `'Date'`        | 写作日期     | date                    | N/A                     |
-| `'Original'`    | 是否原创     | isOriginal              | N/A                     |
-| `'Category'`    | 分类         | category                | N/A                     |
-| `'Tag'`         | 标签         | tags                    | N/A                     |
-| `'ReadingTime'` | 预计阅读时间 | N/A(自动生成)           | N/A                     |
-| `'Word'`        | 字数         | N/A(自动生成)           | N/A                     |
-| `'PageView'`    | 访问量       | visitor(仅 Waline 可用) | plugins.comment.visitor |
+| 条目            | 对应内容     | 页面 frontmatter 值         | 主题设置的配置项           |
+| --------------- | ------------ | --------------------------- | -------------------------- |
+| `"Author"`      | 作者         | `author`                    | `author`                   |
+| `"Date"`        | 写作日期     | `date`                      | N/A                        |
+| `"Original"`    | 是否原创     | `isOriginal`                | N/A                        |
+| `"Category"`    | 分类         | `category`                  | N/A                        |
+| `"Tag"`         | 标签         | `tag`                       | N/A                        |
+| `"ReadingTime"` | 预计阅读时间 | N/A(自动生成)               | N/A                        |
+| `"Word"`        | 字数         | N/A(自动生成)               | N/A                        |
+| `"PageView"`    | 访问量       | `pageview` (仅 Waline 可用) | `plugins.comment.pageview` |
 
 默认会显示 “作者，访问量，写作日期，分类，标签，预计阅读时间”。
 
@@ -47,7 +47,7 @@ author: Mr.Hope
 ---
 ```
 
-作者姓名也可以在 `themeConfig.author` 中全局配置，这样每篇文章都会显示默认作者。这时，你仍可以在页面中配置 front matter 中的 `author` 为一个新值来覆盖默认作者，或者设置 `author` 为 `false` 取消作者显示。
+作者姓名也可以在主题选项中通过 `author` 全局配置，这样每篇文章都会显示默认作者。这时，你仍可以在页面中配置 front matter 中的 `author` 为一个新值来覆盖默认作者，或者设置 `author` 为 `false` 取消作者显示。
 
 作者支持 `string[]`、`string`、`AuthorInfo` 和 `AuthorInfo[]`。
 
@@ -78,7 +78,7 @@ date: 2020-01-01
 
 ### 阅读时间
 
-默认的统计方式是一分钟 300 字，你可以设置 `themeConfig.plugins.readingTime.wordPerMinute` 来覆盖它，该选项不支持在页面单独配置。
+默认的统计方式是一分钟 300 字，你可以设置在主题选项中设置 `plugins.readingTime.wordPerMinute` 来覆盖它，该选项不支持在页面单独配置。
 
 ### 浏览量 <Badge text="支持页面配置" />
 
@@ -91,5 +91,3 @@ date: 2020-01-01
 pageview: false
 ---
 ```
-
-[components]: https://vuepress-theme-hope.github.io/v2/components/zh/

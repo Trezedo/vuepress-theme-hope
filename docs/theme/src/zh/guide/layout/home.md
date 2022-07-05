@@ -1,6 +1,7 @@
 ---
 title: 首页
 icon: home
+order: 6
 category:
   - 布局
 tag:
@@ -12,7 +13,8 @@ tag:
 
 如果想要使用它，请在 frontmatter 中设置 `home: true`。任何 frontmatter 之后的内容将会以普通的 Markdown 被渲染，并插入到主页渲染内容的底部。
 
-![首页截图](./assets/home.png)
+![首页截图](./assets/home-light.png#light)
+![首页截图](./assets/home-dark.png#dark)
 
 <!-- more -->
 
@@ -28,49 +30,61 @@ tag:
 
 ### title
 
-- 类型: `string | false`
-- 默认值: `'Hello'`
+- 类型: `string`
+- 必填: 否
 
-标题，填入 `false` 会取消显示。
+设置页面标题，会用于路径导航、页面增强等。
+
+### heroText
+
+- 类型: `string | false`
+- 默认值: `"Hello"`
+
+主页标题
+
+### tagline
+
+- 类型: `string | false`
+- 默认值: `"Welcome to your VuePress site"`
+
+附加文字描述
 
 ### heroImage
 
 - 类型: `string`
+- 必填: 否
 
 主页图标 (logo) 地址，需要填入绝对路径 (图片需要放入 `.vuepress/public` 文件夹)
 
 ### heroImageDark
 
 - 类型: `string`
+- 必填: 否
 
 深色模式下主页图标 (logo) 地址，需要填入绝对路径 (图片需要放入 `.vuepress/public` 文件夹)，默认同 `heroImage`。
 
-### heroText
+### heroAlt
 
 - 类型: `string`
+- 必填: 否
 
-主页图标替代文字。
-
-### tagline
-
-- 类型: `string`
-- 默认值: `'Welcome to your VuePress site'`
-
-附加文字描述
+主页图标的替代文字
 
 ### actions
 
 - 类型: `ActionConfig | ActionConfig[]`
+- 必填: 否
 
 `ActionConfig` 结构:
 
 - `text`: 按钮文字
 - `link`: 按钮链接
-- `type`: 按钮类型 (仅支持 `'primary'` 与 `'default'` (默认))
+- `type`: 按钮类型 (仅支持 `"primary"` 与 `"default"` (默认))
 
 ### features
 
 - 类型: `Feature[]`
+- 必填: 否
 
 `Feature` 结构:
 

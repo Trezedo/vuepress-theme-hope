@@ -1,6 +1,7 @@
 ---
 title: 主题介绍
 icon: info
+order: 1
 category:
   - 快速上手
 tag:
@@ -28,11 +29,11 @@ tag:
 
 ## 设计目标
 
-::: info v1 的设计目标
+::: info V1 设计目标
 
-- 方向: 主题的所有功能都是为了增强文档**内容丰富性**与**可传播性**。
+- 方向: 所有功能都是为了增强文档**内容丰富性**与**可传播性**。
 
-- 功能的强大与独立: 本主题会对功能提供全面的细节，并将它们解构成独立插件，以便用户在其他主题中引入并使用他们。
+- 功能的强大与独立: 提供独立功能并提供强配置性，并将它们解构成独立插件，以便用户在其他主题中引入并使用他们。
 
 - 零或低配置: 本主题的所有功能都尽可能设计成在零配置或低配置下即可工作，以便尽可能降低你的迁移或学习成本，直接享受到它们的便利。
 
@@ -42,7 +43,7 @@ tag:
 
 - 美观度提升: 主题界面不在基于默认主题的布局与样式，进行了完全的重构。
 
-- 功能的解构: 借助 Vue3 的组合式 API 主题在保持强大的同时进一步增强了 “Tree Shakeable”。
+- 功能的解构: 借助 Vue3 的组合式 API 主题在保持强大的同时进一步增强了 “Tree-shaking”。
 
   主题会只运行你需要的哪些功能，不会被其他功能拖慢或影响构建大小。
 
@@ -56,15 +57,15 @@ tag:
 
 - 如果你希望存放一些知识笔记，主题提供了 [自定义容器](../markdown/container.md)、[标记](../markdown/mark.md)、[徽章](../markdown/components.md)、[任务列表](../markdown/tasklist.md) 与 [公式](../markdown/tex.md) 支持。
 
-- 如果你是一名程序员需要大量展示代码与 demo，本主题为代码块提供了浅色与深色两种主题，[代码组](../markdown/code-group.md) 与 ["一键复制" 按钮](../feature/copy-code.md)。同时我们还提供 [代码演示](../markdown/demo.md) 功能，方便你展示自己的 Vue、React 组件或者其他 demo。
+- 如果你是一名程序员需要大量展示代码与 demo，本主题为代码块提供了浅色与深色两种主题，[代码组](../markdown/code-tabs.md) 与 ["一键复制" 按钮](../feature/copy-code.md)。同时我们还提供 [代码演示](../markdown/demo.md) 功能，方便你展示自己的 Vue、React 组件或者其他 demo。
 
-- 如果你需要提供产品文档与展示，主题提供了 [幻灯片](../markdown/presentation.md)、[流程图](../markdown/flowchart.md) 与 [Mermaid 图表](../markdown/mermaid.md) 功能。
+- 如果你需要提供产品文档与展示，主题提供了 [选项卡](../markdown/tabs.md)、[幻灯片](../markdown/presentation.md)、[图表](../markdown/chart.md)、[流程图](../markdown/flowchart.md) 与 [Mermaid 图表](../markdown/mermaid.md) 功能。
 
 总之，任何人都可以享受 Markdown 增强语法带来的便利。
 
 ### 页面 UI
 
-- 页面: [**页面图标**](../interface/icon.md)、[**文章信息**](../feature/page-info.md)、[**标题目录**](../blog/page.md#标题列表)、[**图片预览功能**](../feature/photo-swipe.md)。
+- 页面: [**页面图标**](../interface/icon.md)、[**文章信息**](../feature/page-info.md)、[**标题目录**](../layout/page.md#标题列表)、[**图片预览功能**](../feature/photo-swipe.md)。
 
 - 站点结构:
 
@@ -99,3 +100,8 @@ tag:
 - 提供 [Sitemap 生成](../advanced/sitemap.md)
 
 - 提供 [PWA 支持](../advanced/pwa.md)，使你的站点可被安装。
+
+### 其他
+
+- 提供 [版权信息添加](../feature/copyright.md) 功能，可在用户复制时追加版权信息，也可禁用页面复制和选择。
+- 提供 [文章加密](../feature/encrypt.md) 功能，保护隐私信息。

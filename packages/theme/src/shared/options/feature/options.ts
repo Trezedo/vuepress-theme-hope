@@ -2,14 +2,18 @@ import type {
   HopeThemeBlogConfig,
   HopeThemeBlogLocaleData,
   HopeThemeBlogOptions,
+  HopeThemePaginationLocaleData,
 } from "./blog";
 import type {
+  HopeThemeEncryptConfig,
   HopeThemeEncryptLocaleData,
   HopeThemeEncryptOptions,
 } from "./encrypt";
 
 export interface HopeThemeFeatureLocaleData {
   blogLocales: HopeThemeBlogLocaleData;
+
+  paginationLocales: HopeThemePaginationLocaleData;
 
   /**
    * Encrypt
@@ -28,7 +32,14 @@ export interface HopeThemeFeatureLocaleConfig {
   blog: HopeThemeBlogConfig;
 }
 
-export interface HopeThemeFeatureOptions {
+export interface HopeThemeFeatureRootOptions {
+  /**
+   * Add This 的公开 ID
+   *
+   * Public ID for add this
+   */
+  addThis?: string;
+
   /**
    * Encrypt config
    *
@@ -37,5 +48,12 @@ export interface HopeThemeFeatureOptions {
   encrypt?: HopeThemeEncryptOptions;
 }
 
-export type HopeThemeFeatureConfig = HopeThemeFeatureLocaleConfig &
-  Required<HopeThemeFeatureOptions>;
+export interface HopeThemeFeatureRootConfig
+  extends HopeThemeFeatureLocaleConfig {
+  /**
+   * Encrypt config
+   *
+   * 加密配置
+   */
+  encrypt: HopeThemeEncryptConfig;
+}

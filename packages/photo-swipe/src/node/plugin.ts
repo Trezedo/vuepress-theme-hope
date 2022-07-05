@@ -1,50 +1,48 @@
-import {
-  addViteOptimizeDepsInclude,
-  addViteSsrNoExternal,
-  getLocales,
-  addViteOptimizeDepsExclude,
-} from "@mr-hope/vuepress-shared";
 import { path } from "@vuepress/utils";
 import { useSassPalettePlugin } from "vuepress-plugin-sass-palette";
-import { photoSwipeLocales } from "./locales";
+import { getLocales } from "vuepress-shared";
 
-import type { Plugin, PluginConfig } from "@vuepress/core";
+import { photoSwipeLocales } from "./locales";
+import { logger } from "./utils";
+
+import type { PluginFunction } from "@vuepress/core";
 import type { PhotoSwipeOptions } from "../shared";
 
-export const photoSwipePlugin: Plugin<PhotoSwipeOptions> = (options, app) => {
-  useSassPalettePlugin(app, { id: "hope" });
+export const photoSwipePlugin =
+  (options: PhotoSwipeOptions = {}): PluginFunction =>
+  (app) => {
+    if (app.env.isDebug) logger.info(`Options: ${options.toString()}`);
 
-  return {
-    name: "vuepress-plugin-photo-swipe",
+    useSassPalettePlugin(app, { id: "hope" });
 
-    define: (): Record<string, unknown> => ({
-      PHOTO_SWIPE_SELECTOR:
-        options.selector || ".theme-default-content :not(a) > img",
-      PHOTO_SWIPE_DELAY: options.delay || 500,
-      PHOTO_SWIPE_LOCALES: getLocales(app, photoSwipeLocales, options.locales),
-      PHOTO_SWIPE_OPTIONS: options.options || {},
-    }),
+    return {
+      name: "vuepress-plugin-photo-swipe",
 
-    onInitialized: (app): void => {
-      addViteOptimizeDepsInclude(app, [
-        "photoswipe",
-        "photoswipe/dist/photoswipe-ui-default",
-      ]);
+      define: (app): Record<string, unknown> => ({
+        PHOTO_SWIPE_SELECTOR:
+          options.selector || ".theme-default-content :not(a) > img",
+        PHOTO_SWIPE_DELAY: options.delay || 500,
+        PHOTO_SWIPE_LOCALES: Object.fromEntries(
+          Object.entries(
+            getLocales({
+              app,
+              name: "photo-swipe",
+              default: photoSwipeLocales,
+              config: options.locales,
+            })
+          ).map(([localePath, localeOptions]) => [
+            localePath,
+            Object.fromEntries(
+              Object.entries(localeOptions).map(([key, value]) => [
+                `${key}Title`,
+                value,
+              ])
+            ),
+          ])
+        ),
+        PHOTO_SWIPE_OPTIONS: options.options || {},
+      }),
 
-      addViteSsrNoExternal(app, [
-        "@mr-hope/vuepress-shared",
-        "vuepress-plugin-photo-swipe",
-      ]);
-      addViteOptimizeDepsExclude(app, "vuepress-plugin-photo-swipe");
-    },
-
-    clientAppRootComponentFiles: path.resolve(
-      __dirname,
-      "../client/root-components/ImageViewer.js"
-    ),
+      clientConfigFile: path.resolve(__dirname, "../client/config.js"),
+    };
   };
-};
-
-export const photoSwipe = (
-  options: PhotoSwipeOptions | false
-): PluginConfig<PhotoSwipeOptions> => ["photo-swipe", options];

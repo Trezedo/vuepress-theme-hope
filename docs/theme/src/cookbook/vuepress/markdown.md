@@ -42,14 +42,15 @@ When using Markdown [link syntax](https://spec.commonmark.org/0.29/#link-referen
 
 Take our documentation source files as an example:
 
-```bash
-└─ docs
+```
+└─ src
+   ├─ cookbook
+   │  └─ vuepress
+   │     ├─ markdown.md <- Here we are
+   │     └─ README.md
    ├─ guide
-   │  ├─ getting-started.md
-   │  ├─ markdown.md    # <- Here we are
    │  └─ README.md
-   ├─ reference
-   │  └─ config.md
+   ├─ contribution.md
    └─ README.md
 ```
 
@@ -76,11 +77,13 @@ Converted to:
 
 ```vue
 <template>
-  <RouterLink to="/">Home</RouterLink>
-  <RouterLink to="/contribution.html">Contribution Guide</RouterLink>
-  <RouterLink to="/cookbook/vuepress/config.html">VuePress Config</RouterLink>
-  <RouterLink to="/guide/">Guide</RouterLink>
-  <RouterLink to="/config/i18n.html">Config &gt; I18n</RouterLink>
+  <RouterLink to="/v2/">Home</RouterLink>
+  <RouterLink to="/v2/contribution.html">Contribution Guide</RouterLink>
+  <RouterLink to="/v2/cookbook/vuepress/config.html"
+    >VuePress Config</RouterLink
+  >
+  <RouterLink to="/v2/guide/">Guide</RouterLink>
+  <RouterLink to="/v2/config/i18n.html">Config &gt; I18n</RouterLink>
   <a href="https://github.com" target="_blank" rel="noopener noreferrer"
     >GitHub</a
   >
@@ -89,12 +92,12 @@ Converted to:
 
 Rendered as:
 
-[Home](../../README.md)  
-[Contribution Guide](../../contribution.md)  
-[VuePress Config](./config.md)
-[Guide](/guide/README.md)  
-[Config > I18n](/config/i18n.md)  
-[GitHub](https://github.com)
+- [Home](../../README.md)
+- [Contribution Guide](../../contribution.md)
+- [VuePress Config](./config.md)
+- [Guide](/guide/README.md)
+- [Config > I18n](/config/i18n.md)
+- [GitHub](https://github.com)
 
 Explanation:
 
@@ -162,7 +165,7 @@ Config reference: [markdown.toc](https://v2.vuepress.vuejs.org/reference/config.
 
 ### Code Blocks
 
-Following code blocks extensions are implemented during Markdown parsing in Node side. That means, the code blocks won’t be processed in client side.
+Following code blocks extensions are implemented during Markdown parsing in Node side. That means, the code blocks won’t be processed in client-side.
 
 #### Line Highlighting
 
@@ -173,14 +176,19 @@ Input:
 ````md
 ```ts {1,6-8}
 import type { UserConfig } from "@vuepress/cli";
+import { defaultTheme } from "@vuepress/theme-default";
 
 export const config: UserConfig = {
   title: "Hello, VuePress",
 
-  themeConfig: {
+  theme: defaultTheme({
     logo: "https://vuejs.org/images/logo.png",
-  },
+  }),
 };
+```
+
+```
+
 ```
 ````
 
@@ -188,13 +196,14 @@ Output:
 
 ```ts {1,6-8}
 import type { UserConfig } from "@vuepress/cli";
+import { defaultTheme } from "@vuepress/theme-default";
 
 export const config: UserConfig = {
   title: "Hello, VuePress",
 
-  themeConfig: {
+  theme: defaultTheme({
     logo: "https://vuejs.org/images/logo.png",
-  },
+  }),
 };
 ```
 
@@ -263,7 +272,7 @@ You can add `:v-pre` / `:no-v-pre` mark in your fenced code blocks to override t
 ::: warning
 The template syntax characters, for example, the "Mustache" syntax (double curly braces) might be parsed by the syntax highlighter. Thus, as the following example, `:no-v-pre` might not work well in some languages.
 
-If you want to make Vue syntax work in those languages anyway, try to disable the default syntax highlighting and implement your own syntax highlighting in client side.
+To make Vue syntax work in those languages anyway, try to disable the default syntax highlighting and implement your own syntax highlighting in client-side.
 :::
 
 Input:
@@ -325,7 +334,7 @@ You can import code blocks from files with following syntax:
 @[code](../foo.js)
 ```
 
-If you want to partially import the file:
+To partially import the file:
 
 ```md
 <!-- partial import, from line 1 to line 10 -->
@@ -351,9 +360,9 @@ In fact, the second part inside the `[]` will be treated as the mark of the code
 
 Here is a complex example:
 
-- import line 3 to line 10 of the `'../foo.js'` file
-- specify the language as `'js'`
-- highlight line 3 of the imported code, i.e. line 5 of the `'../foo.js'` file
+- import line 3 to line 10 of the `"../foo.js"` file
+- specify the language as `"js"`
+- highlight line 3 of the imported code, i.e. line 5 of the `"../foo.js"` file
 - disable line numbers
 
 ```md
@@ -446,7 +455,7 @@ Deprecated HTML tags such as [\<center>](https://developer.mozilla.org/en-US/doc
 
 Those tags would not be recognized as native HTML tags by Vue template compiler. Instead, Vue will try to resolve those tags as Vue components, and obviously these components usually don’t exist.
 
-You should try to avoid using deprecated HTML tags. However, if you want to use those tags anyway, try either of the following workarounds:
+You should try to avoid using deprecated HTML tags. However, to use those tags anyway, try either of the following workarounds:
 
 - Adding a [v-pre](https://v3.vuejs.org/api/directives.html#v-pre) directive to skip the compilation of the element and its children. Notice that the template syntax would also be invalid.
 - Using [compilerOptions.isCustomElement](https://v3.vuejs.org/api/application-config.html#compileroptions) to tell Vue template compiler not try to resolve them as components.

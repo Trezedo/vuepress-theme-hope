@@ -2,6 +2,7 @@ export interface HopeThemeRouteLocaleData {
   /**
    * 404 page msgs
    */
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   "404msg": string[];
   /**
    * Back to homepage
@@ -13,7 +14,7 @@ export interface HopeThemeRouteLocaleData {
   back: string;
 
   /**
-   * sr-only message in `<OutboundLink>`
+   * sr-only message in `<ExternalLinkIcon>`
    */
-  openInNewWindow?: string;
+  openInNewWindow: string;
 }

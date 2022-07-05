@@ -1,7 +1,7 @@
-@use "@mr-hope/vuepress-shared/styles/wrapper";
+@use "vuepress-shared/styles/wrapper";
 @use "@sass-palette/hope-config";
 
-#{hope-config.$contentClass} {
+#{hope-config.$content-class} {
   &:not(.custom) {
     @include wrapper.wrapper;
 
@@ -14,14 +14,16 @@
       h5,
       h6 {
         margin-top: calc(0.5rem - var(--navbar-height));
-        padding-top: calc(1rem + var(--navbar-height));
         margin-bottom: 0.5rem;
+        padding-top: calc(1rem + var(--navbar-height));
         outline: none;
 
+        // stylelint-disable max-nesting-depth
         .theme-container.no-navbar & {
           margin-top: 1.5rem;
           padding-top: 0;
         }
+        // stylelint-enable max-nesting-depth
       }
 
       // paragraph fix
@@ -30,24 +32,17 @@
       ol p {
         text-align: justify;
         word-break: break-word;
-        hyphens: auto;
         overflow-wrap: break-word;
+        hyphens: auto;
 
-        @media (max-width: hope-config.$mobileS) {
+        @media (max-width: hope-config.$mobile) {
           text-align: left;
         }
       }
-
-      a:hover {
-        text-decoration: underline;
-      }
     }
 
-    // unknown container
-    p.demo {
-      padding: 1rem 1.5rem;
-      border: 1px solid #ddd;
-      border-radius: 4px;
+    a:hover {
+      text-decoration: underline;
     }
 
     img {
@@ -56,8 +51,8 @@
   }
 
   &.custom {
-    padding: 0;
     margin: 0;
+    padding: 0;
 
     img {
       max-width: 100%;

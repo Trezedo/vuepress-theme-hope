@@ -1,33 +1,39 @@
-import { defineSidebarConfig } from "vuepress-theme-hope";
+import { sidebar } from "docs-shared";
 
-export const enSidebarConfig = defineSidebarConfig({
+export const enSidebarConfig = sidebar({
   "/": [
     {
       text: "Guide",
       icon: "creative",
-      children: ["guide/", "guide/waline"],
+      prefix: "guide/",
+      children: ["", "giscus", "waline", "twikoo"],
     },
     {
       text: "Config",
       icon: "config",
-      children: ["config/", "config/waline"],
+      prefix: "config/",
+      children: ["", "giscus", "waline", "twikoo"],
     },
     "migration",
+    "demo",
   ],
 });
 
-export const zhSidebarConfig = defineSidebarConfig({
+export const zhSidebarConfig = sidebar({
   "/zh/": [
     {
       text: "指南",
       icon: "creative",
-      children: ["guide/", "guide/waline"],
+      prefix: "guide/",
+      children: ["", "giscus", "waline", "twikoo"],
     },
     {
       text: "配置",
       icon: "config",
-      children: ["config/", "config/waline"],
+      prefix: "config/",
+      children: ["", "giscus", "waline", "twikoo"],
     },
     "migration",
+    "demo",
   ],
 });

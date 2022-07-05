@@ -1,9 +1,7 @@
 import { usePageFrontmatter, withBase } from "@vuepress/client";
 import { isArray, isLinkExternal, isLinkHttp } from "@vuepress/shared";
-import { computed, defineComponent, h } from "vue";
+import { computed, defineComponent, h, resolveComponent } from "vue";
 import { RouterLink } from "vue-router";
-
-import { useIconPrefix } from "@theme-hope/composables";
 
 import type { VNode } from "vue";
 import type { HopeThemeProjectHomePageFrontmatter } from "../../shared";
@@ -12,7 +10,6 @@ export default defineComponent({
   name: "HomeFeatures",
 
   setup() {
-    const iconPrefix = useIconPrefix();
     const frontmatter =
       usePageFrontmatter<HopeThemeProjectHomePageFrontmatter>();
 
@@ -29,9 +26,7 @@ export default defineComponent({
         : icon.startsWith("/")
         ? h("img", { class: "icon", src: withBase(icon) })
         : icon
-        ? h("span", {
-            class: ["icon", `${iconPrefix.value}${icon}`],
-          })
+        ? h(resolveComponent("FontIcon"), { icon })
         : null;
     };
 
@@ -43,8 +38,8 @@ export default defineComponent({
             frontmatter.value.features?.map((feature) => {
               const children = [
                 getIcon(feature.icon),
-                h("h2", feature.title),
-                h("p", feature.details),
+                h("h2", { innerHTML: feature.title }),
+                h("p", { innerHTML: feature.details }),
               ];
 
               return feature.link

@@ -19,15 +19,25 @@ features:
     details: 用样式装饰 Markdown 内容
     link: /zh/guide/container.html
 
+  - title: 选项卡
+    icon: tab
+    details: 使用选项卡对相似内容进行分组
+    link: /zh/guide/tabs.html
+
   - title: 代码组
     icon: code
     details: 使用选项卡对相似代码进行分组
-    link: /zh/guide/code-group.html
+    link: /zh/guide/code-tabs.html
 
   - title: 自定义对齐支持
     icon: align
     details: 让你在 Markdown 中对段落进行对齐
     link: /zh/guide/align.html
+
+  - title: 自定义属性支持
+    icon: code
+    details: 让你为 Markdown 元素添加属性
+    link: /zh/guide/attrs.html
 
   - title: 上下角标支持
     icon: superscript
@@ -49,6 +59,16 @@ features:
     details: 在 Markdown 中使用任务列表
     link: /zh/guide/tasklist.html
 
+  - title: 图片语法
+    icon: pic
+    details: 使用改进的语法指定图片大小与颜色模式
+    link: /zh/guide/image.html
+
+  - title: 图表支持
+    icon: rank
+    details: 在 Markdown 中展示图表
+    link: /zh/guide/chart.html
+
   - title: 流程图支持
     icon: tree
     details: 可以在 Markdown 中直接写出流程图
@@ -63,6 +83,11 @@ features:
     icon: tex
     details: Markdown 现在也可以支持 Tex 语法以显示公式
     link: /zh/guide/tex.html
+
+  - title: 导入文件支持
+    icon: markdown
+    details: 将你的文档分段，并在 Markdown 中导入
+    link: /zh/guide/include.html
 
   - title: 代码案例支持
     icon: discover
@@ -82,17 +107,21 @@ copyright: false
 
 ### 安装
 
-:::: code-group
+::: code-tabs#shell
 
-::: code-group-item yarn
+@tab pnpm
+
+```bash
+pnpm add -D vuepress-plugin-md-enhance@next
+```
+
+@tab yarn
 
 ```bash
 yarn add -D vuepress-plugin-md-enhance@next
 ```
 
-:::
-
-::: code-group-item npm
+@tab npm
 
 ```bash
 npm i -D vuepress-plugin-md-enhance@next
@@ -100,38 +129,34 @@ npm i -D vuepress-plugin-md-enhance@next
 
 :::
 
-::::
-
 ### 使用
 
-:::: code-group
+::: code-tabs#language
 
-::: code-group-item TS
+@tab TS
 
 ```ts
 // .vuepress/config.ts
-import { mdEnhance } from "vuepress-plugin-md-enhance";
+import { mdEnhancePlugin } from "vuepress-plugin-md-enhance";
 
 export default {
   plugins: [
-    mdEnhance({
+    mdEnhancePlugin({
       // 你的选项
     }),
   ],
 };
 ```
 
-:::
-
-::: code-group-item JS
+@tab JS
 
 ```js
 // .vuepress/config.js
-const { mdEnhance } = require("vuepress-plugin-md-enhance");
+const { mdEnhancePlugin } = require("vuepress-plugin-md-enhance");
 
 module.exports = {
   plugins: [
-    mdEnhance({
+    mdEnhancePlugin({
       // 你的选项
     }),
   ],
@@ -139,9 +164,26 @@ module.exports = {
 ```
 
 :::
-
-::::
 
 ## 从 V1 迁移
 
 详见 [迁移指南](./migration.md)。
+
+## 高级用法
+
+这个插件导出了以下 markdown-it 插件，你可以在其他项目中使用它们。
+
+- align
+- attrs
+- container
+- footnote
+- imageMark
+- include
+- katex
+- lazyload
+- mark
+- stylize
+- sub
+- sup
+- tasklist
+- uml

@@ -1,8 +1,9 @@
 import { existsSync, writeFileSync, readdirSync } from "fs";
 import { join, resolve } from "path";
-import { version } from "../packages/theme/package.json";
+import { version } from "../package.json";
 
-const packagesDir = resolve(__dirname, "../packages/");
+const packagesDir = resolve(process.cwd(), "packages");
+
 const files = readdirSync(packagesDir);
 
 files.forEach((pkgName) => {
@@ -27,7 +28,13 @@ files.forEach((pkgName) => {
         url: "git+https://github.com/vuepress-theme-hope/vuepress-theme-hope.git",
         directory: `packages/${pkgName}`,
       },
-      keywords: ["vuepress-plugin", "vuepress", pkgName, "mr-hope"],
+      keywords: [
+        "vuepress",
+        "vuepress2",
+        "vuepress-plugin",
+        pkgName,
+        "mr-hope",
+      ],
       author: {
         email: "mister-hope@outlook.com",
         name: "Mr.Hope",
@@ -49,9 +56,9 @@ files.forEach((pkgName) => {
   if (!existsSync(readmePath))
     writeFileSync(
       readmePath,
-      `# @mr-hope/vuepress-plugin-${pkgName}
+      `# vuepress-plugin-${pkgName}
 
-[![Version](https://img.shields.io/npm/v/@mr-hope/vuepress-plugin-${pkgName}/next.svg?style=flat-square&logo=npm) ![Downloads](https://img.shields.io/npm/dm/@mr-hope/vuepress-plugin-${pkgName}.svg?style=flat-square&logo=npm) ![Size](https://img.shields.io/bundlephobia/min/@mr-hope/vuepress-plugin-${pkgName}?style=flat-square&logo=npm)](https://www.npmjs.com/package/@mr-hope/vuepress-plugin-${pkgName})
+[![Version](https://img.shields.io/npm/v/vuepress-plugin-${pkgName}/next.svg?style=flat-square&logo=npm) ![Downloads](https://img.shields.io/npm/dm/vuepress-plugin-${pkgName}.svg?style=flat-square&logo=npm) ![Size](https://img.shields.io/bundlephobia/min/vuepress-plugin-${pkgName}?style=flat-square&logo=npm)](https://www.npmjs.com/package/vuepress-plugin-${pkgName})
 
 ${desc}.
 

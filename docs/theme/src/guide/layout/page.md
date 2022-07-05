@@ -1,6 +1,7 @@
 ---
 title: Page
 icon: page
+order: 5
 category:
   - Layout
 tag:
@@ -8,7 +9,7 @@ tag:
   - Layout
 ---
 
-## Icon support
+## Icon Support
 
 You can configure the `icon` field in the frontmatter of the page, and fill in the FontClass of the corresponding icon to bind the icon to the page.
 
@@ -38,11 +39,11 @@ Please see [Page Info Section](../feature/page-info.md)
 
 Please see [Breadcrumb](breadcrumb.md).
 
-## Heading list
+## Header List
 
-In desktop mode, a list of article headings will automatically be displayed on the right side of the screen. (They will be placed in the sidebar on mobile devices)
+In desktop mode, a list of article headers will automatically be displayed on the right side of the screen. (They will be placed in the sidebar on mobile devices)
 
-If you don’t want to display the title list on the right in desktop mode, please set `themeConfig.toc` to `false`.
+If you don’t want to display the title list on the right in desktop mode, please set `toc: false` in theme options.
 
 You can also set it through `toc` in page frontmatter.
 
@@ -67,7 +68,7 @@ next: false
 
 Please see [Comment section](../feature/comment.md) for details.
 
-## Custom Layout
+## Customize Layout
 
 By default the content of each `*.md` file is rendered in a `<div class="page">` container, along with the sidebar, auto-generated edit links and prev/next links. To use a fully custom component in place of the page, you can again specify the component to use using frontmatter:
 
@@ -77,18 +78,22 @@ layout: SpecialLayout
 ---
 ```
 
-This will render `SpecialLayout` layout registed in VuePress for the given page.
+This will render `SpecialLayout` layout registered in VuePress for the given page.
 
 ::: note
 
-The theme only provides `Layout`, `404` layout. Also:
+The theme only provides `Layout`, `404` layout.
+
+Also the theme:
 
 - Provides a `Blog` layout when the blogging feature is enabled
 - Provides a `Slide` layout when the slideshow feature is enabled
 
+If you want to provide your own layout, please see [Theme Extending](../../cookbook/advanced/extend.md).
+
 :::
 
-## Custom container Class
+## Customize Container Class
 
 By default, each page is rendered in a `div` with class `theme-container`. To apply some special styles to specific pages, you can additionally specify a class name by setting `containerClass` in frontmatter
 

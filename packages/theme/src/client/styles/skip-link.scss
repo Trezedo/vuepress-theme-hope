@@ -1,24 +1,27 @@
 .skip-link {
   top: 0.25rem;
   left: 0.25rem;
-  padding: 0.65rem 1.5rem;
   z-index: 999;
-  font-size: 0.9em;
-  font-weight: bold;
-  text-decoration: none;
-  color: var(--theme-color);
-  box-shadow: var(--card-shadow);
-  background-color: var(--bg-color);
+
+  padding: 0.65rem 1.5rem;
   border-radius: 0.5rem;
 
-  #{hope-config.$darkSelector} & {
+  background-color: var(--bg-color);
+  color: var(--theme-color);
+  box-shadow: var(--card-shadow);
+
+  font-weight: bold;
+  font-size: 0.9em;
+  text-decoration: none;
+
+  #{hope-config.$dark-selector} & {
     color: var(--theme-color);
   }
 
   .skip-link:focus {
-    height: auto;
-    width: auto;
     clip: auto;
+    width: auto;
+    height: auto;
     clip-path: none;
   }
 }

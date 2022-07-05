@@ -1,4 +1,5 @@
 import type { LocaleData } from "@vuepress/shared";
+import type { Author } from "vuepress-shared";
 import type { HopeThemeAppearanceLocaleData } from "./appearance";
 import type {
   HopeThemeFeatureLocaleConfig,
@@ -8,6 +9,7 @@ import type {
 import type { LocaleData2Option } from "./helpers";
 import type {
   HopeThemeLayoutLocaleData,
+  HopeThemeLayoutLocaleConfig,
   HopeThemeLayoutLocaleOptions,
 } from "./layout";
 
@@ -26,10 +28,22 @@ export type HopeThemeLocaleOptions =
     LocaleData2Option<HopeThemeFeatureLocaleData> &
     HopeThemeFeatureLocaleOptions &
     LocaleData2Option<HopeThemeLayoutLocaleData> &
-    HopeThemeLayoutLocaleOptions &
-    LocaleData;
+    HopeThemeLayoutLocaleOptions & {
+      /**
+       * Global default author
+       *
+       * 全局默认作者
+       */
+      author?: Author;
+    } & LocaleData;
 
 export type HopeThemeLocaleConfig = HopeThemeLocaleData &
   HopeThemeFeatureLocaleConfig &
-  HopeThemeLayoutLocaleOptions &
-  LocaleData;
+  HopeThemeLayoutLocaleConfig & {
+    /**
+     * Global default author
+     *
+     * 全局默认作者
+     */
+    author?: Author;
+  } & LocaleData;

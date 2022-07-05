@@ -1,9 +1,9 @@
-import { getDate } from "@mr-hope/vuepress-shared/lib/client";
 import { computed, inject, provide } from "vue";
 import { useBlogType } from "vuepress-plugin-blog2/lib/client";
+import { getDate } from "vuepress-shared/lib/client";
 
 import type { ComputedRef, InjectionKey } from "vue";
-import type { Articles } from "vuepress-plugin-blog2";
+import type { Article } from "vuepress-plugin-blog2";
 import type { ArticleInfo } from "../../../../shared";
 
 export interface TimelineItem {
@@ -14,7 +14,7 @@ export interface TimelineItem {
 export type TimelinesRef = ComputedRef<{
   path: string;
   config: TimelineItem[];
-  items: Articles<ArticleInfo>;
+  items: Article<ArticleInfo>[];
 }>;
 
 export const timelinesSymbol: InjectionKey<TimelinesRef> =
@@ -44,8 +44,7 @@ export const setupTimelines = (): void => {
 
     // filter before sort
     timelines.value.items.forEach(({ info, path }) => {
-      const { year, month, day } =
-        getDate(info.date, { type: "date" })?.detail || {};
+      const { year, month, day } = getDate(info.date)?.info || {};
 
       if (year && month && day) {
         if (!timelineItems[0] || timelineItems[0].year !== year)

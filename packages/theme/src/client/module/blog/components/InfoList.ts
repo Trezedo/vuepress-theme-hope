@@ -1,7 +1,7 @@
 import { computed, defineComponent, h, ref } from "vue";
 
 import CategoryList from "@theme-hope/module/blog/components/CategoryList";
-import { DropTransition } from "@theme-hope/components/transitions";
+import DropTransition from "@theme-hope/components/transitions/DropTransition";
 import TagList from "@theme-hope/module/blog/components/TagList";
 import TimelineList from "@theme-hope/module/blog/components/TimelineList";
 import {
@@ -56,12 +56,12 @@ export default defineComponent({
       h("div", { class: "blog-info-list" }, [
         h(
           "div",
-          { class: "switch-wrapper" },
+          { class: "blog-type-wrapper" },
           buttons.map(([key, icon]) =>
             h(
               "button",
               {
-                class: "switch-button",
+                class: "blog-type-button",
                 onClick: () => {
                   active.value = key;
                 },
@@ -70,7 +70,7 @@ export default defineComponent({
                 "div",
                 {
                   class: ["icon-wapper", { active: active.value === key }],
-                  ariaLabel: locale.value[key],
+                  "aria-label": locale.value[key],
                   "data-balloon-pos": "up",
                 },
                 h(icon)
@@ -100,15 +100,18 @@ export default defineComponent({
                   "ul",
                   { class: "sticky-article-list" },
                   stars.value.items.map(({ info, path }, index) =>
-                    h(DropTransition, { delay: 0.08 * (index + 1) }, () =>
-                      h(
-                        "li",
-                        {
-                          class: "sticky-article",
-                          onClick: () => navigate(path),
-                        },
-                        info.title
-                      )
+                    h(
+                      DropTransition,
+                      { appear: true, delay: 0.08 * (index + 1) },
+                      () =>
+                        h(
+                          "li",
+                          {
+                            class: "sticky-article",
+                            onClick: () => navigate(path),
+                          },
+                          info.title
+                        )
                     )
                   )
                 ),

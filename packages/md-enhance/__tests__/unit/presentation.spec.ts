@@ -1,4 +1,5 @@
-import MarkdownIt = require("markdown-it");
+import { describe, it, expect } from "vitest";
+import MarkdownIt from "markdown-it";
 import { presentation } from "../../src/node/markdown-it/presentation";
 
 const demo = `
@@ -41,7 +42,7 @@ ${demo}
 `);
 
     expect(renderResult).toMatch(
-      /<PresentationViewer id="presentation-.*?" data-code=".*?" theme=".*?"><\/PresentationViewer>/
+      /<Presentation id="presentation-.*?" data-code=".*?" theme=".*?"><\/Presentation>/
     );
     expect(renderResult).toMatchSnapshot();
   });

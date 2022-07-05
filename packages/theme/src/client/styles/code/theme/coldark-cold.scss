@@ -8,6 +8,8 @@
  * Copied from https://github.com/PrismJS/prism-themes/blob/master/themes/prism-coldark-cold.css
  */
 
+// stylelint-disable no-descending-specificity
+
 @use "helper";
 
 #app {
@@ -22,8 +24,6 @@ pre[class*="language-"] {
   tab-size: 4;
 
   // Selection
-  &::-moz-selection,
-  ::-moz-selection,
   &::selection,
   ::selection {
     background: #8da1b9;

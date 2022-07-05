@@ -1,6 +1,6 @@
 ---
 title: 快速上手
-icon: markdown
+icon: creative
 ---
 
 通过安装并启用此插件，你可以在 Markdown 中使用更多的语法。
@@ -13,37 +13,61 @@ icon: markdown
 
 :::
 
-## 一键启用
+## 一键启用所有功能
 
 你可以在选项中 `enableAll` 设置为 `true` 来启用插件的所有功能。
 
 ::: danger
 
-请仅将此选项用于体验或测试。随着时间的增长，`vupress-plugin-md-enhance` 变得越来越强大。它为 Markdown 解析器添加了更多语法，并输出了更多代码。
+请仅将此选项用于体验或测试。
+
+插件完全支持代码分割，所以你应该使用下方选项并**仅**启用你需要的功能。
 
 启用不需要的功能将增加开发和构建时间。 (`markdown-it` 必须检查额外的语法)
 
-同样，幻灯片演示功能将在输出中添加 700KB 大小的代码 (主要是 `reveal.js`)。
-
-因此，请使用下面的选项，仅启用需要的功能。
+同时，一些功能会输出体积较大的文件到输出结果。(可高达 2MB)
 
 :::
 
 ## 新增的更多语法
 
+### 选项卡
+
+::: tabs#fruit
+
+@tab apple
+
+Apple
+
+@tab banana
+
+Banana
+
+@tab orange
+
+Orange
+
+:::
+
+- [查看详情](tabs.md)
+
 ### 代码块
 
-:::: code-group
+::: code-tabs#shell
 
-::: code-group-item yarn
+@tab pnpm
+
+```bash
+pnpm add -D vuepress-plugin-md-enhance@next
+```
+
+@tab yarn
 
 ```bash
 yarn add -D vuepress-plugin-md-enhance@next
 ```
 
-:::
-
-::: code-group-item npm:active
+@tab:active npm
 
 ```bash
 npm i -D vuepress-plugin-md-enhance@next
@@ -51,9 +75,7 @@ npm i -D vuepress-plugin-md-enhance@next
 
 :::
 
-::::
-
-- [查看详情](code-group.md)
+- [查看详情](code-tabs.md)
 
 ### 自定义对齐
 
@@ -70,6 +92,12 @@ npm i -D vuepress-plugin-md-enhance@next
 :::
 
 - [查看详情](align.md)
+
+### 属性支持
+
+一个有 id 的 **单词**{#word}。
+
+- [查看详情](attrs.md)
 
 ### 上下角标
 
@@ -97,6 +125,74 @@ npm i -D vuepress-plugin-md-enhance@next
 - [ ] 计划 2
 
 - [查看详情](tasklist.md)
+
+### 图片增强
+
+支持设置颜色模式和大小
+
+- [查看详情](image.md)
+
+### 图表
+
+::: chart 一个散点图案例
+
+```json
+{
+  "type": "scatter",
+  "data": {
+    "datasets": [
+      {
+        "label": "散点数据集",
+        "data": [
+          { "x": -10, "y": 0 },
+          { "x": 0, "y": 10 },
+          { "x": 10, "y": 5 },
+          { "x": 0.5, "y": 5.5 }
+        ],
+        "backgroundColor": "rgb(255, 99, 132)"
+      }
+    ]
+  },
+  "options": {
+    "scales": {
+      "x": {
+        "type": "linear",
+        "position": "bottom"
+      }
+    }
+  }
+}
+```
+
+:::
+
+- [查看详情](chart.md)
+
+## Echarts
+
+::: echarts 一个折线图案例
+
+```json
+{
+  "xAxis": {
+    "type": "category",
+    "data": ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
+  },
+  "yAxis": {
+    "type": "value"
+  },
+  "series": [
+    {
+      "data": [150, 230, 224, 218, 135, 147, 260],
+      "type": "line"
+    }
+  ]
+}
+```
+
+:::
+
+- [查看详情](echarts.md)
 
 ### 流程图
 
@@ -141,9 +237,15 @@ $$
 
 - [查看详情](tex.md)
 
+### 导入文件
+
+@include(./demo.snippet.md{5-9})
+
+- [查看详情](include.md)
+
 ### 代码演示
 
-::: demo 一个普通 Demo
+::: normal-demo 一个普通 Demo
 
 ```html
 <h1>VuePress Theme Hope</h1>
@@ -165,6 +267,16 @@ span {
 :::
 
 - [查看详情](demo/README.md)
+
+### 样式化
+
+<!-- markdownlint-disable MD033 -->
+
+设置它<span style="color:red">没有</span>任何效果，请<span style="color:red">不要</span>这样使用
+
+- [查看详情](stylize.md)
+
+<!-- markdownlint-enable MD033 -->
 
 ### 幻灯片
 

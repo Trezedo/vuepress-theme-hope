@@ -3,22 +3,23 @@
     var(--navbar-height) - var(--navbar-vertical-padding) * 2
   );
 
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 175;
+
   display: flex;
+  align-items: center;
   justify-content: space-between;
 
-  position: fixed;
-  z-index: 200;
-  top: 0;
-  left: 0;
-  right: 0;
-
   box-sizing: border-box;
+
   height: var(--navbar-height);
   padding: var(--navbar-vertical-padding) var(--navbar-horizontal-padding);
 
   background: var(--navbar-bg-color);
   box-shadow: 0 2px 8px var(--card-shadow);
-  backdrop-filter: saturate(150%) blur(12px);
 
   line-height: var(--navbar-line-height);
   white-space: nowrap;
@@ -26,23 +27,7 @@
   transition: transform ease-in-out 0.3s,
     background-color var(--color-transition), box-shadow var(--color-transition);
 
-  @media (max-width: hope-config.$pad) {
-    --navbar-line-height: calc(
-      var(--navbar-mobile-height) - var(--navbar-mobile-vertical-padding) * 2
-    );
-
-    height: var(--navbar-mobile-height);
-    padding: var(--navbar-mobile-vertical-padding)
-      var(--navbar-mobile-horizontal-padding);
-  }
-
-  @media (max-width: hope-config.$mobile) {
-    padding-left: calc(var(--navbar-mobile-horizontal-padding) + 2.4rem);
-
-    .disable-sidebar & {
-      padding-left: var(--navbar-mobile-horizontal-padding);
-    }
-  }
+  backdrop-filter: saturate(150%) blur(12px);
 
   .hide-navbar &.auto-hide {
     transform: translateY(-100%);
@@ -53,26 +38,50 @@
   }
 
   .nav-link {
-    color: var(--dark-grey);
     padding: 0 0.25rem;
+    color: var(--dark-grey);
 
     &.active {
       color: var(--theme-color);
     }
 
     .icon {
-      font-size: 1em;
       margin-right: 0.25em;
+      font-size: 1em;
     }
   }
 }
 
+.navbar-left,
+.navbar-right,
+.navbar-center {
+  display: flex;
+  align-items: center;
+
+  > * {
+    position: relative;
+    margin: 0 0.25rem !important;
+
+    &:first-child {
+      margin-left: 0 !important;
+    }
+
+    &:last-child {
+      margin-right: 0 !important;
+    }
+  }
+}
+
+// docsearch fix
+// stylelint-disable selector-class-pattern
 .DocSearch {
   &.DocSearch-Button {
     margin-left: 0;
   }
+}
 
-  &.DocSearch-Container {
-    position: fixed !important;
+#docsearch-container {
+  @media (max-width: 750px) {
+    min-width: 36px !important;
   }
 }

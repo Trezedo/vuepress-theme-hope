@@ -2,16 +2,21 @@ import { rollupTypescript } from "../../scripts/rollup";
 
 export default [
   ...rollupTypescript("node/index", {
-    external: ["@mr-hope/vuepress-shared", "@vuepress/core", "chokidar"],
+    external: [
+      "vuepress-shared",
+      "@vuepress/core",
+      "@vuepress/shared",
+      "chokidar",
+    ],
   }),
   ...rollupTypescript("client/index", {
     external: [
-      "@mr-hope/vuepress-shared/lib/client",
+      /^@temp/,
       "@vuepress/client",
       "@vuepress/shared",
       "vue",
       "vue-router",
-      /^@temp/,
+      "vuepress-shared/lib/client",
     ],
   }),
 ];

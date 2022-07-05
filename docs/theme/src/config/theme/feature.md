@@ -1,6 +1,7 @@
 ---
-title: Theme Feature Config
+title: Theme Feature Options
 icon: config
+order: 3
 category:
   - Config
 tag:
@@ -8,13 +9,15 @@ tag:
   - Theme Config
 ---
 
-These are config items of features provided by theme.
+The following options control features provided by theme.
 
-## Blog config
+<!-- more -->
 
-This feature is built on [`vuepress-plugin-blog2`][blog2], and is disabled by default.
+## Blog Options
 
-To enable blog plugin and use default options, you can set `themeConfig.plugins.blog` to `true`.
+The theme adds blog feature using [`vuepress-plugin-blog2`][blog2], and the feature is **disabled** by default.
+
+To enable blog plugin and use default options, you can set `plugins.blog` to `true` in theme options.
 
 ::: warning
 
@@ -27,16 +30,16 @@ For details, see [Blog Feature Intro](../../guide/blog/intro.md).
 ### blog.name
 
 - Type: `string`
-- Required: No
+- Default: `author`
 
-Blogger name, default is name in `themeConfig.author`
+Blogger name.
 
 ### blog.avatar
 
 - Type: `string`
-- Required: No
+- Default: `logo`
 
-Blogger avatar, default is `themeConfig.logo`
+Blogger avatar.
 
 ### blog.description
 
@@ -66,41 +69,43 @@ Visitors can click on the avatar or name in "Blogger Information" to enter the p
 Set social links.
 
 - If the social media icon is available below, you can set `MediaName: MediaLink` directly.
-- Otherwise, you should pass in a tuple `MediaName: [MediaLink , MediaIconSvgString or MediaIconPath]`,
+- Otherwise, you should pass in a tuple `MediaName: [MediaLink , MediaSvgIconString or MediaSvgIconPath]`,
 
-::: tip Available social media:
+  The second element in the tuple must be a valid SVG string or a full path of a existing SVG file.
+
+::: info Available Social Media
 
 The following social medias has built-in icons:
 
-- `'Baidu'`
-- `'Bitbucket'`
-- `'Dingding'`
-- `'Discord'`
-- `'Dribbble'`
-- `'Email'`
-- `'Evernote'`
-- `'Facebook'`
-- `'Flipboard'`
-- `'Gitee'`
-- `'GitHub'`
-- `'Gitlab'`
-- `'Gmail'`
-- `'Instagram'`
-- `'Line'`
-- `'Linkedin'`
-- `'Pinterest'`
-- `'Pocket'`
-- `'QQ'`
-- `'Qzone'`
-- `'Reddit'`
-- `'Rss'`
-- `'Steam'`
-- `'Twitter'`
-- `'Wechat'`
-- `'Weibo'`
-- `'Whatsapp'`
-- `'Youtube'`
-- `'Zhihu'`
+- `"Baidu"`
+- `"Bitbucket"`
+- `"Dingding"`
+- `"Discord"`
+- `"Dribbble"`
+- `"Email"`
+- `"Evernote"`
+- `"Facebook"`
+- `"Flipboard"`
+- `"Gitee"`
+- `"GitHub"`
+- `"Gitlab"`
+- `"Gmail"`
+- `"Instagram"`
+- `"Line"`
+- `"Linkedin"`
+- `"Pinterest"`
+- `"Pocket"`
+- `"QQ"`
+- `"Qzone"`
+- `"Reddit"`
+- `"Rss"`
+- `"Steam"`
+- `"Twitter"`
+- `"Wechat"`
+- `"Weibo"`
+- `"Whatsapp"`
+- `"Youtube"`
+- `"Zhihu"`
 
 :::
 
@@ -113,19 +118,19 @@ Whether cliping the avatar with round shape
 
 ### blog.sidebarDisplay
 
-- Type: `'mobile' | 'none' | 'always'`
-- Default: `'mobile'`
+- Type: `"mobile" | "none" | "always"`
+- Default: `"mobile"`
 
 Whether to show blogger information in the sidebar
 
-- `'mobile'`: Show in sidebar in mobile view
-- `'always'`: Always show in the sidebar
-- `'none'`: Never show in the sidebar
+- `"mobile"`: Show in sidebar in mobile view
+- `"always"`: Always show in the sidebar
+- `"none"`: Never show in the sidebar
 
 ### blog.timeline
 
 - Type: `string`
-- Default: `'Yesterday once more'`
+- Default: `"Yesterday once more"`
 
 Text on the top of timeline page.
 
@@ -139,7 +144,7 @@ Article number per page
 ### blog.articleInfo
 
 - Type: `ArticleInfo[]`
-- Default: `['Author', 'Original', 'Date', 'Category', 'Tag', 'ReadingTime']`
+- Default: `["Author", "Original", "Date", "PageView", "Category", "Tag", "ReadingTime"]`
 
 Article info displayed in article list
 
@@ -155,9 +160,11 @@ Available values for `ArticleInfo`:
 
 ## Encrypt Config <Badge text="Root only" type="warning" />
 
+For details, see [Encrypt Intro](../../guide/feature/encrypt.md).
+
 ::: note
 
-You can only set this option in root of `themeConfig`.
+You can only set this option directly under theme options, setting it in each loclae **has NO effect**.
 
 :::
 

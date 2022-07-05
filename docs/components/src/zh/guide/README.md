@@ -3,88 +3,30 @@ title: 指南
 icon: creative
 ---
 
-此插件注册 8 个组件和一个全局组件:
+::: info Tree Shakable
 
-- `<ArticleInfo />`
-- `<BackToTop />` (全局组件)
-- `<Badge />`
-- `<BreadCrumb />`
-- `<CodeGroup />`
-- `<CodeGroupItem />`
-- `<Pagination />`
-- `<PageAnchor />`
-- `<FullScreen />`
+这个插件完全支持 tree-shaking。
 
-## `<Article />`
+这意味着你可以自由选择你喜欢的任何组件，并不捆绑其他组件。
 
-文章信息组件，详见 [文章信息](./article-info.md)。
-
-## `<BackToTop />`
-
-返回顶部按钮
-
-## `<BreadCrumb />`
-
-### 属性
-
-- `show`: 是否全局显示
-- `icon`: 是否显示图标
-- `iconPrefix`: 图标前缀
-
-## `<Badge />`
-
-支持自定义颜色的徽章
-
-## `<CodeGroup />`, `<CodeGroupItem />`
-
-代码块分组。
-
-案例:
-
-````md
-:::: code-group
-
-::: code-group-item yarn
-
-```bash
-yarn add -D vuepress-theme-hope
-```
+例如，如果你使用 `{ backToTop: true }` 调用此插件，则仅注入 `<BackToTop />` 组件。
 
 :::
 
-::: code-group-item npm
+此插件可以注册 6 个组件和 2 个全局组件:
 
-```bash
-npm i -D vuepress-theme-hope
-```
+- [AddThis](addthis.md) (全局组件)
 
-:::
+- [BackToTop](backtotop.md) (全局组件)
 
-::::
-````
+- [Badge](badge.md)
 
-## `<FullScreen />`
+- [CodePen](codepen.md)
 
-全屏按钮组件
+- [FontIcon](fonticon.md)
 
-### 属性
+- [PDF](pdf.md)
 
-- `enable`: 是否启用此组件
+- [StackBlitz](stackblitz.md)
 
-## `<PageAnchor />`
-
-标题列表
-
-### 属性
-
-- `items`: 页面的标题。
-
-## `<Pagination />`
-
-分页组件。
-
-### 属性
-
-- `currentPage`: V-model 双向绑定，当前为第几个页面。
-- `total`: 总项数
-- `perPage`: 每页包含的项目数，默认为 10
+- [YouTube](youtube.md)

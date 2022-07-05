@@ -1,5 +1,5 @@
-import type { ArticleInfo } from "@mr-hope/vuepress-plugin-components";
 import type { HopeThemeFooterLocaleOptions } from "./footer";
+import type { HopeThemeDocsLocaleOptions } from "./info";
 import type {
   HopeThemeMetaLocateData,
   HopeThemeMetaLocaleOptions,
@@ -10,12 +10,11 @@ import type {
 } from "./navbar";
 import type { HopeThemeSidebarLocaleOptions } from "./sidebar";
 import type { HopeThemeRouteLocaleData } from "./route";
+import type { PageInfo } from "../../info";
 
 export interface HopeThemeLayoutLocaleData {
   navbarLocales: HopeThemeNavbarLocaleData;
-  /**
-   * Page locate config
-   */
+
   metaLocales: HopeThemeMetaLocateData;
 
   routeLocales: HopeThemeRouteLocaleData;
@@ -24,6 +23,7 @@ export interface HopeThemeLayoutLocaleData {
 export interface HopeThemeLayoutLocaleOptions
   extends HopeThemeNavbarLocaleOptions,
     HopeThemeSidebarLocaleOptions,
+    HopeThemeDocsLocaleOptions,
     HopeThemeMetaLocaleOptions,
     HopeThemeFooterLocaleOptions {
   /**
@@ -73,9 +73,9 @@ export interface HopeThemeLayoutLocaleOptions
    *
    * @see https://vuepress-theme-hope.gitee.io/v2/components/zh/guide/article-info.html
    *
-   * @default ["Author", "Original", "PageView", "Date", "Category", "Tag", "ReadingTime"]
+   * @default ["Author", "Original", "Date", "Category", "Tag", "ReadingTime"]
    */
-  pageInfo?: ArticleInfo[] | false;
+  pageInfo?: PageInfo[] | false;
 
   /**
    * Whether show toc list in desktop mode
@@ -83,10 +83,29 @@ export interface HopeThemeLayoutLocaleOptions
    * 是否在桌面模式下展示标题列表
    */
   toc?: boolean;
+
+  /**
+   * Whether display nextLink
+   *
+   * 是否显示 下一篇 链接
+   *
+   * @default true
+   */
+  nextLink?: boolean;
+
+  /**
+   * Whether display prevLink
+   *
+   * 是否显示 上一篇 链接
+   *
+   * @default true
+   */
+  prevLink?: boolean;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface HopeThemeLayoutOptions {
+export type HopeThemeLayoutLocaleConfig = HopeThemeLayoutLocaleOptions;
+
+export interface HopeThemeLayoutRootOptions {
   /**
    * Wether display back to top button
    *

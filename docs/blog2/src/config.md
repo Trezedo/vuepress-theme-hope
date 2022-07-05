@@ -38,14 +38,14 @@ Blog type config, see [Blog Type Config](#blog-type-config)
 ### slugify
 
 - Type: `(name: string) => string`
-- Default: `(name) => name.replace(/ _/g, '-').toLowerCase()`
+- Default: `(name) => name.replace(/ _/g, '-').replace(/[:?*|\\/<>]/g, "").toLowerCase()`
 
 Slugify function, used to convert key name which they are register in routes.
 
 ### metaScope
 
 - Type: `string`
-- Default: `'_blog'`
+- Default: `"_blog"`
 
 Key used when injecting info to route meta.
 
@@ -64,9 +64,9 @@ Whether enable hotReload in devServer.
 
 ::: note To theme developers
 
-It's disabled by default because it does have performance impact in sites with a lot of categories and types. And it can slow down hotReload speed when editing markdown.
+It’s disabled by default because it does have performance impact in sites with a lot of categories and types. And it can slow down hotReload speed when editing Markdown.
 
-If users are adding or organizing your categories or tags, you may tell them to enable this, for the rest it's better to keep it disabled.
+If users are adding or organizing your categories or tags, you may tell them to enable this, for the rest it’s better to keep it disabled.
 
 Also, you can try to detect number of pages in users project and decide whether to enable it.
 
@@ -94,16 +94,16 @@ export interface BlogCategoryOptions {
   sorter?: (pageA: Page, pageB: Page) => number;
 
   /**
-   * Path pattern
+   * Path pattern of page to be registered
    *
-   * @description `:key` will be replaced by the "slugify" result of the orginal key
+   * @description `:key` will be replaced by the "slugify" result of the original key
    *
    * @default `/:key/`
    */
   path?: string;
 
   /**
-   * Layout name
+   * Page layout name
    *
    * @default 'Layout'
    */
@@ -115,16 +115,16 @@ export interface BlogCategoryOptions {
   frontmatter?: (localePath: string) => Record<string, string>;
 
   /**
-   * Path pattern or custom function
+   * Item page path pattern or custom function to be registered
    *
-   * @description When filling in a string, `:key` and `:name` will be replaced by the "slugify" result of the orginal key and name
+   * @description When filling in a string, `:key` and `:name` will be replaced by the "slugify" result of the original key and name
    *
    * @default `/:key/:name/`
    */
   itemPath?: string | ((name: string) => string);
 
   /**
-   * Item layout name
+   * Item page layout name
    *
    * @default 'Layout'
    */
@@ -162,7 +162,7 @@ export interface BlogTypeOptions {
   sorter?: (pageA: Page, pageB: Page) => number;
 
   /**
-   * Path to register
+   * Page path to be registered
    *
    * @default '/:key/'
    */
@@ -218,29 +218,42 @@ Returning values are:
 export interface Article<
   T extends Record<string, unknown> = Record<string, unknown>
 > {
+  /** Article path */
   path: string;
+  /** Article info */
   info: T;
 }
-
-export type Articles<
-  T extends Record<string, unknown> = Record<string, unknown>
-> = Article<T>[];
 
 export interface BlogCategoryData<
   T extends Record<string, unknown> = Record<string, unknown>
 > {
+  /** Category path */
   path: string;
+
   /**
-   * Available only when current route match an item path
+   * Only available when current route matches an item path
    */
-  currentItems?: Articles<T>;
-  map: Record<string, { path: string; items: Articles<T> }>;
+  currentItems?: Article<T>[];
+
+  /** Category map */
+  map: {
+    /** Unique key under current category */
+    [key: string]: {
+      /** Category path of the key */
+      path: string;
+      /** Category items of the key */
+      items: Article<T>[];
+    };
+  };
 }
 
 export interface BlogTypeData<
   T extends Record<string, unknown> = Record<string, unknown>
 > {
+  /** Type path */
   path: string;
-  items: Articles<T>;
+
+  /** Items under current type */
+  items: Article<T>[];
 }
 ```

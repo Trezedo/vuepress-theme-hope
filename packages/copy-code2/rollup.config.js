@@ -3,19 +3,19 @@ import { rollupTypescript } from "../../scripts/rollup";
 export default [
   ...rollupTypescript("node/index", {
     external: [
-      "@mr-hope/vuepress-shared",
+      "vuepress-shared",
+      "@vuepress/core",
       "@vuepress/utils",
-      "vue",
       "vuepress-plugin-sass-palette",
     ],
   }),
-  ...rollupTypescript("client/appSetup", {
+  ...rollupTypescript("client/config", {
     external: [
-      "@mr-hope/vuepress-shared/lib/client",
       "@vuepress/client",
       "balloon-css/balloon.css",
       "vue",
       "vue-router",
+      "vuepress-shared/lib/client",
       /\.scss$/,
     ],
     dtsExternal: ["balloon-css/balloon.css", /\.scss$/],

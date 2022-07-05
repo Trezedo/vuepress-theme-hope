@@ -1,13 +1,26 @@
 ---
 title: 基础教程
 icon: guide
+article: false
 ---
 
 ## 小白指南
 
 这里是一个精确到每一步的小白指南:
 
-- [小白指南](tutorial.md)
+1. [准备运行环境](tutorial/env.md)
+
+1. [创建项目](tutorial/create.md)
+
+1. [项目命令](tutorial/command.md)
+
+1. [项目内容](tutorial/content.md)
+
+1. [项目配置](tutorial/config.md)
+
+1. [项目结构](tutorial/structure.md)
+
+1. [项目部署](tutorial/deploy.md)
 
 ## 如何书写 Markdown
 
@@ -16,3 +29,13 @@ icon: guide
 ## VuePress 介绍
 
 - [VuePress 介绍](vuepress/README.md)
+
+## 高级教程
+
+- [使用组件](advanced/component.md)
+
+- [自定义主题样式](advanced/style.md)
+
+- [替换主题组件](advanced/replace.md)
+
+- [主题继承](advanced/extend.md)

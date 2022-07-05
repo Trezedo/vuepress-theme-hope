@@ -11,8 +11,8 @@ export const injectLinkstoHead = (
 
   // Generate Hash for Head
   head.forEach((item) => {
-    if (item[0] === "meta") metaKeys.push(item[1].name as string);
-    else if (item[0] === "link") linkKeys.push(item[1].rel as string);
+    if (item[0] === "meta") metaKeys.push(item[1]["name"] as string);
+    else if (item[0] === "link") linkKeys.push(item[1]["rel"] as string);
   });
 
   let fallBackIcon = "";
@@ -49,13 +49,9 @@ export const injectLinkstoHead = (
     }
   }
 
-  setLink(
-    "manifest",
-    `${base.replace(/^\/?/u, "/").replace(/\/?$/u, "/")}manifest.webmanifest`,
-    {
-      crossorigin: "use-credentials",
-    }
-  );
+  setLink("manifest", `${base}manifest.webmanifest`, {
+    crossorigin: "use-credentials",
+  });
   setMeta("theme-color", options.themeColor || "#46bd87");
 
   if (

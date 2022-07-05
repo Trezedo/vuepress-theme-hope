@@ -1,5 +1,19 @@
 import type { HopeThemeNavbarConfig } from "../../navbar";
 
+export type HopeThemeNavbarComponent =
+  | "Brand"
+  | "Links"
+  | "Language"
+  | "Search"
+  | "Outlook"
+  | "Repo";
+
+export interface HopeNavbarLayoutOptions {
+  left: HopeThemeNavbarComponent[];
+  center: HopeThemeNavbarComponent[];
+  right: HopeThemeNavbarComponent[];
+}
+
 export interface HopeThemeNavbarLocaleData {
   /**
    * Navbar language selection config
@@ -48,7 +62,7 @@ export interface HopeThemeNavbarLocaleOptions {
    *
    * 应为基于 `.vuepress/public` 文件夹的绝对路径
    */
-  logo?: string | null;
+  logo?: string;
 
   /**
    * Navbar logo under darkmode
@@ -59,14 +73,14 @@ export interface HopeThemeNavbarLocaleOptions {
    *
    * 应为基于 `.vuepress/public` 文件夹的绝对路径
    */
-  logoDark?: string | null;
+  logoDark?: string;
 
   /**
    * Repository link
    *
    * 仓库链接
    */
-  repo?: string | null;
+  repo?: string;
 
   /**
    * Whether display repo link in navbar.
@@ -82,7 +96,7 @@ export interface HopeThemeNavbarLocaleOptions {
    *
    * 导航栏仓库按钮的无障碍标签
    */
-  repoLabel?: string | null;
+  repoLabel?: string;
 
   /**
    * Whether show icon in navbar
@@ -101,6 +115,15 @@ export interface HopeThemeNavbarLocaleOptions {
    * @default 'mobile'
    */
   navbarAutoHide?: "always" | "mobile" | "none";
+
+  /**
+   * Navbar layout config
+   *
+   * 导航栏布局设置
+   *
+   * @default { left: ["Brand"], center: ["Links"], right: ["Language", "Repo", "Outlook", "Search"] }
+   */
+  navbarLayout?: HopeNavbarLayoutOptions;
 
   /**
    * Whether hide site title on mobile

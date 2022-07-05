@@ -5,6 +5,7 @@ import {
   onBeforeUnmount,
   onMounted,
   ref,
+  watch,
 } from "vue";
 import { LoadingIcon } from "./icons";
 
@@ -16,20 +17,85 @@ import "../styles/mermaid.scss";
 declare const MARKDOWN_ENHANCE_DELAY: number;
 declare const MERMAID_OPTIONS: MermaidAPI.Config;
 
+const getThemeVariables = (isDarkMode: boolean): Record<string, unknown> => {
+  return {
+    dark: isDarkMode,
+    background: isDarkMode ? "#1e1e1e" : "#fff",
+
+    primaryColor: isDarkMode ? "#389d70" : "#4abf8a",
+    primaryBorderColor: isDarkMode ? "#389d70" : "#4abf8a",
+    primaryTextColor: "#fff",
+
+    secondaryColor: "#ffb500",
+    secondaryBorderColor: isDarkMode ? "#fff" : "#000",
+    secondaryTextColor: isDarkMode ? "#ddd" : "#333",
+
+    tertiaryColor: isDarkMode ? "#282828" : "#efeef4",
+    tertiaryBorderColor: isDarkMode ? "#bbb" : "#242424",
+    tertiaryTextColor: isDarkMode ? "#ddd" : "#333",
+
+    // note
+    noteBkgColor: isDarkMode ? "#f6d365" : "#fff5ad",
+    noteTextColor: "#242424",
+    noteBorderColor: isDarkMode ? "#f6d365" : "#333",
+
+    lineColor: isDarkMode ? "#d3d3d3" : "#333",
+    textColor: isDarkMode ? "#fff" : "#242424",
+
+    mainBkg: isDarkMode ? "#389d70" : "#4abf8a",
+    errorBkgColor: "#eb4d5d",
+    errorTextColor: "#fff",
+
+    // flowchart
+    nodeBorder: isDarkMode ? "#389d70" : "#4abf8a",
+    nodeTextColor: isDarkMode ? "#fff" : "#242424",
+
+    // sequence
+    signalTextColor: isDarkMode ? "#9e9e9e" : "#242424",
+
+    // class
+    classText: "#fff",
+
+    // state
+    labelColor: "#fff",
+
+    // colors
+    fillType0: isDarkMode ? "#cf1322" : "#f1636e",
+    fillType1: "#f39c12",
+    fillType2: "#2ecc71",
+    fillType3: "#fa541c",
+    fillType4: "#25a55b",
+    fillType5: "#13c2c2",
+    fillType6: "#096dd9",
+    fillType7: "#aa6fe9",
+  };
+};
+
 export default defineComponent({
-  name: "MermaidChart",
+  // eslint-disable-next-line vue/multi-word-component-names
+  name: "Mermaid",
 
   props: {
     id: { type: String, required: true },
+    code: { type: String, required: true },
   },
 
   setup(props) {
     const svgCode = ref("");
     const mermaidElement = ref<HTMLElement>();
-    let observer: MutationObserver;
+    const isDarkmode = ref(false);
+    let observer: MutationObserver | null = null;
 
     onMounted(() => {
-      const code = decodeURIComponent(mermaidElement.value?.dataset.code || "");
+      const html = document.querySelector("html") as HTMLElement;
+      const code = decodeURIComponent(props.code);
+
+      const getDarkmodeStatus = (): boolean =>
+        html.classList.contains("dark") ||
+        html.getAttribute("data-theme") === "dark";
+
+      // FIXME: Should correct handle dark selector
+      isDarkmode.value = getDarkmodeStatus();
 
       void Promise.all([
         import(/* webpackChunkName: "mermaid" */ "mermaid"),
@@ -37,7 +103,7 @@ export default defineComponent({
       ]).then(([mermaid]) => {
         const { initialize, render } = mermaid.default;
 
-        const renderMermaid = (isDarkTheme: boolean): void => {
+        const renderMermaid = (): void => {
           // generate a unvisiable container
           const container = document.createElement("div");
 
@@ -53,59 +119,16 @@ export default defineComponent({
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore
             theme: "base",
+            themeVariables: getThemeVariables(isDarkmode.value),
+            flowchart: { useMaxWidth: false },
+            sequence: { useMaxWidth: false },
+            journey: { useMaxWidth: false },
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore
-            themeVariables: {
-              dark: isDarkTheme,
-              background: isDarkTheme ? "#1e1e1e" : "#fff",
+            gantt: { useMaxWidth: false },
+            er: { useMaxWidth: false },
+            pie: { useMaxWidth: false },
 
-              primaryColor: isDarkTheme ? "#389d70" : "#4abf8a",
-              primaryBorderColor: isDarkTheme ? "#389d70" : "#4abf8a",
-              primaryTextColor: "#fff",
-
-              secondaryColor: "#f39c12",
-              secondaryBorderColor: isDarkTheme ? "#fff" : "#000",
-              secondaryTextColor: isDarkTheme ? "#ddd" : "#333",
-
-              tertiaryColor: isDarkTheme ? "#22182d" : "#eeeaf3",
-              tertiaryBorderColor: isDarkTheme ? "#fff" : "#000",
-              tertiaryTextColor: isDarkTheme ? "#ddd" : "#333",
-
-              // note
-              noteBkgColor: isDarkTheme ? "#f6d365" : "#fff5ad",
-              noteTextColor: "#242424",
-              noteBorderColor: isDarkTheme ? "#f6d365" : "#333",
-
-              lineColor: isDarkTheme ? "#d3d3d3" : "#333",
-              textColor: isDarkTheme ? "#fff" : "#242424",
-
-              mainBkg: isDarkTheme ? "#389d70" : "#4abf8a",
-              errorBkgColor: "#eb4d5d",
-              errorTextColor: "#fff",
-
-              // flowchart
-              nodeBorder: isDarkTheme ? "#389d70" : "#4abf8a",
-              nodeTextColor: isDarkTheme ? "#fff" : "#242424",
-
-              // sequence
-              signalTextColor: isDarkTheme ? "#9e9e9e" : "#242424",
-
-              // class
-              classText: "#fff",
-
-              // state
-              labelColor: "#fff",
-
-              // colors
-              fillType0: isDarkTheme ? "#cf1322" : "#f1636e",
-              fillType1: "#f39c12",
-              fillType2: "#2ecc71",
-              fillType3: "#fa541c",
-              fillType4: "#25a55b",
-              fillType5: "#13c2c2",
-              fillType6: "#096dd9",
-              fillType7: "#aa6fe9",
-            },
             ...MERMAID_OPTIONS,
             startOnLoad: false,
           });
@@ -121,24 +144,24 @@ export default defineComponent({
           });
         };
 
-        const body = document.querySelector("body") as HTMLBodyElement;
+        renderMermaid();
 
-        renderMermaid(body.classList.contains("theme-dark"));
-
-        // watch theme change
+        // watch darkmode change
         observer = new MutationObserver(() => {
-          renderMermaid(body.classList.contains("theme-dark"));
+          isDarkmode.value = getDarkmodeStatus();
         });
 
-        observer.observe(body, {
-          attributeFilter: ["class"],
+        observer.observe(html, {
+          attributeFilter: ["class", "data-theme"],
           attributes: true,
         });
+
+        watch(isDarkmode, renderMermaid);
       });
     });
 
     onBeforeUnmount(() => {
-      observer.disconnect();
+      observer?.disconnect();
     });
 
     return (): VNode =>
@@ -146,10 +169,7 @@ export default defineComponent({
         "div",
         {
           ref: mermaidElement,
-          class: {
-            "md-enhance-mermaid": true,
-            loading: !svgCode.value,
-          },
+          class: ["md-enhance-mermaid", { loading: !svgCode.value }],
         },
         svgCode.value
           ? // mermaid

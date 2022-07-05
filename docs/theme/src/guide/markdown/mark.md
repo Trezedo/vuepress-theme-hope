@@ -12,49 +12,46 @@ Make Markdown files in your VuePress site support markup.
 
 <!-- more -->
 
-## Configuration
+## Config
 
-:::: code-group
+::: code-tabs#language
 
-::: code-group-item TS
+@tab TS
 
-```ts {7-9}
+```ts {8-10}
 // .vuepress/config.ts
-import { defineHopeConfig } from "vuepress-theme-hope";
+import { defineUserConfig } from "vuepress";
+import { hopeTheme } from "vuepress-theme-hope";
 
-export default defineHopeConfig({
-  themeConfig: {
+export default defineUserConfig({
+  theme: hopeTheme({
     plugins: {
       mdEnhance: {
         mark: true,
       },
     },
-  },
+  }),
 });
 ```
 
-:::
-
-::: code-group-item JS
+@tab JS
 
 ```js {7-9}
 // .vuepress/config.js
-const { defineHopeConfig } = require("vuepress-theme-hope");
+const { hopeTheme } = require("vuepress-theme-hope");
 
-module.exports = defineHopeConfig({
-  themeConfig: {
+module.exports = {
+  theme: hopeTheme({
     plugins: {
       mdEnhance: {
         mark: true,
       },
     },
-  },
-});
+  }),
+};
 ```
 
 :::
-
-::::
 
 ## Syntax
 
@@ -62,8 +59,8 @@ Use `== ==` to mark.
 
 ## Demo
 
-VuePress Theme Hope is ==powerfull==.
+VuePress Theme Hope is ==powerful==.
 
 ```md
-VuePress Theme Hope is ==powerfull==.
+VuePress Theme Hope is ==powerful==.
 ```

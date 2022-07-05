@@ -1,11 +1,11 @@
 .page.blog {
   .blog-page-wrapper {
     display: flex;
-    justify-content: center;
     align-items: flex-start;
+    justify-content: center;
     margin: 0 auto;
 
-    @media (min-width: hope-config.$mobile) {
+    @media (min-width: hope-config.$tablet) {
       padding: 0 1rem;
     }
 
@@ -13,22 +13,22 @@
       padding: 0 2rem;
     }
 
-    @media (min-width: hope-config.$wide) {
+    @media (min-width: hope-config.$pc) {
       padding: 0;
     }
 
     .blog-home {
-      max-width: 780px;
-      overflow: hidden;
       flex: 1;
+      overflow: hidden;
+      max-width: 780px;
 
-      @media (min-width: hope-config.$mobile) {
+      @media (min-width: hope-config.$tablet) {
         margin: 0 15px;
       }
     }
   }
 
-  #{hope-config.$contentClass}:empty {
+  #{hope-config.$content-class}:empty {
     padding: 0;
   }
 }

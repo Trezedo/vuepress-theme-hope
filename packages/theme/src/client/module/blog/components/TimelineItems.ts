@@ -1,12 +1,13 @@
-import { computed, defineComponent, h, resolveComponent } from "vue";
+import { computed, defineComponent, h } from "vue";
 import { RouterLink } from "vue-router";
 
-import { DropTransition } from "@theme-hope/components/transitions";
+import DropTransition from "@theme-hope/components/transitions/DropTransition";
 import { useThemeLocaleData } from "@theme-hope/composables";
 import {
   useBlogOptions,
   useTimelines,
 } from "@theme-hope/module/blog/composables";
+import TOC from "@theme-hope/module/info/components/TOC";
 
 import type { VNode } from "vue";
 
@@ -40,29 +41,29 @@ export default defineComponent({
         "div",
         { class: "timeline-wrapper" },
         h("ul", { class: "timeline-content" }, [
-          h(DropTransition, () => h("li", { class: "desc" }, hint.value)),
-          h(resolveComponent("TOC"), { items: items.value }),
+          h(DropTransition, () => h("li", { class: "motto" }, hint.value)),
+          h(TOC, { items: items.value }),
           ...timelines.value.config.map(({ year, items }, index) =>
             h(
               DropTransition,
-              { delay: 0.08 * (index + 1), type: "group" },
+              { appear: true, delay: 0.08 * (index + 1), type: "group" },
               () => [
                 h(
                   "h3",
-                  { key: "title", id: year, class: "year" },
+                  { key: "title", id: year, class: "timeline-year-title" },
                   h("span", year)
                 ),
-                h("li", { key: "content", class: "year-list" }, [
+                h("li", { key: "content", class: "timeline-year-list" }, [
                   h(
                     "ul",
-                    { class: "year-wrapper" },
+                    { class: "timeline-year-wrapper" },
                     items.map(({ date, info, path }) =>
-                      h("li", [
-                        h("span", { class: "date" }, date),
+                      h("li", { class: "timeline-item" }, [
+                        h("span", { class: "timeline-date" }, date),
                         h(
                           RouterLink,
                           {
-                            class: "title",
+                            class: "timeline-title",
                             to: path,
                           },
                           () => info.title

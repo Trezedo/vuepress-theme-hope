@@ -103,7 +103,9 @@ export interface RevealOptions {
    * If you set this to 'focused', we will only capture keyboard events
    * for embdedded decks when they are in focus
    */
-  keyboardCondition: null | "focused" | ((event: KeyboardEvent) => boolean);
+  // Function is not supported here
+  // keyboardCondition: null | "focused" | ((event: KeyboardEvent) => boolean);
+  keyboardCondition: null | "focused";
 
   /**
    * Disables the default reveal.js slide layout (scaling and centering)
@@ -158,7 +160,7 @@ export interface RevealOptions {
    * 1.2    2.2
    * 1.3    2.3
    *
-   * If you're on slide 1.3 and navigate right, you will normally move
+   * If you’re on slide 1.3 and navigate right, you will normally move
    * from 1.3 -> 2.1. If "grid" is used, the same navigation takes you
    * from 1.3 -> 2.3.
    */

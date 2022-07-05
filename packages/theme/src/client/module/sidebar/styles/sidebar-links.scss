@@ -1,5 +1,5 @@
 @use "sass:color";
-@use "@mr-hope/vuepress-shared/styles/arrow";
+@use "vuepress-shared/styles/arrow";
 @use "@sass-palette/helper";
 
 .sidebar-links {
@@ -16,7 +16,7 @@
       font-size: 0.95em;
 
       .has-toc & {
-        @media (min-width: hope-config.$wide) {
+        @media (min-width: hope-config.$pc) {
           display: none;
         }
       }
@@ -26,12 +26,13 @@
   .sidebar > & {
     padding: 1.5rem 0;
 
-    @media (max-width: hope-config.$mobile) {
+    @media (max-width: hope-config.$tablet) {
       padding: 1rem 0;
     }
 
-    & > li {
-      & > .sidebar-link {
+    > li {
+      // stylelint-disable selector-max-compound-selectors
+      > .sidebar-link {
         font-size: 1.1em;
         line-height: 1.7;
       }
@@ -39,6 +40,7 @@
       &:not(:first-child) {
         margin-top: 0.5rem;
       }
+      // stylelint-enable selector-max-compound-selectors
     }
   }
 }

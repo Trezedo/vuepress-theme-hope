@@ -1,6 +1,6 @@
-import { defineNavbarConfig } from "vuepress-theme-hope";
+import { navbar } from "docs-shared";
 
-export const enNavbarConfig = defineNavbarConfig([
+export const enNavbarConfig = navbar([
   "/guide/",
   "/config/",
   "/faq/",
@@ -8,7 +8,7 @@ export const enNavbarConfig = defineNavbarConfig([
     text: "Cookbook",
     icon: "guide",
     prefix: "/cookbook/",
-    children: ["tutorial", "markdown/", "vuepress/"],
+    children: ["tutorial/", "markdown/", "vuepress/", "advanced/"],
   },
   "/migration/",
   {
@@ -16,17 +16,12 @@ export const enNavbarConfig = defineNavbarConfig([
     icon: "info",
     children: [
       "/changelog",
-      "/demo/",
+      "/demo",
       "/contribution",
       {
         text: "Plugins",
         icon: "plugin",
         children: [
-          {
-            text: "AddThis Plugin",
-            icon: "share",
-            link: "https://vuepress-theme-hope.github.io/v2/add-this/",
-          },
           {
             text: "Blog Plugin",
             icon: "blog",
@@ -46,6 +41,11 @@ export const enNavbarConfig = defineNavbarConfig([
             text: "Copy Code Plugin",
             icon: "copy",
             link: "https://vuepress-theme-hope.github.io/v2/copy-code/",
+          },
+          {
+            text: "Copyright Plugin",
+            icon: "copyright",
+            link: "https://vuepress-theme-hope.github.io/v2/copyright/",
           },
           {
             text: "Feed Plugin",
@@ -78,6 +78,11 @@ export const enNavbarConfig = defineNavbarConfig([
             link: "https://vuepress-theme-hope.github.io/v2/reading-time/",
           },
           {
+            text: "Redirect Plugin",
+            icon: "navigation",
+            link: "https://vuepress-theme-hope.github.io/v2/redirect/",
+          },
+          {
             text: "Sass Palette Plugin",
             icon: "palette",
             link: "https://vuepress-theme-hope.github.io/v2/sass-palette/",
@@ -86,6 +91,11 @@ export const enNavbarConfig = defineNavbarConfig([
             text: "Seo Plugin",
             icon: "strong",
             link: "https://vuepress-theme-hope.github.io/v2/seo/",
+          },
+          {
+            text: "Sitemap Plugin",
+            icon: "sitemap",
+            link: "https://vuepress-theme-hope.github.io/v2/sitemap/",
           },
         ],
       },

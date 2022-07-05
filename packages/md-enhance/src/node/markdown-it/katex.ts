@@ -27,10 +27,11 @@
 import Katex from "katex";
 import { escapeHtml } from "./utils";
 
-import type StateInline from "markdown-it/lib/rules_inline/state_inline";
+import type { default as StateInline } from "markdown-it/lib/rules_inline/state_inline";
 import type { PluginWithOptions } from "markdown-it";
 import type { RuleInline } from "markdown-it/lib/parser_inline";
 import type { RuleBlock } from "markdown-it/lib/parser_block";
+import type { KatexOptions } from "katex";
 
 /*
  * Test if potential opening or closing delimieter
@@ -71,6 +72,7 @@ const inlineTex: RuleInline = (state, silent) => {
     if (!silent) state.pending += "$";
 
     state.pos += 1;
+
     return true;
   }
 
@@ -81,6 +83,7 @@ const inlineTex: RuleInline = (state, silent) => {
    * we have found an opening delimieter already.
    */
   const start = state.pos + 1;
+
   match = start;
   while ((match = state.src.indexOf("$", match)) !== -1) {
     /*
@@ -101,6 +104,7 @@ const inlineTex: RuleInline = (state, silent) => {
     if (!silent) state.pending += "$";
 
     state.pos = start;
+
     return true;
   }
 
@@ -109,6 +113,7 @@ const inlineTex: RuleInline = (state, silent) => {
     if (!silent) state.pending += "$$";
 
     state.pos = start + 1;
+
     return true;
   }
 
@@ -119,6 +124,7 @@ const inlineTex: RuleInline = (state, silent) => {
     if (!silent) state.pending += "$";
 
     state.pos = start;
+
     return true;
   }
 
@@ -192,7 +198,7 @@ const blockTex: RuleBlock = (state, start, end, silent) => {
 };
 
 // set KaTeX as the renderer for markdown-it-simplemath
-const katexInline = (tex: string, options: Katex.KatexOptions): string => {
+const katexInline = (tex: string, options: KatexOptions): string => {
   try {
     return Katex.renderToString(tex, { ...options, displayMode: false });
   } catch (error) {
@@ -204,7 +210,7 @@ const katexInline = (tex: string, options: Katex.KatexOptions): string => {
   }
 };
 
-const katexBlock = (tex: string, options: Katex.KatexOptions): string => {
+const katexBlock = (tex: string, options: KatexOptions): string => {
   try {
     return `<p class='katex-block'>${Katex.renderToString(tex, {
       ...options,
@@ -221,20 +227,18 @@ const katexBlock = (tex: string, options: Katex.KatexOptions): string => {
   }
 };
 
-export const katex: PluginWithOptions<Katex.KatexOptions> = (
+export const katex: PluginWithOptions<KatexOptions> = (
   md,
   options = { throwOnError: false }
 ) => {
-  const katexOptions: Katex.KatexOptions = { ...options, output: "html" };
-
   md.inline.ruler.after("escape", "inlineTex", inlineTex);
   // It’s a workaround here because types issue
   md.block.ruler.after("blockquote", "blockTex", blockTex, {
     alt: ["paragraph", "reference", "blockquote", "list"],
   });
 
-  md.renderer.rules.inlineTex = (tokens, index): string =>
-    katexInline(tokens[index].content, katexOptions);
-  md.renderer.rules.blockTex = (tokens, index): string =>
-    `${katexBlock(tokens[index].content, katexOptions)}\n`;
+  md.renderer.rules["inlineTex"] = (tokens, index): string =>
+    katexInline(tokens[index].content, options);
+  md.renderer.rules["blockTex"] = (tokens, index): string =>
+    `${katexBlock(tokens[index].content, options)}\n`;
 };
